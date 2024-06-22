@@ -29,7 +29,7 @@ class NavigationHelper {
     final routes = [
       StatefulShellRoute.indexedStack(
         parentNavigatorKey: parentNavigatorKey,
-        branches: BottomNavigationHelpers.bottomNavigationPages(true),
+        branches: BottomNavigationHelpers.bottomNavigationPages(false),
         pageBuilder: (
           BuildContext context,
           GoRouterState state,
@@ -114,7 +114,7 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
             );
             setState(() {});
           },
-          items: BottomNavigationHelpers.bottomNavigationItems(true)),
+          items: BottomNavigationHelpers.bottomNavigationItems(false)),
     );
   }
 }
