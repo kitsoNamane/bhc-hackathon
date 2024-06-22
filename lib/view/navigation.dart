@@ -30,7 +30,9 @@ class NavigationHelper {
     final routes = [
       StatefulShellRoute.indexedStack(
         parentNavigatorKey: parentNavigatorKey,
-        branches: BottomNavigationHelpers.bottomNavigationPages(false),
+        branches: BottomNavigationHelpers.bottomNavigationPages(
+          NavigationConstants.isNewCustomer
+        ),
         pageBuilder: (
           BuildContext context,
           GoRouterState state,

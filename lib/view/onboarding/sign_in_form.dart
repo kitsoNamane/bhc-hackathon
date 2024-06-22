@@ -51,6 +51,9 @@ class SignInFormState extends State<SignInForm> {
               width: double.infinity,
               child: FilledButton(
                   onPressed: (){
+                    NavigationHelper.router.go(
+                      NavigationConstants.homePath,
+                    );
                   },
                   child: const Text("Sign In"),
               ),

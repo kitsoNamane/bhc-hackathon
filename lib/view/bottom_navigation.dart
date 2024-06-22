@@ -1,4 +1,6 @@
 
+import 'package:bhc_hackathon/view/navigation_constants.dart';
+import 'package:bhc_hackathon/view/navigation_helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -18,9 +20,6 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Bottom Navigator Shell'),
-      ),
       body: SafeArea(
         child: widget.child,
       ),
@@ -34,20 +33,9 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
           );
           setState(() {});
         },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'search',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'settings',
-          ),
-        ],
+        items: BottomNavigationHelpers.bottomNavigationItems(
+          NavigationConstants.isNewCustomer
+        )
       ),
     );
   }
