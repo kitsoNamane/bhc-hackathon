@@ -64,6 +64,16 @@ class NavigationHelper {
           );
         },
       ),
+      GoRoute(
+        parentNavigatorKey: parentNavigatorKey,
+        path: NavigationConstants.resetPasswordPath,
+        pageBuilder: (context, state) {
+          return getPage(
+            child: const ResetPasswordPage(),
+            state: state,
+          );
+        },
+      )
     ];
 
     router = GoRouter(

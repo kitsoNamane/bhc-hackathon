@@ -1,4 +1,6 @@
+import 'package:bhc_hackathon/view/onboarding/reset_password.dart';
 import 'package:bhc_hackathon/view/onboarding/sign_in_form.dart';
+import 'package:bhc_hackathon/view/onboarding/sign_up_form.dart';
 import 'package:flutter/material.dart';
 
 import '../navigation.dart';
@@ -11,21 +13,31 @@ class SignUpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("SignUp"),
+        title: null,
       ),
-      body: Center(
-            child: ElevatedButton(
-              onPressed: () {
-                NavigationHelper.router.go(
-                  NavigationConstants.signInPath,
-                );
-              },
-              child: const Text('Go to Sign In'),
-            ),
+      body: const Center(
+        child: SignUpForm(),
       ),
     );
   }
 }
+
+class ResetPasswordPage extends StatelessWidget {
+  const ResetPasswordPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+      return Scaffold(
+        appBar: AppBar(
+          title: null,
+        ),
+        body: const Center(
+          child: ResetPasswordForm(),
+        ),
+      );
+  }
+}
+
 
 class SignInPage extends StatelessWidget {
   const SignInPage({super.key});
