@@ -3,14 +3,14 @@ import 'package:bhc_hackathon/view/navigation.dart';
 import 'package:bhc_hackathon/view/navigation_constants.dart';
 import 'package:flutter/material.dart';
 
-class SignInForm extends StatefulWidget {
-  const SignInForm({super.key});
+class SignUpForm extends StatefulWidget {
+  const SignUpForm({super.key});
 
   @override
-  State<SignInForm> createState() => SignInFormState();
+  State<SignUpForm> createState() => SignUpFormState();
 }
 
-class SignInFormState extends State<SignInForm> {
+class SignUpFormState extends State<SignUpForm> {
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -28,6 +28,15 @@ class SignInFormState extends State<SignInForm> {
                 labelText: "Email",
               ),
             ),
+            const SizedBox(width: double.infinity, height: 16),
+            const TextField(
+              obscureText: false,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: "Phone",
+              ),
+            ),
+            const SizedBox(width: double.infinity, height: 16),
             const TextField(
               obscureText: true,
               decoration: InputDecoration(
@@ -35,29 +44,31 @@ class SignInFormState extends State<SignInForm> {
                 labelText: "Password",
               ),
             ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: TextButton(
-                  onPressed: (){},
-                  child: const Text("Forgot Password?")
+            const SizedBox(width: double.infinity, height: 16),
+            const TextField(
+              obscureText: true,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: "Repeat password",
               ),
             ),
+            const SizedBox(width: double.infinity, height: 16),
             SizedBox(
               width: double.infinity,
               child: FilledButton(
-                  onPressed: (){
-                  },
-                  child: const Text("Sign In"),
+                onPressed: (){
+                },
+                child: const Text("Sign Up"),
               ),
             ),
             Row(
               children: [
-                const Text("Don't have an account"),
+                const Text("Already have an account?"),
                 TextButton(onPressed: (){
-                 NavigationHelper.router.push(
-                   NavigationConstants.signUpPath,
-                 );
-                },child: const Text("Sign up here")),
+                  NavigationHelper.router.go(
+                    NavigationConstants.signInPath,
+                  );
+                },child: const Text("Sign in here")),
               ],
             )
           ],

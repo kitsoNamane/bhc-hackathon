@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import 'apply.dart';
-import 'dashboard.dart';
 import 'home.dart';
 import 'navigation.dart';
 import 'navigation_constants.dart';
@@ -50,7 +49,7 @@ class BottomNavigationHelpers {
         label: 'products',
       ),
       BottomNavigationBarItem(
-        icon: Icon(Icons.attach_money_rounded),
+        icon: Icon(Icons.receipt_long),
         label: 'payment history',
       ),
       BottomNavigationBarItem(

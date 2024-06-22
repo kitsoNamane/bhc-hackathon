@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import 'bottom_navigation.dart';
 import 'navigation_constants.dart';
 import 'navigation_helpers.dart';
-import 'onboarding.dart';
+import 'onboarding/onboarding.dart';
 
 class NavigationHelper {
   static final NavigationHelper _instance =
@@ -29,7 +30,9 @@ class NavigationHelper {
     final routes = [
       StatefulShellRoute.indexedStack(
         parentNavigatorKey: parentNavigatorKey,
-        branches: BottomNavigationHelpers.bottomNavigationPages(false),
+        branches: BottomNavigationHelpers.bottomNavigationPages(
+          NavigationConstants.isNewCustomer
+        ),
         pageBuilder: (
           BuildContext context,
           GoRouterState state,
@@ -63,6 +66,16 @@ class NavigationHelper {
           );
         },
       ),
+      GoRoute(
+        parentNavigatorKey: parentNavigatorKey,
+        path: NavigationConstants.resetPasswordPath,
+        pageBuilder: (context, state) {
+          return getPage(
+            child: const ResetPasswordPage(),
+            state: state,
+          );
+        },
+      )
     ];
 
     router = GoRouter(
@@ -84,40 +97,3 @@ class NavigationHelper {
     );
   }
 }
-
-class BottomNavigationPage extends StatefulWidget {
-  const BottomNavigationPage({
-    super.key,
-    required this.child,
-  });
-
-  final StatefulNavigationShell child;
-
-  @override
-  State<BottomNavigationPage> createState() => _BottomNavigationPageState();
-}
-
-class _BottomNavigationPageState extends State<BottomNavigationPage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: widget.child,
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          currentIndex: widget.child.currentIndex,
-          onTap: (index) {
-            widget.child.goBranch(
-              index,
-              initialLocation: index == widget.child.currentIndex,
-            );
-            setState(() {});
-          },
-          items: BottomNavigationHelpers.bottomNavigationItems(false)),
-    );
-  }
-}
-
-
-

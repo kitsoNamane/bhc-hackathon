@@ -14,6 +14,7 @@ class NavigationConstants {
 
   static const String signUpPath = '/signUp';
   static const String signInPath = '/signIn';
+  static const String resetPasswordPath = '/resetPassword';
   static const String homePath = '/home';
   static const String applyPath = '/apply';
   static const String dashboardPath = '/dashboard';
@@ -23,5 +24,5 @@ class NavigationConstants {
   static const String profilePath = '/profile';
   static const String servicesPath = '/services';
 
-
+  static const bool isNewCustomer = true;
 }
