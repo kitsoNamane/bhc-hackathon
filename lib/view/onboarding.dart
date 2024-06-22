@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'navigation.dart';
+import 'navigation_constants.dart';
 
 class OnboardingPage extends StatelessWidget {
   const OnboardingPage({super.key});
@@ -25,8 +26,8 @@ class SignUpPage extends StatelessWidget {
       body: Center(
             child: ElevatedButton(
               onPressed: () {
-                CustomNavigationHelper.router.go(
-                  CustomNavigationHelper.signInPath,
+                NavigationHelper.router.go(
+                  NavigationConstants.signInPath,
                 );
               },
               child: const Text('Go to Sign In'),
@@ -51,16 +52,16 @@ class SignInPage extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () {
-                CustomNavigationHelper.router.go(
-                  CustomNavigationHelper.homePath,
+                NavigationHelper.router.go(
+                  NavigationConstants.homePath,
                 );
               },
               child: const Text('Go to home page'),
             ),
             ElevatedButton(
               onPressed: () {
-                CustomNavigationHelper.router.push(
-                  CustomNavigationHelper.signUpPath,
+                NavigationHelper.router.push(
+                  NavigationConstants.signUpPath,
                 );
               },
               child: const Text('Go to sign up page'),

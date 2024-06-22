@@ -1,8 +1,6 @@
 
 import 'package:flutter/material.dart';
 
-import 'navigation.dart';
-
 class ProductsPage extends StatelessWidget {
   const ProductsPage({super.key});
 

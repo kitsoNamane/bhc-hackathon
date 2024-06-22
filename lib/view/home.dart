@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'navigation.dart';
-
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
