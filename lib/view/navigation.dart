@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import 'bottom_navigation.dart';
 import 'navigation_constants.dart';
 import 'navigation_helpers.dart';
-import 'onboarding.dart';
+import 'onboarding/onboarding.dart';
 
 class NavigationHelper {
   static final NavigationHelper _instance =
@@ -84,40 +85,3 @@ class NavigationHelper {
     );
   }
 }
-
-class BottomNavigationPage extends StatefulWidget {
-  const BottomNavigationPage({
-    super.key,
-    required this.child,
-  });
-
-  final StatefulNavigationShell child;
-
-  @override
-  State<BottomNavigationPage> createState() => _BottomNavigationPageState();
-}
-
-class _BottomNavigationPageState extends State<BottomNavigationPage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: widget.child,
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          currentIndex: widget.child.currentIndex,
-          onTap: (index) {
-            widget.child.goBranch(
-              index,
-              initialLocation: index == widget.child.currentIndex,
-            );
-            setState(() {});
-          },
-          items: BottomNavigationHelpers.bottomNavigationItems(false)),
-    );
-  }
-}
-
-
-

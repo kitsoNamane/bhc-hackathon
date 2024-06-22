@@ -28,6 +28,7 @@ class SignInFormState extends State<SignInForm> {
                 labelText: "Email",
               ),
             ),
+            const SizedBox(width: double.infinity, height: 16),
             const TextField(
               obscureText: true,
               decoration: InputDecoration(
