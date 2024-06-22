@@ -1,18 +1,8 @@
+import 'package:bhc_hackathon/view/sign_in_form.dart';
 import 'package:flutter/material.dart';
 
 import 'navigation.dart';
 import 'navigation_constants.dart';
-
-class OnboardingPage extends StatelessWidget {
-  const OnboardingPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text("Onboarding screen"),
-    );
-  }
-}
 
 class SignUpPage extends StatelessWidget {
   const SignUpPage({super.key});
@@ -42,33 +32,10 @@ class SignInPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("SignIn"),
-      ),
+    return const Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                NavigationHelper.router.go(
-                  NavigationConstants.homePath,
-                );
-              },
-              child: const Text('Go to home page'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                NavigationHelper.router.push(
-                  NavigationConstants.signUpPath,
-                );
-              },
-              child: const Text('Go to sign up page'),
-            ),
-          ],
+        child: SignInForm()
         ),
-      ),
     );
   }
 }
