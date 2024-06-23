@@ -21,6 +21,21 @@ class SignUpFormState extends State<SignUpForm> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+
+
+            // BHC logo 
+            Image.asset(
+              'lib/images/BHCLogo.png',
+              width: 128,
+              height: 128,
+            ),
+            //const Text('accommodating your future', 
+            //style: TextStyle(
+              //color: Color(0xFFAD2524),
+            //),),
+            const SizedBox(width: double.infinity, height: 16),
+
+
             const TextField(
               obscureText: false,
               decoration: InputDecoration(

@@ -21,6 +21,18 @@ class SignInFormState extends State<SignInForm> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // BHC logo 
+            Image.asset(
+              'lib/images/BHCLogo.png',
+              width: 128,
+              height: 128,
+            ),
+            //const Text('accommodating your future', 
+            //style: TextStyle(
+              //color: Color(0xFFAD2524), color: Color(0xFF8FD400),
+            //),),
+            const SizedBox(width: double.infinity, height: 16),
+            
             const TextField(
               obscureText: false,
               decoration: InputDecoration(
@@ -53,9 +65,14 @@ class SignInFormState extends State<SignInForm> {
                   onPressed: (){
                     NavigationHelper.router.go(
                       NavigationConstants.homePath,
+                      
                     );
                   },
-                  child: const Text("Sign In"),
+                  
+                  child: const Text("Sign In",
+                  style: TextStyle(
+                    color: Color(0xFFAD2524), 
+                  ),),
               ),
             ),
             Row(
