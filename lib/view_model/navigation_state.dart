@@ -29,7 +29,7 @@ class NavigationState {
                   );
                 },
               ),
-              ...BottomNavigationHelpers.getRoutes(),
+              ...BottomNavigationHelpers.getRoutes(NavigationConstants.parentNavigatorKey),
             ]
         ));
      _router = GoRouter.routingConfig(
@@ -56,7 +56,7 @@ class NavigationState {
                 );
               },
             ),
-            ...BottomNavigationHelpers.getRoutes(),
+            ...BottomNavigationHelpers.getRoutes(NavigationConstants.parentNavigatorKey),
           ]
       );
   }

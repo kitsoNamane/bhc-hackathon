@@ -196,10 +196,10 @@ class BottomNavigationHelpers {
     ];
   }
 
-  static List<GoRoute> getRoutes() {
+  static List<GoRoute> getRoutes(GlobalKey<NavigatorState> parentKey) {
     return [
       GoRoute(
-        parentNavigatorKey: NavigationConstants.parentNavigatorKey,
+        parentNavigatorKey: parentKey,
         path: NavigationConstants.signUpPath,
         pageBuilder: (context, state) {
           return NavigationHelper.getPage(
@@ -209,7 +209,7 @@ class BottomNavigationHelpers {
         },
       ),
       GoRoute(
-        parentNavigatorKey: NavigationConstants.parentNavigatorKey,
+        parentNavigatorKey: parentKey,
         path: NavigationConstants.signInPath,
         pageBuilder: (context, state) {
           return NavigationHelper.getPage(
@@ -219,7 +219,7 @@ class BottomNavigationHelpers {
         },
       ),
       GoRoute(
-        parentNavigatorKey: NavigationConstants.parentNavigatorKey,
+        parentNavigatorKey: parentKey,
         path: NavigationConstants.resetPasswordPath,
         pageBuilder: (context, state) {
           return NavigationHelper.getPage(
