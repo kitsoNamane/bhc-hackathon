@@ -23,6 +23,7 @@ class FirebaseAuthService extends AuthService {
             uuid: resp.user?.uid,
             phone: resp.user?.phoneNumber,
             email: resp.user?.email,
+            isExistingCustomer: false,
           )
       );
     } catch (e) {
@@ -42,6 +43,7 @@ class FirebaseAuthService extends AuthService {
           uuid: resp.user?.uid,
           phone: resp.user?.phoneNumber,
           email: resp.user?.email,
+          isExistingCustomer: false,
         )
       );
     } catch (e) {

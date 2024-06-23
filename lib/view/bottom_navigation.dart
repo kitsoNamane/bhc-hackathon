@@ -1,6 +1,4 @@
 
-import 'dart:developer';
-
 import 'package:bhc_hackathon/view/navigation_helpers.dart';
 import 'package:bhc_hackathon/view_model/app_state.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +36,7 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
             setState(() {});
           },
           items: BottomNavigationHelpers.bottomNavigationItems(
-            state.loggedIn
+            state.currentUser?.isExistingCustomer ?? false
           )
         ),
       ),

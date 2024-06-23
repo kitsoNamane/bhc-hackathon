@@ -38,13 +38,13 @@ class NavigationState {
      );
   }
 
-  void changeNavState({required bool isNewCustomer}) {
+  void changeNavState({required bool isExistingCustomer}) {
     var parentNavigatorKey = GlobalKey<NavigatorState>();
     _myRoutingConfig.value = RoutingConfig(
         routes: [
           StatefulShellRoute.indexedStack(
             parentNavigatorKey: NavigationConstants.parentNavigatorKey,
-            branches: BottomNavigationHelpers.bottomNavigationPages(isNewCustomer),
+            branches: BottomNavigationHelpers.bottomNavigationPages(isExistingCustomer),
             pageBuilder: (BuildContext context,
                 GoRouterState state,
                 StatefulNavigationShell navigationShell,) {

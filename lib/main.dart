@@ -2,8 +2,6 @@ import 'package:bhc_hackathon/view_model/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'view/navigation.dart';
-
 main() {
   runApp(
       ChangeNotifierProvider(
@@ -19,9 +17,6 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var p = Provider.of<ApplicationState>(context);
-    print("##############################");
-    print(p.loggedIn);
-    print("##############################");
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       routerConfig: p.router,

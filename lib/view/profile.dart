@@ -78,17 +78,15 @@ class ProfilePage extends StatelessWidget {
                     const Text("Report"),
                     const Spacer(),
                     IconButton(icon: const Icon(Icons.arrow_forward_ios), onPressed: () {
-                      p.toggleLoggedInStatus();
                     },),
                   ],),
                   const Divider(thickness: 1),
-                  if (p.loggedIn) Row(children: [
+                  if (p.currentUser?.isExistingCustomer ?? false) Row(children: [
                     const Icon(Icons.receipt_long_outlined),
                     const SizedBox(width: 16),
                     const Text("Payment History"),
                     const Spacer(),
                     IconButton(icon: const Icon(Icons.arrow_forward_ios), onPressed: () {
-                      p.toggleLoggedInStatus();
                     },),
                   ],)
                 ],

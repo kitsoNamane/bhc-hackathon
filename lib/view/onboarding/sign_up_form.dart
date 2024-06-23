@@ -24,7 +24,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
   @override
   Widget build(BuildContext context) {
-    final router = Provider.of<ApplicationState>(context).router;
+    final p = Provider.of<ApplicationState>(context);
     return Form(
       key: _formKey,
       child: Container(
@@ -48,14 +48,6 @@ class _SignUpFormState extends State<SignUpForm> {
             ),
             const SizedBox(width: double.infinity, height: 16),
             TextFormField(
-              obscureText: false,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: "Phone",
-              ),
-            ),
-            const SizedBox(width: double.infinity, height: 16),
-            TextFormField(
               controller: _passwordController,
               obscureText: _passwordVisible,
               decoration: InputDecoration(
@@ -76,7 +68,9 @@ class _SignUpFormState extends State<SignUpForm> {
                 if (value == null || value.isEmpty) {
                   return "Please enter a valid password";
                 } else if (value.isNotEmpty && value.toLowerCase() != _repeatPasswordController.value.text.toLowerCase()) {
-                return "Passwords should match";
+                  return "Passwords should match";
+                } else if (value.isNotEmpty && value.length < 6) {
+                  return "Password should be at least 6 characters";
                 }
                 return null;
               },
@@ -104,6 +98,8 @@ class _SignUpFormState extends State<SignUpForm> {
                   return "Please enter a valid password";
                 } else if (value.isNotEmpty && value.toLowerCase() != _passwordController.value.text.toLowerCase()) {
                   return "Passwords should match";
+                } else if (value.isNotEmpty && value.length < 6) {
+                  return "Password should be at least 6 characters";
                 }
                 return null;
               },
@@ -112,11 +108,9 @@ class _SignUpFormState extends State<SignUpForm> {
             SizedBox(
               width: double.infinity,
               child: FilledButton(
-                onPressed: (){
+                onPressed: () async {
                   if(_formKey.currentState!.validate()) {
-                    router.go(
-                      NavigationConstants.homePath,
-                    );
+                    await p.signUp(_emailController.value.text.toLowerCase(), _passwordController.value.text);
                   }
                 },
                 child: const Text("Sign Up"),
@@ -126,7 +120,7 @@ class _SignUpFormState extends State<SignUpForm> {
               children: [
                 const Text("Already have an account?"),
                 TextButton(onPressed: (){
-                  router.go(
+                  p.router.go(
                     NavigationConstants.signInPath,
                   );
                 },child: const Text("Sign in here")),
