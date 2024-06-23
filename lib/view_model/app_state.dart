@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -24,49 +23,32 @@ class ApplicationState extends ChangeNotifier {
 
   Future<void> init() async {
     await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
-    FirebaseAuth.instance.userChanges().listen((user) {
-      if (user != null) {
-        _loggedIn  = true;
-        router.go(
-          NavigationConstants.homePath,
-        );
-      } else {
-        _loggedIn = false;
-        router.go(
-          NavigationConstants.signInPath,
-        );
-      }
-      notifyListeners();
-    });
   }
 
   Future<void> signIn(String email, String password) async {
     _user = await _auth.signIn(email: email, password: password);
-    _navState.changeNavState(isExistingCustomer: _user?.isExistingCustomer ?? false);
+    _loggedIn = true;
     notifyListeners();
+    _navState.changeNavState(isExistingCustomer: _user?.isExistingCustomer ?? false);
+    router.go(
+      NavigationConstants.homePath,
+    );
   }
 
   Future<void> signUp(String email, String password) async {
     _user = await _auth.signUp(email: email, password: password);
     if (_user != null) {
       _user = await _auth.signIn(email: email, password: password);
+      _loggedIn = true;
+      notifyListeners();
+      _navState.changeNavState(isExistingCustomer: _user?.isExistingCustomer ?? false);
+      router.go(
+        NavigationConstants.homePath,
+      );
+    } else {
+      _navState.changeNavState(isExistingCustomer: _user?.isExistingCustomer ?? false);
       notifyListeners();
     }
-    _navState.changeNavState(isExistingCustomer: _user?.isExistingCustomer ?? false);
-    notifyListeners();
-  }
-
-  void toggleLoggedInStatus() async {
-    print("##############))))))###############");
-    print(_user?.isExistingCustomer);
-    print("##############))))))###############");
-    _user = _user?.copyWith(isExistingCustomer: !_user!.isExistingCustomer!);
-    print("##############))))))###############");
-    print(_user?.isExistingCustomer);
-    print("##############))))))###############");
-    _navState.changeNavState(isExistingCustomer: _user?.isExistingCustomer ?? false);
-    notifyListeners();
   }
 
   void signOut() async {

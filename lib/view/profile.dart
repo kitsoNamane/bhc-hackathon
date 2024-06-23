@@ -7,19 +7,6 @@ import 'package:provider/provider.dart';
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
-  Widget showPaymentHistory(bool isNewCustomer, ApplicationState p) {
-    return !isNewCustomer ? Row(children: [
-      const Divider(thickness: 1),
-      const Icon(Icons.receipt_long_outlined),
-      const SizedBox(width: 16),
-      const Text("Payment History"),
-      const Spacer(),
-      IconButton(icon: const Icon(Icons.arrow_forward_ios), onPressed: () {
-        p.toggleLoggedInStatus();
-      },),
-    ],) : const SizedBox(width: 0, height: 0);
-  }
-
   @override
   Widget build(BuildContext context) {
     final p = Provider.of<ApplicationState>(context);
@@ -44,52 +31,56 @@ class ProfilePage extends StatelessWidget {
             ),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                 const Align(
-                    alignment: Alignment.topLeft,
-                    child: Text("General", style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                    )),
-                  ),
-                  const SizedBox(height: 24),
-                  const Row(children: [
-                    Icon(Icons.person_2_outlined),
-                    SizedBox(width: 16),
-                    Text("Kitso Namane"),
-                  ],),
-                  const Divider(thickness: 1),
-                  const Row(children: [
-                    Icon(Icons.email_outlined),
-                    SizedBox(width: 16),
-                    Text("kitso@gmail.com"),
-                  ],),
-                  const Divider(thickness: 1),
-                  const Row(children: [
-                    Icon(Icons.phone_iphone_outlined),
-                    SizedBox(width: 16),
-                    Text("77777777"),
-                  ],),
-                  const Divider(thickness: 1),
-                  Row(children: [
-                    const Icon(Icons.comment_outlined),
-                    const SizedBox(width: 16),
-                    const Text("Report"),
-                    const Spacer(),
-                    IconButton(icon: const Icon(Icons.arrow_forward_ios), onPressed: () {
-                    },),
-                  ],),
-                  const Divider(thickness: 1),
-                  if (p.currentUser?.isExistingCustomer ?? false) Row(children: [
-                    const Icon(Icons.receipt_long_outlined),
-                    const SizedBox(width: 16),
-                    const Text("Payment History"),
-                    const Spacer(),
-                    IconButton(icon: const Icon(Icons.arrow_forward_ios), onPressed: () {
-                    },),
-                  ],)
-                ],
+              child: Consumer<ApplicationState>(
+                builder: (context, state, child) {
+                  print(state.currentUser);
+                  return Column(
+                  children: [
+                   const Align(
+                      alignment: Alignment.topLeft,
+                      child: Text("General", style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                      )),
+                    ),
+                    const SizedBox(height: 24),
+                    Row(children: [
+                      const Icon(Icons.person_2_outlined),
+                      const SizedBox(width: 16),
+                      Text(state.currentUser?.email!.split("@")[0] ?? ""),
+                    ],),
+                    const Divider(thickness: 1),
+                    Row(children: [
+                      const Icon(Icons.email_outlined),
+                      const SizedBox(width: 16),
+                      Text(state.currentUser?.email! ?? ""),
+                    ],),
+                    const Divider(thickness: 1),
+                    const Row(children: [
+                      Icon(Icons.phone_iphone_outlined),
+                      SizedBox(width: 16),
+                      Text("77777777"),
+                    ],),
+                    const Divider(thickness: 1),
+                    Row(children: [
+                      const Icon(Icons.comment_outlined),
+                      const SizedBox(width: 16),
+                      const Text("Report"),
+                      const Spacer(),
+                      IconButton(icon: const Icon(Icons.arrow_forward_ios), onPressed: () {
+                      },),
+                    ],),
+                    const Divider(thickness: 1),
+                    if (state.currentUser?.isExistingCustomer ?? false) Row(children: [
+                      const Icon(Icons.receipt_long_outlined),
+                      const SizedBox(width: 16),
+                      const Text("Payment History"),
+                      const Spacer(),
+                      IconButton(icon: const Icon(Icons.arrow_forward_ios), onPressed: () {
+                      },),
+                    ],)
+                  ],
+                );},
               ),
             ),
           ),

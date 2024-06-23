@@ -19,4 +19,9 @@ class Customer {
       isExistingCustomer: isExistingCustomer ?? this.isExistingCustomer,
     );
   }
+
+  @override
+  String toString() {
+    return "email=$email, uuid=$uuid, phone=$phone, isExistingCustomer=$isExistingCustomer";
+  }
  }

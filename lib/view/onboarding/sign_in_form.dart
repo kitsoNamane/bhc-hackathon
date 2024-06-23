@@ -20,7 +20,7 @@ class _SignInFormState extends State<SignInForm> {
 
   @override
   Widget build(BuildContext context) {
-    final router = Provider.of<ApplicationState>(context).router;
+    final p = Provider.of<ApplicationState>(context);
     return Form(
       key: _formKey,
       child: Container(
@@ -72,7 +72,7 @@ class _SignInFormState extends State<SignInForm> {
               alignment: Alignment.centerRight,
               child: TextButton(
                   onPressed: (){
-                      router.push(
+                      p.router.push(
                         NavigationConstants.resetPasswordPath,
                       );
                   },
@@ -82,11 +82,9 @@ class _SignInFormState extends State<SignInForm> {
             SizedBox(
               width: double.infinity,
               child: FilledButton(
-                  onPressed: (){
+                  onPressed: () async {
                     if(_formKey.currentState!.validate()) {
-                      router.go(
-                        NavigationConstants.homePath,
-                      );
+                      await p.signIn(_emailController.value.text.toLowerCase(), _passwordController.value.text);
                     }
                   },
                   child: const Text("Sign In"),
@@ -96,7 +94,7 @@ class _SignInFormState extends State<SignInForm> {
               children: [
                 const Text("Don't have an account?"),
                 TextButton(onPressed: (){
-                 router.push(
+                 p.router.push(
                    NavigationConstants.signUpPath,
                  );
                 },child: const Text("Sign up here")),
