@@ -3,9 +3,6 @@ import 'package:bhc_hackathon/view/onboarding/sign_in_form.dart';
 import 'package:bhc_hackathon/view/onboarding/sign_up_form.dart';
 import 'package:flutter/material.dart';
 
-import '../navigation.dart';
-import '../navigation_constants.dart';
-
 class SignUpPage extends StatelessWidget {
   const SignUpPage({super.key});
 

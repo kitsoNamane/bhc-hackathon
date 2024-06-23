@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class NavigationConstants {
   static final GlobalKey<NavigatorState> parentNavigatorKey = GlobalKey<NavigatorState>();
@@ -24,5 +23,5 @@ class NavigationConstants {
   static const String profilePath = '/profile';
   static const String servicesPath = '/services';
 
-  static const bool isNewCustomer = true;
+  static const bool isNewCustomer = false;
 }

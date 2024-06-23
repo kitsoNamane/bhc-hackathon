@@ -1,10 +1,14 @@
+import 'package:bhc_hackathon/view_model/app_state.dart';
 import 'package:flutter/material.dart';
-
-import 'view/navigation.dart';
+import 'package:provider/provider.dart';
 
 main() {
-  NavigationHelper.instance;
-  runApp(const App());
+  runApp(
+      ChangeNotifierProvider(
+          create: (context) => ApplicationState(),
+          child: const App(),
+      )
+  );
 }
 
 class App extends StatelessWidget {
@@ -12,9 +16,10 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var p = Provider.of<ApplicationState>(context);
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      routerConfig: NavigationHelper.router,
+      routerConfig: p.router,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
         useMaterial3: true,

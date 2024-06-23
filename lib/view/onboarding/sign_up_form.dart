@@ -2,18 +2,29 @@
 import 'package:bhc_hackathon/view/navigation.dart';
 import 'package:bhc_hackathon/view/navigation_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../view_model/app_state.dart';
 
 class SignUpForm extends StatefulWidget {
   const SignUpForm({super.key});
 
   @override
-  State<SignUpForm> createState() => SignUpFormState();
+  State<SignUpForm> createState() => _SignUpFormState();
 }
 
-class SignUpFormState extends State<SignUpForm> {
+class _SignUpFormState extends State<SignUpForm> {
   final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _repeatPasswordController = TextEditingController();
+
+  bool _passwordVisible = true;
+  bool _repeatPasswordVisible = true;
+
   @override
   Widget build(BuildContext context) {
+    final p = Provider.of<ApplicationState>(context);
     return Form(
       key: _formKey,
       child: Container(
@@ -21,42 +32,86 @@ class SignUpFormState extends State<SignUpForm> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const TextField(
+            TextFormField(
+              controller: _emailController,
               obscureText: false,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: "Email",
               ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Please enter a valid email";
+                }
+                return null;
+              },
             ),
             const SizedBox(width: double.infinity, height: 16),
-            const TextField(
-              obscureText: false,
+            TextFormField(
+              controller: _passwordController,
+              obscureText: _passwordVisible,
               decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: "Phone",
-              ),
-            ),
-            const SizedBox(width: double.infinity, height: 16),
-            const TextField(
-              obscureText: true,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
                 labelText: "Password",
+                suffixIcon: IconButton(
+                  icon: Icon(_passwordVisible
+                      ? Icons.visibility
+                      : Icons.visibility_off
+                  ), onPressed: () {
+                  setState(() {
+                    _passwordVisible = !_passwordVisible;
+                  });
+                },
+                )
               ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Please enter a valid password";
+                } else if (value.isNotEmpty && value.toLowerCase() != _repeatPasswordController.value.text.toLowerCase()) {
+                  return "Passwords should match";
+                } else if (value.isNotEmpty && value.length < 6) {
+                  return "Password should be at least 6 characters";
+                }
+                return null;
+              },
             ),
             const SizedBox(width: double.infinity, height: 16),
-            const TextField(
-              obscureText: true,
+            TextFormField(
+              controller: _repeatPasswordController,
+              obscureText: _repeatPasswordVisible,
               decoration: InputDecoration(
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
                 labelText: "Repeat password",
+                suffixIcon: IconButton(
+                  icon: Icon(_repeatPasswordVisible
+                  ? Icons.visibility
+                  : Icons.visibility_off
+                  ), onPressed: () {
+                    setState(() {
+                      _repeatPasswordVisible = !_repeatPasswordVisible;
+                    });
+                },
+                ),
               ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Please enter a valid password";
+                } else if (value.isNotEmpty && value.toLowerCase() != _passwordController.value.text.toLowerCase()) {
+                  return "Passwords should match";
+                } else if (value.isNotEmpty && value.length < 6) {
+                  return "Password should be at least 6 characters";
+                }
+                return null;
+              },
             ),
             const SizedBox(width: double.infinity, height: 16),
             SizedBox(
               width: double.infinity,
               child: FilledButton(
-                onPressed: (){
+                onPressed: () async {
+                  if(_formKey.currentState!.validate()) {
+                    await p.signUp(_emailController.value.text.toLowerCase(), _passwordController.value.text);
+                  }
                 },
                 child: const Text("Sign Up"),
               ),
@@ -65,7 +120,7 @@ class SignUpFormState extends State<SignUpForm> {
               children: [
                 const Text("Already have an account?"),
                 TextButton(onPressed: (){
-                  NavigationHelper.router.go(
+                  p.router.go(
                     NavigationConstants.signInPath,
                   );
                 },child: const Text("Sign in here")),

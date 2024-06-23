@@ -1,19 +1,26 @@
 
 import 'package:bhc_hackathon/view/navigation.dart';
 import 'package:bhc_hackathon/view/navigation_constants.dart';
+import 'package:bhc_hackathon/view_model/app_state.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SignInForm extends StatefulWidget {
   const SignInForm({super.key});
 
   @override
-  State<SignInForm> createState() => SignInFormState();
+  State<SignInForm> createState() => _SignInFormState();
 }
 
-class SignInFormState extends State<SignInForm> {
+class _SignInFormState extends State<SignInForm> {
   final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  bool _passwordVisible = true;
+
   @override
   Widget build(BuildContext context) {
+    final p = Provider.of<ApplicationState>(context);
     return Form(
       key: _formKey,
       child: Container(
@@ -21,28 +28,53 @@ class SignInFormState extends State<SignInForm> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const TextField(
+            TextFormField(
+              controller: _emailController,
               obscureText: false,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: "Email",
               ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Please enter a valid email";
+                }
+                return null;
+              },
             ),
             const SizedBox(width: double.infinity, height: 16),
-            const TextField(
-              obscureText: true,
+            TextFormField(
+              controller: _passwordController,
+              obscureText: _passwordVisible,
               decoration: InputDecoration(
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
                 labelText: "Password",
+                suffixIcon: IconButton(
+                  icon: Icon(_passwordVisible
+                      ? Icons.visibility
+                      : Icons.visibility_off
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _passwordVisible = !_passwordVisible;
+                    });
+                },
+                )
               ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Please enter a valid password";
+                }
+                return null;
+              },
             ),
             Align(
               alignment: Alignment.centerRight,
               child: TextButton(
                   onPressed: (){
-                    NavigationHelper.router.push(
-                      NavigationConstants.resetPasswordPath,
-                    );
+                      p.router.push(
+                        NavigationConstants.resetPasswordPath,
+                      );
                   },
                   child: const Text("Forgot Password?")
               ),
@@ -50,10 +82,10 @@ class SignInFormState extends State<SignInForm> {
             SizedBox(
               width: double.infinity,
               child: FilledButton(
-                  onPressed: (){
-                    NavigationHelper.router.go(
-                      NavigationConstants.homePath,
-                    );
+                  onPressed: () async {
+                    if(_formKey.currentState!.validate()) {
+                      await p.signIn(_emailController.value.text.toLowerCase(), _passwordController.value.text);
+                    }
                   },
                   child: const Text("Sign In"),
               ),
@@ -62,7 +94,7 @@ class SignInFormState extends State<SignInForm> {
               children: [
                 const Text("Don't have an account?"),
                 TextButton(onPressed: (){
-                 NavigationHelper.router.push(
+                 p.router.push(
                    NavigationConstants.signUpPath,
                  );
                 },child: const Text("Sign up here")),

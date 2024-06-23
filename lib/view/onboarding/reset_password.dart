@@ -2,6 +2,9 @@
 import 'package:bhc_hackathon/view/navigation.dart';
 import 'package:bhc_hackathon/view/navigation_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../view_model/app_state.dart';
 
 class ResetPasswordForm extends StatefulWidget {
   const ResetPasswordForm({super.key});
@@ -14,6 +17,7 @@ class ResetPasswordFormState extends State<ResetPasswordForm> {
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    final router = Provider.of<ApplicationState>(context).router;
     return Form(
       key: _formKey,
       child: Container(
@@ -41,7 +45,7 @@ class ResetPasswordFormState extends State<ResetPasswordForm> {
               children: [
                 const Text("Already have an account?"),
                 TextButton(onPressed: (){
-                  NavigationHelper.router.go(
+                  router.go(
                     NavigationConstants.signInPath,
                   );
                 },child: const Text("Sign in here")),

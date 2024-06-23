@@ -10,23 +10,28 @@ import 'apply.dart';
 import 'home.dart';
 import 'navigation.dart';
 import 'navigation_constants.dart';
+import 'onboarding/onboarding.dart';
 
 class BottomNavigationHelpers {
 
-  static List<BottomNavigationBarItem> bottomNavigationItems(bool isNewCustomer) {
-    if (isNewCustomer) {
+  static List<BottomNavigationBarItem> bottomNavigationItems(bool isExistingCustomer) {
+    if (isExistingCustomer) {
       return const [
+        BottomNavigationBarItem(
+          icon: Icon(Icons.dashboard),
+          label: 'dashboard',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.design_services),
+          label: 'services',
+        ),
         BottomNavigationBarItem(
           icon: Icon(Icons.shopping_cart),
           label: 'products',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.app_registration),
-          label: 'apply',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.question_mark_rounded),
-          label: 'FAQs',
+          icon: Icon(Icons.receipt_long),
+          label: 'payment history',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.account_circle),
@@ -37,20 +42,16 @@ class BottomNavigationHelpers {
 
     return const [
       BottomNavigationBarItem(
-        icon: Icon(Icons.dashboard),
-        label: 'dashboard',
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.design_services),
-        label: 'services',
-      ),
-      BottomNavigationBarItem(
         icon: Icon(Icons.shopping_cart),
         label: 'products',
       ),
       BottomNavigationBarItem(
-        icon: Icon(Icons.receipt_long),
-        label: 'payment history',
+        icon: Icon(Icons.app_registration),
+        label: 'apply',
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.question_mark_rounded),
+        label: 'FAQs',
       ),
       BottomNavigationBarItem(
         icon: Icon(Icons.account_circle),
@@ -59,8 +60,8 @@ class BottomNavigationHelpers {
     ];
   }
 
-  static List<StatefulShellBranch> bottomNavigationPages(bool isNewCustomer) {
-    if (isNewCustomer) {
+  static List<StatefulShellBranch> bottomNavigationPages(bool isExistingCustomer) {
+    if (isExistingCustomer) {
       return [
         StatefulShellBranch(
           navigatorKey: NavigationConstants.homeTabNavigatorKey,
@@ -77,13 +78,13 @@ class BottomNavigationHelpers {
           ],
         ),
         StatefulShellBranch(
-          navigatorKey: NavigationConstants.dashboardNavigatorKey,
+          navigatorKey: NavigationConstants.applyNavigatorKey,
           routes: [
             GoRoute(
-              path: NavigationConstants.dashboardPath,
+              path: NavigationConstants.applyPath,
               pageBuilder: (context, state) {
                 return NavigationHelper.getPage(
-                  child: const ApplyPage(),
+                  child: const ServicesPage(),
                   state: state,
                 );
               },
@@ -91,13 +92,27 @@ class BottomNavigationHelpers {
           ],
         ),
         StatefulShellBranch(
-          navigatorKey: NavigationConstants.faqNavigatorKey,
+          navigatorKey: NavigationConstants.dashboardNavigatorKey,
           routes: [
             GoRoute(
-              path: NavigationConstants.faqPath,
+              path: NavigationConstants.dashboardPath,
               pageBuilder: (context, state) {
                 return NavigationHelper.getPage(
-                  child: const FAQPage(),
+                  child: const ProductsPage(),
+                  state: state,
+                );
+              },
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          navigatorKey: NavigationConstants.paymentsNavigatorKey,
+          routes: [
+            GoRoute(
+              path: NavigationConstants.paymentsPath,
+              pageBuilder: (context, state) {
+                return NavigationHelper.getPage(
+                  child: const PaymentsPage(),
                   state: state,
                 );
               },
@@ -119,8 +134,8 @@ class BottomNavigationHelpers {
           ],
         ),
       ];
-    }
 
+    }
     return [
       StatefulShellBranch(
         navigatorKey: NavigationConstants.homeTabNavigatorKey,
@@ -137,27 +152,13 @@ class BottomNavigationHelpers {
         ],
       ),
       StatefulShellBranch(
-        navigatorKey: NavigationConstants.applyNavigatorKey,
-        routes: [
-          GoRoute(
-            path: NavigationConstants.applyPath,
-            pageBuilder: (context, state) {
-              return NavigationHelper.getPage(
-                child: const ServicesPage(),
-                state: state,
-              );
-            },
-          ),
-        ],
-      ),
-      StatefulShellBranch(
         navigatorKey: NavigationConstants.dashboardNavigatorKey,
         routes: [
           GoRoute(
             path: NavigationConstants.dashboardPath,
             pageBuilder: (context, state) {
               return NavigationHelper.getPage(
-                child: const ProductsPage(),
+                child: const ApplyPage(),
                 state: state,
               );
             },
@@ -165,13 +166,13 @@ class BottomNavigationHelpers {
         ],
       ),
       StatefulShellBranch(
-        navigatorKey: NavigationConstants.paymentsNavigatorKey,
+        navigatorKey: NavigationConstants.faqNavigatorKey,
         routes: [
           GoRoute(
-            path: NavigationConstants.paymentsPath,
+            path: NavigationConstants.faqPath,
             pageBuilder: (context, state) {
               return NavigationHelper.getPage(
-                child: const PaymentsPage(),
+                child: const FAQPage(),
                 state: state,
               );
             },
@@ -192,6 +193,42 @@ class BottomNavigationHelpers {
           ),
         ],
       ),
+    ];
+
+  }
+
+  static List<GoRoute> getRoutes(GlobalKey<NavigatorState> parentKey) {
+    return [
+      GoRoute(
+        parentNavigatorKey: parentKey,
+        path: NavigationConstants.signUpPath,
+        pageBuilder: (context, state) {
+          return NavigationHelper.getPage(
+            child: const SignUpPage(),
+            state: state,
+          );
+        },
+      ),
+      GoRoute(
+        parentNavigatorKey: parentKey,
+        path: NavigationConstants.signInPath,
+        pageBuilder: (context, state) {
+          return NavigationHelper.getPage(
+            child: const SignInPage(),
+            state: state,
+          );
+        },
+      ),
+      GoRoute(
+        parentNavigatorKey: parentKey,
+        path: NavigationConstants.resetPasswordPath,
+        pageBuilder: (context, state) {
+          return NavigationHelper.getPage(
+            child: const ResetPasswordPage(),
+            state: state,
+          );
+        },
+      )
     ];
   }
 }
