@@ -1,4 +1,3 @@
-import 'package:bhc_hackathon/view/navigation.dart';
 import 'package:bhc_hackathon/view/navigation_constants.dart';
 import 'package:bhc_hackathon/view_model/app_state.dart';
 import 'package:flutter/material.dart';
@@ -82,7 +81,16 @@ class ProfilePage extends StatelessWidget {
                       p.toggleLoggedInStatus();
                     },),
                   ],),
-                  showPaymentHistory(p.loggedIn, p),
+                  const Divider(thickness: 1),
+                  if (p.loggedIn) Row(children: [
+                    const Icon(Icons.receipt_long_outlined),
+                    const SizedBox(width: 16),
+                    const Text("Payment History"),
+                    const Spacer(),
+                    IconButton(icon: const Icon(Icons.arrow_forward_ios), onPressed: () {
+                      p.toggleLoggedInStatus();
+                    },),
+                  ],)
                 ],
               ),
             ),

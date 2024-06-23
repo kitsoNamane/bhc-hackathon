@@ -1,4 +1,3 @@
-import 'package:bhc_hackathon/view_model/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -40,24 +39,25 @@ class NavigationState {
   }
 
   void changeNavState({required bool isNewCustomer}) {
-      _myRoutingConfig.value = RoutingConfig(
-          routes: [
-            StatefulShellRoute.indexedStack(
-              parentNavigatorKey: NavigationConstants.parentNavigatorKey,
-              branches: BottomNavigationHelpers.bottomNavigationPages(isNewCustomer),
-              pageBuilder: (BuildContext context,
-                  GoRouterState state,
-                  StatefulNavigationShell navigationShell,) {
-                return NavigationHelper.getPage(
-                  child: BottomNavigationPage(
-                    child: navigationShell,
-                  ),
-                  state: state,
-                );
-              },
-            ),
-            ...BottomNavigationHelpers.getRoutes(NavigationConstants.parentNavigatorKey),
-          ]
-      );
+    var parentNavigatorKey = GlobalKey<NavigatorState>();
+    _myRoutingConfig.value = RoutingConfig(
+        routes: [
+          StatefulShellRoute.indexedStack(
+            parentNavigatorKey: NavigationConstants.parentNavigatorKey,
+            branches: BottomNavigationHelpers.bottomNavigationPages(isNewCustomer),
+            pageBuilder: (BuildContext context,
+                GoRouterState state,
+                StatefulNavigationShell navigationShell,) {
+              return NavigationHelper.getPage(
+                child: BottomNavigationPage(
+                  child: navigationShell,
+                ),
+                state: state,
+              );
+            },
+          ),
+          ...BottomNavigationHelpers.getRoutes(NavigationConstants.parentNavigatorKey),
+        ]
+    );
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class NavigationConstants {
   static final GlobalKey<NavigatorState> parentNavigatorKey = GlobalKey<NavigatorState>();
