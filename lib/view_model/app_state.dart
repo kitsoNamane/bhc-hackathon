@@ -51,10 +51,14 @@ class ApplicationState extends ChangeNotifier {
     }
   }
 
-  void signOut() async {
+  Future<void> signOut() async {
     var isSignedOut = await _auth.signOut();
     if (isSignedOut) {
       _user = null;
+      _loggedIn = false;
+      router.go(
+        NavigationConstants.signInPath,
+      );
       notifyListeners();
     }
   }

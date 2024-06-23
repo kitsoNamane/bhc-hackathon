@@ -1,4 +1,3 @@
-import 'package:bhc_hackathon/view/navigation_constants.dart';
 import 'package:bhc_hackathon/view_model/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -87,10 +86,8 @@ class ProfilePage extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: FilledButton(
-              onPressed: (){
-                p.router.go(
-                  NavigationConstants.signInPath
-                );
+              onPressed: () async {
+                await p.signOut();
               },
               child: const Text("Sign Out"),
             ),
