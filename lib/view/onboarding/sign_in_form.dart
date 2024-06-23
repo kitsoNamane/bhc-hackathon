@@ -1,7 +1,9 @@
 
 import 'package:bhc_hackathon/view/navigation.dart';
 import 'package:bhc_hackathon/view/navigation_constants.dart';
+import 'package:bhc_hackathon/view_model/app_state.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SignInForm extends StatefulWidget {
   const SignInForm({super.key});
@@ -14,8 +16,11 @@ class _SignInFormState extends State<SignInForm> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  bool _passwordVisible = true;
+
   @override
   Widget build(BuildContext context) {
+    final router = Provider.of<ApplicationState>(context).router;
     return Form(
       key: _formKey,
       child: Container(
@@ -40,10 +45,21 @@ class _SignInFormState extends State<SignInForm> {
             const SizedBox(width: double.infinity, height: 16),
             TextFormField(
               controller: _passwordController,
-              obscureText: true,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
+              obscureText: _passwordVisible,
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
                 labelText: "Password",
+                suffixIcon: IconButton(
+                  icon: Icon(_passwordVisible
+                      ? Icons.visibility
+                      : Icons.visibility_off
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _passwordVisible = !_passwordVisible;
+                    });
+                },
+                )
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -56,7 +72,7 @@ class _SignInFormState extends State<SignInForm> {
               alignment: Alignment.centerRight,
               child: TextButton(
                   onPressed: (){
-                      NavigationHelper.router.push(
+                      router.push(
                         NavigationConstants.resetPasswordPath,
                       );
                   },
@@ -68,7 +84,7 @@ class _SignInFormState extends State<SignInForm> {
               child: FilledButton(
                   onPressed: (){
                     if(_formKey.currentState!.validate()) {
-                      NavigationHelper.router.go(
+                      router.go(
                         NavigationConstants.homePath,
                       );
                     }
@@ -80,7 +96,7 @@ class _SignInFormState extends State<SignInForm> {
               children: [
                 const Text("Don't have an account?"),
                 TextButton(onPressed: (){
-                 NavigationHelper.router.push(
+                 router.push(
                    NavigationConstants.signUpPath,
                  );
                 },child: const Text("Sign up here")),

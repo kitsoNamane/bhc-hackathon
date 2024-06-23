@@ -2,6 +2,9 @@
 import 'package:bhc_hackathon/view/navigation.dart';
 import 'package:bhc_hackathon/view/navigation_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../view_model/app_state.dart';
 
 class SignUpForm extends StatefulWidget {
   const SignUpForm({super.key});
@@ -21,6 +24,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
   @override
   Widget build(BuildContext context) {
+    final router = Provider.of<ApplicationState>(context).router;
     return Form(
       key: _formKey,
       child: Container(
@@ -57,16 +61,16 @@ class _SignUpFormState extends State<SignUpForm> {
               decoration: InputDecoration(
                 border: const OutlineInputBorder(),
                 labelText: "Password",
-                  suffixIcon: IconButton(
-                    icon: Icon(_passwordVisible
-                        ? Icons.visibility
-                        : Icons.visibility_off
-                    ), onPressed: () {
-                    setState(() {
-                      _passwordVisible = !_passwordVisible;
-                    });
-                  },
-                  )
+                suffixIcon: IconButton(
+                  icon: Icon(_passwordVisible
+                      ? Icons.visibility
+                      : Icons.visibility_off
+                  ), onPressed: () {
+                  setState(() {
+                    _passwordVisible = !_passwordVisible;
+                  });
+                },
+                )
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -110,7 +114,7 @@ class _SignUpFormState extends State<SignUpForm> {
               child: FilledButton(
                 onPressed: (){
                   if(_formKey.currentState!.validate()) {
-                    NavigationHelper.router.go(
+                    router.go(
                       NavigationConstants.homePath,
                     );
                   }
@@ -122,7 +126,7 @@ class _SignUpFormState extends State<SignUpForm> {
               children: [
                 const Text("Already have an account?"),
                 TextButton(onPressed: (){
-                  NavigationHelper.router.go(
+                  router.go(
                     NavigationConstants.signInPath,
                   );
                 },child: const Text("Sign in here")),

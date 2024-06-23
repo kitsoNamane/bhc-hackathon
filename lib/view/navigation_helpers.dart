@@ -10,6 +10,7 @@ import 'apply.dart';
 import 'home.dart';
 import 'navigation.dart';
 import 'navigation_constants.dart';
+import 'onboarding/onboarding.dart';
 
 class BottomNavigationHelpers {
 
@@ -192,6 +193,41 @@ class BottomNavigationHelpers {
           ),
         ],
       ),
+    ];
+  }
+
+  static List<GoRoute> getRoutes() {
+    return [
+      GoRoute(
+        parentNavigatorKey: NavigationConstants.parentNavigatorKey,
+        path: NavigationConstants.signUpPath,
+        pageBuilder: (context, state) {
+          return NavigationHelper.getPage(
+            child: const SignUpPage(),
+            state: state,
+          );
+        },
+      ),
+      GoRoute(
+        parentNavigatorKey: NavigationConstants.parentNavigatorKey,
+        path: NavigationConstants.signInPath,
+        pageBuilder: (context, state) {
+          return NavigationHelper.getPage(
+            child: const SignInPage(),
+            state: state,
+          );
+        },
+      ),
+      GoRoute(
+        parentNavigatorKey: NavigationConstants.parentNavigatorKey,
+        path: NavigationConstants.resetPasswordPath,
+        pageBuilder: (context, state) {
+          return NavigationHelper.getPage(
+            child: const ResetPasswordPage(),
+            state: state,
+          );
+        },
+      )
     ];
   }
 }

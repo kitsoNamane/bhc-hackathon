@@ -24,5 +24,5 @@ class NavigationConstants {
   static const String profilePath = '/profile';
   static const String servicesPath = '/services';
 
-  static const bool isNewCustomer = true;
+  static const bool isNewCustomer = false;
 }
