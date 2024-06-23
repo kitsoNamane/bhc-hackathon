@@ -7,11 +7,13 @@ class SignInForm extends StatefulWidget {
   const SignInForm({super.key});
 
   @override
-  State<SignInForm> createState() => SignInFormState();
+  State<SignInForm> createState() => _SignInFormState();
 }
 
-class SignInFormState extends State<SignInForm> {
+class _SignInFormState extends State<SignInForm> {
   final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -21,28 +23,42 @@ class SignInFormState extends State<SignInForm> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const TextField(
+            TextFormField(
+              controller: _emailController,
               obscureText: false,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: "Email",
               ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Please enter a valid email";
+                }
+                return null;
+              },
             ),
             const SizedBox(width: double.infinity, height: 16),
-            const TextField(
+            TextFormField(
+              controller: _passwordController,
               obscureText: true,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: "Password",
               ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Please enter a valid password";
+                }
+                return null;
+              },
             ),
             Align(
               alignment: Alignment.centerRight,
               child: TextButton(
                   onPressed: (){
-                    NavigationHelper.router.push(
-                      NavigationConstants.resetPasswordPath,
-                    );
+                      NavigationHelper.router.push(
+                        NavigationConstants.resetPasswordPath,
+                      );
                   },
                   child: const Text("Forgot Password?")
               ),
@@ -51,9 +67,11 @@ class SignInFormState extends State<SignInForm> {
               width: double.infinity,
               child: FilledButton(
                   onPressed: (){
-                    NavigationHelper.router.go(
-                      NavigationConstants.homePath,
-                    );
+                    if(_formKey.currentState!.validate()) {
+                      NavigationHelper.router.go(
+                        NavigationConstants.homePath,
+                      );
+                    }
                   },
                   child: const Text("Sign In"),
               ),
