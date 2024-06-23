@@ -29,6 +29,13 @@
             {
               "client_id": "614247489670-70s1cod3lsub7pcfo7261f2t79tgfkc7.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "614247489670-vpg4a0blfjr4mlaae73kiqg33ndta1s7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.bhcHackathon"
+              }
             }
           ]
         }
