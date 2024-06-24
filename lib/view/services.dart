@@ -44,7 +44,11 @@ class _FaultFormState extends State<FaultForm> {
         padding: const EdgeInsets.all(16),
         children: [
           Consumer<ApplicationState>(
-            builder: (context, state, child) => Column(
+            builder: (context, state, child) {
+              _plotNumberController.text = state.currentUser?.bhcPlotNumber! ?? "";
+              _phoneController.text = state.currentUser?.phone! ?? "";
+              _emailController.text = state.currentUser?.email! ?? "";
+              return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
 
@@ -60,10 +64,9 @@ class _FaultFormState extends State<FaultForm> {
                 const Divider(thickness: 4),
                 const SizedBox(width: double.infinity, height: 28),
                 TextFormField(
-                  controller: _plotNumberController,
                   readOnly: _isPlotNumberReadyOnly,
+                  controller: _plotNumberController,
                   obscureText: false,
-                  initialValue: state.currentUser?.bhcPlotNumber,
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(),
                     labelText: "Plot/House Number",
@@ -166,10 +169,9 @@ class _FaultFormState extends State<FaultForm> {
                 const Divider(thickness: 2),
                 Column(children: [
                   TextFormField(
-                    controller: _emailController,
                     readOnly: _isEmailReadyOnly,
+                    controller: _emailController,
                     obscureText: false,
-                    initialValue: state.currentUser?.email,
                     decoration: InputDecoration(
                       border:  const OutlineInputBorder(
                       borderSide: BorderSide(
@@ -194,10 +196,9 @@ class _FaultFormState extends State<FaultForm> {
                   ),
                   const SizedBox(width: double.infinity, height: 8),
                   TextFormField(
-                    controller: _phoneController,
                     readOnly: _isPhoneReadyOnly,
+                    controller: _phoneController,
                     obscureText: false,
-                    initialValue: state.currentUser?.phone,
                     decoration: InputDecoration(
                       border: const OutlineInputBorder(
                         borderSide: BorderSide(
@@ -254,7 +255,7 @@ class _FaultFormState extends State<FaultForm> {
                   ),
                 ),
               ],
-            ),
+            );},
           )
         ],
       ),
