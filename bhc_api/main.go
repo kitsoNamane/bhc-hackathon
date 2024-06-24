@@ -30,7 +30,7 @@ func main() {
 
 	router := bunrouter.New()
 
-	router.GET("/api/user", api.GetUser)
-	router.POST("/api/user", api.OnboardUser)
+	router.GET("/api/customer", api.GetUser)
+	router.POST("/api/customer", api.OnboardUser)
 	http.ListenAndServe("0.0.0.0:8080", router)
 }

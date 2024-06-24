@@ -30,6 +30,7 @@ func NewApi(db *data.Queries, log *slog.Logger) *Api {
 func (a *Api) GetUser(w http.ResponseWriter, req bunrouter.Request) error {
 	uid := req.URL.Query().Get("uuid")
 	if uid == "" {
+		a.log.Error("uuid is required")
 		w.WriteHeader(http.StatusBadRequest)
 		w.Header().Set(contentType, jsonContentType)
 		bunrouter.JSON(w, bunrouter.H{
@@ -40,6 +41,7 @@ func (a *Api) GetUser(w http.ResponseWriter, req bunrouter.Request) error {
 
 	dbRes, err := a.db.GetCustomer(req.Context(), uid)
 	if err != nil {
+		a.log.Error("failed to retrieve customer from database", slog.String("error_message", err.Error()))
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Header().Set(contentType, jsonContentType)
 		bunrouter.JSON(w, bunrouter.H{
@@ -49,6 +51,7 @@ func (a *Api) GetUser(w http.ResponseWriter, req bunrouter.Request) error {
 		return err
 	}
 
+	a.log.Info("successfully retrieved customer with id: " + dbRes.Uid)
 	w.WriteHeader(http.StatusOK)
 	w.Header().Set(contentType, jsonContentType)
 	bunrouter.JSON(w, dbRes)
@@ -56,21 +59,10 @@ func (a *Api) GetUser(w http.ResponseWriter, req bunrouter.Request) error {
 }
 
 func (a *Api) OnboardUser(w http.ResponseWriter, req bunrouter.Request) error {
-	type r struct {
-		Uuid               string `json:"uuid"`
-		Email              string `json:"email"`
-		Phone              string `json:"phone"`
-		FirstName          string `json:"first_name"`
-		LastName           string `json:"last_name"`
-		PhotoUrl           string `json:"photo_url"`
-		BHCPlotNumber      string `json:"bhc_plot_number"`
-		IsExistingCustomer bool   `json:"is_existing_customer"`
-	}
-
-	var reqBody data.OnboardCustomerParams
-
+	var reqBody data.Customer
 	err := json.NewDecoder(req.Body).Decode(&reqBody)
 	if err != nil {
+		a.log.Error("failed to decode json body", slog.String("error_message", err.Error()))
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Header().Set(contentType, jsonContentType)
 		bunrouter.JSON(w, bunrouter.H{
@@ -79,8 +71,20 @@ func (a *Api) OnboardUser(w http.ResponseWriter, req bunrouter.Request) error {
 		return err
 	}
 
-	dbRes, err := a.db.OnboardCustomer(req.Context(), reqBody)
+	dbRes, err := a.db.OnboardCustomer(req.Context(),
+		data.OnboardCustomerParams{
+			Uid:                reqBody.Uid,
+			Email:              reqBody.Email,
+			Phone:              reqBody.Phone,
+			FirstName:          reqBody.FirstName,
+			LastName:           reqBody.LastName,
+			PhotoUrl:           reqBody.PhotoUrl,
+			BhcPlotNumber:      reqBody.BhcPlotNumber,
+			IsExistingCustomer: reqBody.IsExistingCustomer,
+		},
+	)
 	if err != nil {
+		a.log.Error("failed to onboard customer", slog.String("error_message", err.Error()))
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Header().Set(contentType, jsonContentType)
 		bunrouter.JSON(w, bunrouter.H{
@@ -89,6 +93,7 @@ func (a *Api) OnboardUser(w http.ResponseWriter, req bunrouter.Request) error {
 		return err
 	}
 
+	a.log.Info("successfully onboarded user with id: " + dbRes.Uid)
 	w.WriteHeader(http.StatusOK)
 	w.Header().Set(contentType, jsonContentType)
 	bunrouter.JSON(w, dbRes)

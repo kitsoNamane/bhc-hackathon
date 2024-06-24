@@ -123,7 +123,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 const Text("Already have an account?"),
                 TextButton(onPressed: (){
                   p.router.go(
-                    NavigationConstants.onboardingPath,
+                    NavigationConstants.signInPath,
                   );
                 },child: const Text("Sign in here")),
               ],

@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../data/auth_service.dart';
 import '../data/firebase_auth_service.dart';
 import '../firebase_options.dart';
 import '../model/customer.dart';
@@ -42,17 +41,26 @@ class ApplicationState extends ChangeNotifier {
 
   Future<void> signUp(String email, String password) async {
     _user = await _auth.signUp(email: email, password: password);
+    notifyListeners();
     if (_user != null) {
-      _user = await _auth.signIn(email: email, password: password);
-      _loggedIn = true;
-      notifyListeners();
+      router.go(
+        NavigationConstants.onboardingPath,
+      );
+    }
+  }
+
+  Future<void> onboarding(Customer customer) async {
+    _user = await _auth.userOnboarding(customer: customer);
+    _loggedIn = true;
+    print("################---------onboarding results---##############");
+    print(_user);
+    print("################---------onboarding results---##############");
+    notifyListeners();
+    if(_user != null) {
       _navState.changeNavState(isExistingCustomer: _user?.isExistingCustomer ?? false);
       router.go(
-        NavigationConstants.homePath,
+        NavigationConstants.onboardingPath,
       );
-    } else {
-      _navState.changeNavState(isExistingCustomer: _user?.isExistingCustomer ?? false);
-      notifyListeners();
     }
   }
 

@@ -5,12 +5,13 @@ part 'customer.g.dart';
 
 @JsonSerializable()
 class Customer {
+  @JsonKey(name: "uid")
   final String? uuid;
   final String? email;
   @JsonKey(name: "first_name")
-  final String? firstName;
+  final String? firstname;
   @JsonKey(name: "last_name")
-  final String? lastName;
+  final String? lastname;
   final String? phone;
   @JsonKey(name: "photo_url")
   final String? photoUrl;
@@ -19,7 +20,7 @@ class Customer {
   @JsonKey(name: "is_existing_customer")
   final bool? isExistingCustomer;
 
-  Customer({this.firstName, this.lastName, this.photoUrl, this.bhcPlotNumber, this.phone, this.uuid, this.email, this.isExistingCustomer});
+  Customer({this.firstname, this.lastname, this.photoUrl, this.bhcPlotNumber, this.phone, this.uuid, this.email, this.isExistingCustomer});
 
   Customer copyWith({
     String? uuid,
@@ -36,8 +37,8 @@ class Customer {
       email: email ?? this.email,
       phone: phone ?? this.phone,
       photoUrl: photoUrl ?? this.photoUrl,
-      firstName: firstName ?? this.firstName,
-      lastName: lastName ?? this.lastName,
+      firstname: firstName ?? this.firstname,
+      lastname: lastName ?? this.lastname,
       bhcPlotNumber: bhcPlotNumber ?? this.bhcPlotNumber,
       isExistingCustomer: isExistingCustomer ?? this.isExistingCustomer,
     );
@@ -49,6 +50,15 @@ class Customer {
 
   @override
   String toString() {
-    return "email=$email, uuid=$uuid, phone=$phone, isExistingCustomer=$isExistingCustomer";
+    return "Customer("
+        "email=$email,"
+        "uuid=$uuid,"
+        "phone=$phone,"
+        "photoUrl=$photoUrl,"
+        "firstname=$firstname,"
+        "lastname=$lastname,"
+        "bhcPlotNumber=$bhcPlotNumber,"
+        "isExistingCustomer=$isExistingCustomer,"
+        ")";
   }
  }

@@ -5,17 +5,17 @@
 package data
 
 import (
-	"database/sql"
+	"time"
 )
 
 type Customer struct {
-	Uid                string         `json:"uid"`
-	CreatedAt          sql.NullTime   `json:"created_at"`
-	Email              string         `json:"email"`
-	Phone              sql.NullString `json:"phone"`
-	FirstName          sql.NullString `json:"first_name"`
-	LastName           sql.NullString `json:"last_name"`
-	PhotoUrl           sql.NullString `json:"photo_url"`
-	BhcPlotNumber      sql.NullString `json:"bhc_plot_number"`
-	IsExistingCustomer sql.NullBool   `json:"is_existing_customer"`
+	Uid                string    `json:"uid"`
+	CreatedAt          time.Time `json:"created_at"`
+	Email              string    `json:"email"`
+	Phone              string    `json:"phone"`
+	FirstName          string    `json:"first_name"`
+	LastName           string    `json:"last_name"`
+	PhotoUrl           string    `json:"photo_url"`
+	BhcPlotNumber      string    `json:"bhc_plot_number"`
+	IsExistingCustomer bool      `json:"is_existing_customer"`
 }

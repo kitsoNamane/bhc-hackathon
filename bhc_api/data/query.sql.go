@@ -7,7 +7,6 @@ package data
 
 import (
 	"context"
-	"database/sql"
 )
 
 const getCustomer = `-- name: GetCustomer :one
@@ -17,14 +16,14 @@ WHERE uid = ?
 `
 
 type GetCustomerRow struct {
-	Uid                string         `json:"uid"`
-	Email              string         `json:"email"`
-	PhotoUrl           sql.NullString `json:"photo_url"`
-	IsExistingCustomer sql.NullBool   `json:"is_existing_customer"`
-	Phone              sql.NullString `json:"phone"`
-	FirstName          sql.NullString `json:"first_name"`
-	LastName           sql.NullString `json:"last_name"`
-	BhcPlotNumber      sql.NullString `json:"bhc_plot_number"`
+	Uid                string `json:"uid"`
+	Email              string `json:"email"`
+	PhotoUrl           string `json:"photo_url"`
+	IsExistingCustomer bool   `json:"is_existing_customer"`
+	Phone              string `json:"phone"`
+	FirstName          string `json:"first_name"`
+	LastName           string `json:"last_name"`
+	BhcPlotNumber      string `json:"bhc_plot_number"`
 }
 
 func (q *Queries) GetCustomer(ctx context.Context, uid string) (GetCustomerRow, error) {
@@ -51,25 +50,25 @@ RETURNING uid, email, photo_url, is_existing_customer, phone, first_name, last_n
 `
 
 type OnboardCustomerParams struct {
-	Uid                string         `json:"uid"`
-	Email              string         `json:"email"`
-	PhotoUrl           sql.NullString `json:"photo_url"`
-	IsExistingCustomer sql.NullBool   `json:"is_existing_customer"`
-	Phone              sql.NullString `json:"phone"`
-	FirstName          sql.NullString `json:"first_name"`
-	LastName           sql.NullString `json:"last_name"`
-	BhcPlotNumber      sql.NullString `json:"bhc_plot_number"`
+	Uid                string `json:"uid"`
+	Email              string `json:"email"`
+	PhotoUrl           string `json:"photo_url"`
+	IsExistingCustomer bool   `json:"is_existing_customer"`
+	Phone              string `json:"phone"`
+	FirstName          string `json:"first_name"`
+	LastName           string `json:"last_name"`
+	BhcPlotNumber      string `json:"bhc_plot_number"`
 }
 
 type OnboardCustomerRow struct {
-	Uid                string         `json:"uid"`
-	Email              string         `json:"email"`
-	PhotoUrl           sql.NullString `json:"photo_url"`
-	IsExistingCustomer sql.NullBool   `json:"is_existing_customer"`
-	Phone              sql.NullString `json:"phone"`
-	FirstName          sql.NullString `json:"first_name"`
-	LastName           sql.NullString `json:"last_name"`
-	BhcPlotNumber      sql.NullString `json:"bhc_plot_number"`
+	Uid                string `json:"uid"`
+	Email              string `json:"email"`
+	PhotoUrl           string `json:"photo_url"`
+	IsExistingCustomer bool   `json:"is_existing_customer"`
+	Phone              string `json:"phone"`
+	FirstName          string `json:"first_name"`
+	LastName           string `json:"last_name"`
+	BhcPlotNumber      string `json:"bhc_plot_number"`
 }
 
 func (q *Queries) OnboardCustomer(ctx context.Context, arg OnboardCustomerParams) (OnboardCustomerRow, error) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../model/customer.dart';
 import '../../view_model/app_state.dart';
 import '../navigation_constants.dart';
 
@@ -13,9 +14,10 @@ class OnboardingForm extends StatefulWidget {
 
 class _OnboardingFormState extends State<OnboardingForm> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _repeatPasswordController = TextEditingController();
+  final _firstnameController = TextEditingController();
+  final _lastnameController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _plotNumberController = TextEditingController();
 
   var _switched = false;
   final WidgetStateProperty<Icon?> _thumbIcon =
@@ -42,7 +44,7 @@ class _OnboardingFormState extends State<OnboardingForm> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextFormField(
-              controller: _emailController,
+              controller: _firstnameController,
               obscureText: false,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
@@ -57,7 +59,7 @@ class _OnboardingFormState extends State<OnboardingForm> {
             ),
             const SizedBox(width: double.infinity, height: 16),
             TextFormField(
-              controller: _passwordController,
+              controller: _lastnameController,
               decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: "Lastname",
@@ -71,7 +73,7 @@ class _OnboardingFormState extends State<OnboardingForm> {
             ),
             const SizedBox(width: double.infinity, height: 16),
             TextFormField(
-              controller: _repeatPasswordController,
+              controller: _phoneController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: "Phone",
@@ -98,14 +100,14 @@ class _OnboardingFormState extends State<OnboardingForm> {
             ],),
             const SizedBox(width: double.infinity, height: 16),
             TextFormField(
-              controller: _repeatPasswordController,
+              controller: _plotNumberController,
               enabled: _switched,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: "BHC plot/house number",
               ),
               validator: (value) {
-                if (value == null || value.isEmpty) {
+                if (value == null || value.isEmpty && _switched == true) {
                   return "plot number required";
                 }
                 return null;
@@ -117,22 +119,21 @@ class _OnboardingFormState extends State<OnboardingForm> {
               child: FilledButton(
                 onPressed: () async {
                   if(_formKey.currentState!.validate()) {
-                    await p.signUp(_emailController.value.text.toLowerCase(), _passwordController.value.text);
+                    p.onboarding(Customer(
+                      uuid: p.currentUser?.uuid,
+                      email: p.currentUser?.email,
+                      firstname: _firstnameController.value.text,
+                      lastname: _lastnameController.value.text,
+                      phone: _phoneController.value.text,
+                      photoUrl: _firstnameController.value.text,
+                      bhcPlotNumber: _plotNumberController.value.text,
+                      isExistingCustomer: _switched,
+                    ));
                   }
                 },
-                child: const Text("Sign Up"),
+                child: const Text("Complete Onboarding"),
               ),
             ),
-            Row(
-              children: [
-                const Text("Already have an account?"),
-                TextButton(onPressed: (){
-                  p.router.go(
-                    NavigationConstants.signInPath,
-                  );
-                },child: const Text("Sign in here")),
-              ],
-            )
           ],
         )
         ],
