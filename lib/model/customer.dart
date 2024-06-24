@@ -6,7 +6,7 @@ part 'customer.g.dart';
 @JsonSerializable()
 class Customer {
   @JsonKey(name: "uid")
-  final String? uuid;
+  final String? uid;
   final String? email;
   @JsonKey(name: "first_name")
   final String? firstname;
@@ -20,7 +20,7 @@ class Customer {
   @JsonKey(name: "is_existing_customer")
   final bool? isExistingCustomer;
 
-  Customer({this.firstname, this.lastname, this.photoUrl, this.bhcPlotNumber, this.phone, this.uuid, this.email, this.isExistingCustomer});
+  Customer({this.firstname, this.lastname, this.photoUrl, this.bhcPlotNumber, this.phone, this.uid, this.email, this.isExistingCustomer});
 
   Customer copyWith({
     String? uuid,
@@ -33,7 +33,7 @@ class Customer {
     bool? isExistingCustomer,
   }) {
     return Customer(
-      uuid: uuid ?? this.uuid,
+      uid: uuid ?? this.uid,
       email: email ?? this.email,
       phone: phone ?? this.phone,
       photoUrl: photoUrl ?? this.photoUrl,
@@ -52,7 +52,7 @@ class Customer {
   String toString() {
     return "Customer("
         "email=$email,"
-        "uuid=$uuid,"
+        "uid=$uid,"
         "phone=$phone,"
         "photoUrl=$photoUrl,"
         "firstname=$firstname,"

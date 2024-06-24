@@ -12,13 +12,13 @@ Customer _$CustomerFromJson(Map<String, dynamic> json) => Customer(
       photoUrl: json['photo_url'] as String?,
       bhcPlotNumber: json['bhc_plot_number'] as String?,
       phone: json['phone'] as String?,
-      uuid: json['uuid'] as String?,
+      uid: json['uid'] as String?,
       email: json['email'] as String?,
       isExistingCustomer: json['is_existing_customer'] as bool?,
     );
 
 Map<String, dynamic> _$CustomerToJson(Customer instance) => <String, dynamic>{
-      'uuid': instance.uuid,
+      'uid': instance.uid,
       'email': instance.email,
       'first_name': instance.firstname,
       'last_name': instance.lastname,

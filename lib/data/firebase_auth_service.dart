@@ -33,7 +33,7 @@ class FirebaseAuthService extends AuthService {
       );
       return Future.value(
           Customer(
-            uuid: resp.user?.uid,
+            uid: resp.user?.uid,
             phone: resp.user?.phoneNumber,
             email: resp.user?.email,
             isExistingCustomer: false,

@@ -120,7 +120,7 @@ class _OnboardingFormState extends State<OnboardingForm> {
                 onPressed: () async {
                   if(_formKey.currentState!.validate()) {
                     p.onboarding(Customer(
-                      uuid: p.currentUser?.uuid,
+                      uid: p.currentUser?.uid,
                       email: p.currentUser?.email,
                       firstname: _firstnameController.value.text,
                       lastname: _lastnameController.value.text,

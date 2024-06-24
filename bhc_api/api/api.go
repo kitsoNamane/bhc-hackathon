@@ -73,7 +73,7 @@ func (a *Api) OnboardUser(w http.ResponseWriter, req bunrouter.Request) error {
 	}
 
 	if reqBody.BhcPlotNumber == "" {
-		reqBody.BhcPlotNumber = uuid.New().String()
+		reqBody.BhcPlotNumber = reqBody.Uid
 	}
 
 	dbRes, err := a.db.OnboardCustomer(req.Context(),
@@ -90,6 +90,7 @@ func (a *Api) OnboardUser(w http.ResponseWriter, req bunrouter.Request) error {
 	)
 	if err != nil {
 		a.log.Error("failed to onboard customer", slog.String("error_message", err.Error()))
+		a.log.Info(reqBody.Uid)
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Header().Set(contentType, jsonContentType)
 		bunrouter.JSON(w, bunrouter.H{

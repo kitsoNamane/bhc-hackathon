@@ -41,6 +41,9 @@ class ApplicationState extends ChangeNotifier {
 
   Future<void> signUp(String email, String password) async {
     _user = await _auth.signUp(email: email, password: password);
+    print("################---------Sign Up---##############");
+    print(_user);
+    print("################---------Sign Up---##############");
     notifyListeners();
     if (_user != null) {
       router.go(
