@@ -9,9 +9,8 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final p = Provider.of<ApplicationState>(context);
-    return Container(
-      margin: const EdgeInsets.all(16),
-      child: Column(
+    return ListView(
+      children: [Column(
         children: [
           Icon(
             Icons.account_circle_rounded,
@@ -20,6 +19,7 @@ class ProfilePage extends StatelessWidget {
           ),
           Container(
             width: double.infinity,
+            margin: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               border: Border.all(
                 width: 1,
@@ -54,10 +54,10 @@ class ProfilePage extends StatelessWidget {
                       Text(state.currentUser?.email! ?? ""),
                     ],),
                     const Divider(thickness: 1),
-                    const Row(children: [
-                      Icon(Icons.phone_iphone_outlined),
-                      SizedBox(width: 16),
-                      Text("77777777"),
+                    Row(children: [
+                      const Icon(Icons.phone_iphone_outlined),
+                      const SizedBox(width: 16),
+                      Text(state.currentUser?.phone! ?? ""),
                     ],),
                     const Divider(thickness: 1),
                     Row(children: [
@@ -82,17 +82,67 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(
+          Container(
             width: double.infinity,
-            child: FilledButton(
-              onPressed: () async {
-                await p.signOut();
-              },
-              child: const Text("Sign Out"),
+            margin: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              border: Border.all(
+                width: 1,
+                style: BorderStyle.solid,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  const Align(
+                    alignment: Alignment.topLeft,
+                    child: Text("Info", style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                    )),
+                  ),
+                  const SizedBox(height: 24),
+                  Row(children: [
+                    const Icon(Icons.help_outline),
+                    const SizedBox(width: 16),
+                    const Text("FAQ's"),
+                    const Spacer(),
+                    IconButton(icon: const Icon(Icons.arrow_forward_ios), onPressed: () {
+                    },),
+                  ],),
+                  const Divider(thickness: 1),
+                  Row(children: [
+                    const Icon(Icons.info_outline),
+                    const SizedBox(width: 16),
+                    const Text("About"),
+                    const Spacer(),
+                    IconButton(icon: const Icon(Icons.arrow_forward_ios), onPressed: () {
+                    },),
+                  ],),
+
+                ],
+
+              ),
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.all(16),
+            child: SizedBox(
+              width: double.infinity,
+              child: FilledButton(
+                onPressed: () async {
+                  await p.signOut();
+                },
+                child: const Text("Sign Out"),
+              ),
             ),
           ),
         ],
       ),
+    ]
     );
   }
 }
