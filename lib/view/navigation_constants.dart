@@ -23,6 +23,11 @@ class NavigationConstants {
   static const String productsPath = '/products';
   static const String profilePath = '/profile';
   static const String servicesPath = '/services';
+  static const String rentHousePath = '/rentHouse';
+  static const String buyHousePath = '/buyHouse';
+  static const String reserveHousePath = '/reservetHouse';
+
+
 
   static const bool isNewCustomer = true;
 }

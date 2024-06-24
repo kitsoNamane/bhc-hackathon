@@ -59,6 +59,7 @@ class SignInFormState extends State<SignInForm> {
                   child: const Text("Forgot Password?")
               ),
             ),
+            
             SizedBox(
               width: double.infinity,
               child: FilledButton(

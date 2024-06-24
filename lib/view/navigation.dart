@@ -5,6 +5,10 @@ import 'bottom_navigation.dart';
 import 'navigation_constants.dart';
 import 'navigation_helpers.dart';
 import 'onboarding/onboarding.dart';
+import 'package:bhc_hackathon/view/rent_house.dart';
+import 'package:bhc_hackathon/view/buy_house.dart';
+
+
 
 class NavigationHelper {
   static final NavigationHelper _instance =
@@ -75,7 +79,27 @@ class NavigationHelper {
             state: state,
           );
         },
-      )
+      ),
+      GoRoute(
+        parentNavigatorKey: parentNavigatorKey,
+        path: NavigationConstants.rentHousePath, // Add route for rent house
+        pageBuilder: (context, state) {
+          return getPage(
+            child: const RentHouseForm(), // Use RentHouseForm here
+            state: state,
+          );
+        },
+      ),
+      GoRoute(
+        parentNavigatorKey: parentNavigatorKey,
+        path: NavigationConstants.buyHousePath, // Add route for rent house
+        pageBuilder: (context, state) {
+          return getPage(
+            child: const BuyHouseForm(), // Use BuytHouseForm here
+            state: state,
+          );
+        },
+      ),
     ];
 
     router = GoRouter(
