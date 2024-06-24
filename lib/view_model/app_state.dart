@@ -41,9 +41,6 @@ class ApplicationState extends ChangeNotifier {
 
   Future<void> signUp(String email, String password) async {
     _user = await _auth.signUp(email: email, password: password);
-    print("################---------Sign Up---##############");
-    print(_user);
-    print("################---------Sign Up---##############");
     notifyListeners();
     if (_user != null) {
       router.go(
@@ -55,9 +52,6 @@ class ApplicationState extends ChangeNotifier {
   Future<void> onboarding(Customer customer) async {
     _user = await _auth.userOnboarding(customer: customer);
     _loggedIn = true;
-    print("################---------onboarding results---##############");
-    print(_user);
-    print("################---------onboarding results---##############");
     notifyListeners();
     if(_user != null) {
       _navState.changeNavState(isExistingCustomer: _user?.isExistingCustomer ?? false);

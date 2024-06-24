@@ -40,7 +40,6 @@ class SqliteAuthService extends AuthService {
   @override
   Future<Customer?> userOnboarding({required Customer customer}) async {
 
-    print(customer.toJson());
     try {
       final resp = await http.post(
         Uri.parse("$_apiBaseUrl/customer"),
@@ -55,9 +54,6 @@ class SqliteAuthService extends AuthService {
       }
       return Customer.fromJson(jsonDecode(resp.body) as Map<String, dynamic>);
     } catch (e) {
-      print("###########---------onboarding####################");
-      print(e.toString());
-      print("###########---------onboarding####################");
       return Future.value(null);
     }
   }
