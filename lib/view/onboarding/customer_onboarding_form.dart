@@ -1,29 +1,36 @@
-
-import 'package:bhc_hackathon/view/navigation.dart';
-import 'package:bhc_hackathon/view/navigation_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../view_model/app_state.dart';
+import '../navigation_constants.dart';
 
-class SignUpForm extends StatefulWidget {
-  const SignUpForm({super.key});
+class OnboardingForm extends StatefulWidget {
+  const OnboardingForm({super.key});
 
   @override
-  State<SignUpForm> createState() => _SignUpFormState();
+  State<OnboardingForm> createState() => _OnboardingFormState();
 }
 
-class _SignUpFormState extends State<SignUpForm> {
+class _OnboardingFormState extends State<OnboardingForm> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _repeatPasswordController = TextEditingController();
 
-  bool _passwordVisible = true;
-  bool _repeatPasswordVisible = true;
+  var _switched = false;
+  final WidgetStateProperty<Icon?> _thumbIcon =
+  WidgetStateProperty.resolveWith<Icon?>(
+        (Set<WidgetState> states) {
+      if (states.contains(WidgetState.selected)) {
+        return const Icon(Icons.check);
+      }
+      return const Icon(Icons.close);
+    },
+  );
 
   @override
   Widget build(BuildContext context) {
+
     final p = Provider.of<ApplicationState>(context);
     return Form(
       key: _formKey,
@@ -39,11 +46,11 @@ class _SignUpFormState extends State<SignUpForm> {
               obscureText: false,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: "Email",
+                labelText: "Firstname",
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return "Please enter a valid email";
+                  return "Firstname required";
                 }
                 return null;
               },
@@ -51,28 +58,13 @@ class _SignUpFormState extends State<SignUpForm> {
             const SizedBox(width: double.infinity, height: 16),
             TextFormField(
               controller: _passwordController,
-              obscureText: _passwordVisible,
-              decoration: InputDecoration(
-                border: const OutlineInputBorder(),
-                labelText: "Password",
-                suffixIcon: IconButton(
-                  icon: Icon(_passwordVisible
-                      ? Icons.visibility
-                      : Icons.visibility_off
-                  ), onPressed: () {
-                  setState(() {
-                    _passwordVisible = !_passwordVisible;
-                  });
-                },
-                )
+              decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: "Lastname",
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return "Please enter a valid password";
-                } else if (value.isNotEmpty && value.toLowerCase() != _repeatPasswordController.value.text.toLowerCase()) {
-                  return "Passwords should match";
-                } else if (value.isNotEmpty && value.length < 6) {
-                  return "Password should be at least 6 characters";
+                  return "Lastname required";
                 }
                 return null;
               },
@@ -80,28 +72,41 @@ class _SignUpFormState extends State<SignUpForm> {
             const SizedBox(width: double.infinity, height: 16),
             TextFormField(
               controller: _repeatPasswordController,
-              obscureText: _repeatPasswordVisible,
-              decoration: InputDecoration(
-                border: const OutlineInputBorder(),
-                labelText: "Repeat password",
-                suffixIcon: IconButton(
-                  icon: Icon(_repeatPasswordVisible
-                  ? Icons.visibility
-                  : Icons.visibility_off
-                  ), onPressed: () {
-                    setState(() {
-                      _repeatPasswordVisible = !_repeatPasswordVisible;
-                    });
-                },
-                ),
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: "Phone",
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return "Please enter a valid password";
-                } else if (value.isNotEmpty && value.toLowerCase() != _passwordController.value.text.toLowerCase()) {
-                  return "Passwords should match";
-                } else if (value.isNotEmpty && value.length < 6) {
-                  return "Password should be at least 6 characters";
+                  return "Phone required";
+                }
+                return null;
+              },
+            ),
+            const SizedBox(width: double.infinity, height: 16),
+            Row(children: [
+              const Text("Already a BHC customer"),
+              const SizedBox(width: 8),
+              Switch(
+                value: _switched,
+                thumbIcon: _thumbIcon,
+                onChanged: (bool value) {
+                  setState(() {
+                    _switched = value;
+                  });
+                }),
+            ],),
+            const SizedBox(width: double.infinity, height: 16),
+            TextFormField(
+              controller: _repeatPasswordController,
+              enabled: _switched,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: "BHC plot/house number",
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "plot number required";
                 }
                 return null;
               },
@@ -123,7 +128,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 const Text("Already have an account?"),
                 TextButton(onPressed: (){
                   p.router.go(
-                    NavigationConstants.onboardingPath,
+                    NavigationConstants.signInPath,
                   );
                 },child: const Text("Sign in here")),
               ],
@@ -132,7 +137,6 @@ class _SignUpFormState extends State<SignUpForm> {
         )
         ],
       ),
-
     );
   }
 }
