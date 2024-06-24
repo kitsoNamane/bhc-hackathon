@@ -60,6 +60,7 @@ class _FaultFormState extends State<FaultForm> {
                 const Divider(thickness: 4),
                 const SizedBox(width: double.infinity, height: 28),
                 TextFormField(
+                  controller: _plotNumberController,
                   readOnly: _isPlotNumberReadyOnly,
                   obscureText: false,
                   initialValue: state.currentUser?.bhcPlotNumber,
@@ -84,6 +85,7 @@ class _FaultFormState extends State<FaultForm> {
                 ),
                 const SizedBox(width: double.infinity, height: 16),
                 TextFormField(
+                  controller: _faultTypeController,
                   obscureText: false,
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(),
@@ -164,6 +166,7 @@ class _FaultFormState extends State<FaultForm> {
                 const Divider(thickness: 2),
                 Column(children: [
                   TextFormField(
+                    controller: _emailController,
                     readOnly: _isEmailReadyOnly,
                     obscureText: false,
                     initialValue: state.currentUser?.email,
@@ -191,6 +194,7 @@ class _FaultFormState extends State<FaultForm> {
                   ),
                   const SizedBox(width: double.infinity, height: 8),
                   TextFormField(
+                    controller: _phoneController,
                     readOnly: _isPhoneReadyOnly,
                     obscureText: false,
                     initialValue: state.currentUser?.phone,
