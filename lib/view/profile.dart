@@ -32,7 +32,6 @@ class ProfilePage extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: Consumer<ApplicationState>(
                 builder: (context, state, child) {
-                  print(state.currentUser);
                   return Column(
                   children: [
                    const Align(

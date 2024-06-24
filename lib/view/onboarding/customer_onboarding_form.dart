@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 
 import '../../model/customer.dart';
 import '../../view_model/app_state.dart';
-import '../navigation_constants.dart';
 
 class OnboardingForm extends StatefulWidget {
   const OnboardingForm({super.key});
