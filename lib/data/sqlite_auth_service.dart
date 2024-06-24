@@ -39,6 +39,7 @@ class SqliteAuthService extends AuthService {
 
   @override
   Future<Customer?> userOnboarding({required Customer customer}) async {
+    print(customer.toJson());
     try {
       final resp = await http.post(
         Uri.parse("$_apiBaseUrl/customer"),

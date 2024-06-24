@@ -6,6 +6,7 @@ import (
 	"log/slog"
 	"net/http"
 
+	"github.com/google/uuid"
 	"github.com/kitsoNamane/bhc_api/data"
 	"github.com/uptrace/bunrouter"
 )
@@ -69,6 +70,10 @@ func (a *Api) OnboardUser(w http.ResponseWriter, req bunrouter.Request) error {
 			"message": "failed to decode json body",
 		})
 		return err
+	}
+
+	if reqBody.BhcPlotNumber == "" {
+		reqBody.BhcPlotNumber = uuid.New().String()
 	}
 
 	dbRes, err := a.db.OnboardCustomer(req.Context(),

@@ -59,7 +59,7 @@ class ApplicationState extends ChangeNotifier {
     if(_user != null) {
       _navState.changeNavState(isExistingCustomer: _user?.isExistingCustomer ?? false);
       router.go(
-        NavigationConstants.onboardingPath,
+        NavigationConstants.homePath,
       );
     }
   }
