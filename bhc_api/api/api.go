@@ -6,7 +6,6 @@ import (
 	"log/slog"
 	"net/http"
 
-	"github.com/google/uuid"
 	"github.com/kitsoNamane/bhc_api/data"
 	"github.com/uptrace/bunrouter"
 )
@@ -103,5 +102,9 @@ func (a *Api) OnboardUser(w http.ResponseWriter, req bunrouter.Request) error {
 	w.WriteHeader(http.StatusOK)
 	w.Header().Set(contentType, jsonContentType)
 	bunrouter.JSON(w, dbRes)
+	return nil
+}
+
+func (a *Api) CreateFault(w http.ResponseWriter, req bunrouter.Request) error {
 	return nil
 }

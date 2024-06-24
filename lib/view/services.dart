@@ -33,10 +33,34 @@ class _FaultFormState extends State<FaultForm> {
       child: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          const SizedBox(height: 128),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const Align(
+                alignment: Alignment.centerLeft,
+                child: Text("Report a fault"),
+              ),
+              const Divider(thickness: 2),
+              const SizedBox(width: double.infinity, height: 24),
+              TextFormField(
+                obscureText: false,
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  labelText: "Plot/House Number",
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.arrow_drop_down, size: 36),
+                    onPressed: () {
+                    },
+                  ),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please enter plot number";
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(width: double.infinity, height: 16),
               TextFormField(
                 obscureText: false,
                 decoration: InputDecoration(
