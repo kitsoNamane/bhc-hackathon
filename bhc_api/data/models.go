@@ -4,18 +4,29 @@
 
 package data
 
-import (
-	"time"
-)
-
 type Customer struct {
-	Uid                string    `json:"uid"`
-	CreatedAt          time.Time `json:"created_at"`
-	Email              string    `json:"email"`
-	Phone              string    `json:"phone"`
-	FirstName          string    `json:"first_name"`
-	LastName           string    `json:"last_name"`
-	PhotoUrl           string    `json:"photo_url"`
-	BhcPlotNumber      string    `json:"bhc_plot_number"`
-	IsExistingCustomer bool      `json:"is_existing_customer"`
+	Uid                string `json:"uid"`
+	CreatedAt          string `json:"created_at"`
+	Email              string `json:"email"`
+	Phone              string `json:"phone"`
+	FirstName          string `json:"first_name"`
+	LastName           string `json:"last_name"`
+	PhotoUrl           string `json:"photo_url"`
+	BhcPlotNumber      string `json:"bhc_plot_number"`
+	IsExistingCustomer bool   `json:"is_existing_customer"`
+}
+
+type Fault struct {
+	ID          int64  `json:"id"`
+	CreatedAt   string `json:"created_at"`
+	CustomerID  string `json:"customer_id"`
+	Description string `json:"description"`
+	Type        string `json:"type"`
+	Incident    string `json:"incident"`
+	PlotNumber  string `json:"plot_number"`
+	Email       string `json:"email"`
+	Phone       string `json:"phone"`
+	Status      string `json:"status"`
+	Severity    string `json:"severity"`
+	PhotoUrl    string `json:"photo_url"`
 }

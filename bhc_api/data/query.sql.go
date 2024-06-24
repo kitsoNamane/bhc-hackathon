@@ -9,6 +9,57 @@ import (
 	"context"
 )
 
+const createFault = `-- name: CreateFault :one
+INSERT INTO fault (
+    customer_id, description, type, incident, plot_number, email, phone, status, severity, photo_url
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+RETURNING id, created_at, customer_id, description, type, incident, plot_number, email, phone, status, severity, photo_url
+`
+
+type CreateFaultParams struct {
+	CustomerID  string `json:"customer_id"`
+	Description string `json:"description"`
+	Type        string `json:"type"`
+	Incident    string `json:"incident"`
+	PlotNumber  string `json:"plot_number"`
+	Email       string `json:"email"`
+	Phone       string `json:"phone"`
+	Status      string `json:"status"`
+	Severity    string `json:"severity"`
+	PhotoUrl    string `json:"photo_url"`
+}
+
+func (q *Queries) CreateFault(ctx context.Context, arg CreateFaultParams) (Fault, error) {
+	row := q.db.QueryRowContext(ctx, createFault,
+		arg.CustomerID,
+		arg.Description,
+		arg.Type,
+		arg.Incident,
+		arg.PlotNumber,
+		arg.Email,
+		arg.Phone,
+		arg.Status,
+		arg.Severity,
+		arg.PhotoUrl,
+	)
+	var i Fault
+	err := row.Scan(
+		&i.ID,
+		&i.CreatedAt,
+		&i.CustomerID,
+		&i.Description,
+		&i.Type,
+		&i.Incident,
+		&i.PlotNumber,
+		&i.Email,
+		&i.Phone,
+		&i.Status,
+		&i.Severity,
+		&i.PhotoUrl,
+	)
+	return i, err
+}
+
 const getCustomer = `-- name: GetCustomer :one
 SELECT uid, email, photo_url, is_existing_customer, phone, first_name, last_name, bhc_plot_number
 FROM customer
@@ -40,6 +91,49 @@ func (q *Queries) GetCustomer(ctx context.Context, uid string) (GetCustomerRow, 
 		&i.BhcPlotNumber,
 	)
 	return i, err
+}
+
+const getCustomerFaults = `-- name: GetCustomerFaults :many
+SELECT id, created_at, customer_id, description, type, incident, plot_number, email, phone, status, severity, photo_url
+FROM fault
+WHERE customer_id = ?
+ORDER BY created_at DESC
+`
+
+func (q *Queries) GetCustomerFaults(ctx context.Context, customerID string) ([]Fault, error) {
+	rows, err := q.db.QueryContext(ctx, getCustomerFaults, customerID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Fault
+	for rows.Next() {
+		var i Fault
+		if err := rows.Scan(
+			&i.ID,
+			&i.CreatedAt,
+			&i.CustomerID,
+			&i.Description,
+			&i.Type,
+			&i.Incident,
+			&i.PlotNumber,
+			&i.Email,
+			&i.Phone,
+			&i.Status,
+			&i.Severity,
+			&i.PhotoUrl,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }
 
 const onboardCustomer = `-- name: OnboardCustomer :one
