@@ -2,6 +2,7 @@
 import 'package:bhc_hackathon/view/navigation.dart';
 import 'package:bhc_hackathon/view/navigation_constants.dart';
 import 'package:bhc_hackathon/view_model/app_state.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -23,9 +24,11 @@ class _SignInFormState extends State<SignInForm> {
     final p = Provider.of<ApplicationState>(context);
     return Form(
       key: _formKey,
-      child: Container(
-        margin: const EdgeInsets.all(16),
-        child: Column(
+      child: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          const SizedBox(height: 256),
+          Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextFormField(
@@ -101,9 +104,8 @@ class _SignInFormState extends State<SignInForm> {
               ],
             )
           ],
-        ),
+        )],
       ),
-
     );
   }
 }

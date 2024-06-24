@@ -10,6 +10,7 @@ class NavigationConstants {
   static final GlobalKey<NavigatorState>  productsNavigatorKey = GlobalKey<NavigatorState>();
   static final GlobalKey<NavigatorState>  profileNavigatorKey = GlobalKey<NavigatorState>();
   static final GlobalKey<NavigatorState>  servicesNavigatorKey = GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState>  onboardingNavigatorKey = GlobalKey<NavigatorState>();
 
   static const String signUpPath = '/signUp';
   static const String signInPath = '/signIn';
@@ -22,6 +23,5 @@ class NavigationConstants {
   static const String productsPath = '/products';
   static const String profilePath = '/profile';
   static const String servicesPath = '/services';
-
-  static const bool isNewCustomer = false;
+  static const String onboardingPath = '/onboarding';
 }

@@ -228,6 +228,16 @@ class BottomNavigationHelpers {
             state: state,
           );
         },
+      ),
+      GoRoute(
+        parentNavigatorKey: parentKey,
+        path: NavigationConstants.onboardingPath,
+        pageBuilder: (context, state) {
+          return NavigationHelper.getPage(
+            child: const CustomerOnboarding(),
+            state: state,
+          );
+        },
       )
     ];
   }

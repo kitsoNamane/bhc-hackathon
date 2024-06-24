@@ -27,9 +27,11 @@ class _SignUpFormState extends State<SignUpForm> {
     final p = Provider.of<ApplicationState>(context);
     return Form(
       key: _formKey,
-      child: Container(
-        margin: const EdgeInsets.all(16),
-        child: Column(
+      child: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          const SizedBox(height: 128),
+          Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextFormField(
@@ -127,7 +129,8 @@ class _SignUpFormState extends State<SignUpForm> {
               ],
             )
           ],
-        ),
+        )
+        ],
       ),
 
     );

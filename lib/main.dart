@@ -2,7 +2,8 @@ import 'package:bhc_hackathon/view_model/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-main() {
+main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(
       ChangeNotifierProvider(
           create: (context) => ApplicationState(),
