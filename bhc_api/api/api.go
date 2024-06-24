@@ -72,10 +72,6 @@ func (a *Api) OnboardUser(w http.ResponseWriter, req bunrouter.Request) error {
 		return err
 	}
 
-	if reqBody.BhcPlotNumber == "" {
-		reqBody.BhcPlotNumber = uuid.New().String()
-	}
-
 	dbRes, err := a.db.OnboardCustomer(req.Context(),
 		data.OnboardCustomerParams{
 			Uid:                reqBody.Uid,

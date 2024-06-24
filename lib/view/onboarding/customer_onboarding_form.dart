@@ -126,7 +126,7 @@ class _OnboardingFormState extends State<OnboardingForm> {
                       lastname: _lastnameController.value.text,
                       phone: _phoneController.value.text,
                       photoUrl: _firstnameController.value.text,
-                      bhcPlotNumber: _plotNumberController.value.text,
+                      bhcPlotNumber: _switched ?_plotNumberController.value.text : null,
                       isExistingCustomer: _switched,
                     ));
                   }
