@@ -23,12 +23,8 @@ class FaultForm extends StatefulWidget {
 
 class _FaultFormState extends State<FaultForm> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
   final _datePickerController = TextEditingController();
   final _faultDescriptionController = TextEditingController();
-
-  bool _passwordVisible = true;
-  bool _repeatPasswordVisible = true;
 
   @override
   Widget build(BuildContext context) {
