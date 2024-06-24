@@ -1,8 +1,13 @@
 import 'package:bhc_hackathon/view_model/app_state.dart';
 import 'package:flutter/material.dart';
+import 'package:posthog_flutter/posthog_flutter.dart';
 import 'package:provider/provider.dart';
 
-main() {
+main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Posthog().screen(
+    screenName: "Example Screen",
+  );
   runApp(
       ChangeNotifierProvider(
           create: (context) => ApplicationState(),
