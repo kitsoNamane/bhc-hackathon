@@ -27,6 +27,10 @@ class ApplicationState extends ChangeNotifier {
 
   Future<void> signIn(String email, String password) async {
     _user = await _auth.signIn(email: email, password: password);
+    if (_user == null) {
+      notifyListeners();
+      return;
+    }
     _loggedIn = true;
     notifyListeners();
     _navState.changeNavState(isExistingCustomer: _user?.isExistingCustomer ?? false);
@@ -56,10 +60,10 @@ class ApplicationState extends ChangeNotifier {
     if (isSignedOut) {
       _user = null;
       _loggedIn = false;
+      notifyListeners();
       router.go(
         NavigationConstants.signInPath,
       );
-      notifyListeners();
     }
   }
 }

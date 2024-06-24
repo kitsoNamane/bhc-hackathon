@@ -39,7 +39,6 @@ class NavigationState {
   }
 
   void changeNavState({required bool isExistingCustomer}) {
-    var parentNavigatorKey = GlobalKey<NavigatorState>();
     _myRoutingConfig.value = RoutingConfig(
         routes: [
           StatefulShellRoute.indexedStack(
