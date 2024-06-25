@@ -31,10 +31,20 @@ class _FaultFormState extends State<FaultForm> {
   final _plotNumberController = TextEditingController();
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
-  final _faultTypeController = TextEditingController();
+  String? _faultTypeController;
+  String? _incidentController;
   var _isPlotNumberReadyOnly = true;
   var _isPhoneReadyOnly = true;
   var _isEmailReadyOnly = true;
+  final _faultTypes = ["Electrical", "Carpentry", "Plumbing", "Masonry", "Mechanical", "External"];
+  final _incidentsOptions = {
+    "Electrical": ["geyser", "sockets", "lights", "distribution board"],
+    "Carpentry": ["ceiling", "garage", "roof", "windows & frames"],
+    "Plumbing": ["shower", "geyser leak", "pipes"],
+    "Masonry": ["walls", "floors"],
+    "Mechanical": ["air conditioner", "generator"],
+    "External": ["sewage system", "water sypply", "water drainage"],
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -87,23 +97,50 @@ class _FaultFormState extends State<FaultForm> {
                   },
                 ),
                 const SizedBox(width: double.infinity, height: 16),
-                TextFormField(
-                  controller: _faultTypeController,
-                  obscureText: false,
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
+                DropdownButtonFormField<String>(
+                  value: _faultTypeController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
                     labelText: "Type of fault",
-                    suffixIcon: IconButton(
-                      icon: const Icon(Icons.arrow_drop_down, size: 32),
-                      onPressed: () {
-                      },
-                    ),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return "Please select a fault type";
                     }
                     return null;
+                  }, items: _faultTypes
+                    .map((label) => DropdownMenuItem(
+                    value: label,
+                    child: Text(label.toString()),
+                  )).toList(),
+                  onChanged: (Object? value) {
+                    setState(() {
+                      _faultTypeController = value.toString();
+                      _incidentController = null;
+                    });
+                  },
+                ),
+                const SizedBox(width: double.infinity, height: 16),
+                DropdownButtonFormField<String>(
+                  value: _incidentController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: "Select Incident",
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Please select incident";
+                    }
+                    return null;
+                  }, items: _incidentsOptions[_faultTypeController]
+                    ?.map((label) => DropdownMenuItem(
+                  value: label,
+                  child: Text(label.toString()),
+                )).toList(),
+                  onChanged: (Object? value) {
+                    setState(() {
+                      _incidentController = value.toString();
+                    });
                   },
                 ),
                 const SizedBox(width: double.infinity, height: 16),
