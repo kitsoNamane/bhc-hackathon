@@ -290,12 +290,14 @@ class _FaultFormState extends State<FaultForm> {
                         await state.createFault(Fault(
                           customerId: state.currentUser?.uid,
                           plotNumber: _plotNumberController.text,
-                          type: _faultTypeController,
+                          type: _faultTypeController?.toLowerCase(),
                           incident: _incidentController,
                           description: _faultDescriptionController.text,
                           email: _emailController.text,
                           phone: _phoneController.text,
-                          photoUrl: "photo",
+                          status: "open",
+                          photoUrl: "fake_photo_url",
+                          severity: "normal",
                         ));
                       }
                     },
