@@ -7,13 +7,7 @@ class FAQPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFFADA2424), // Background color for the AppBar
-        title: Text(
-          'FAQ',
-          style: TextStyle(
-            color: Colors.white, // White text color for the title
-          ),
-        ),
+        title: Text('FAQ'),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
@@ -86,23 +80,19 @@ class _FAQItemState extends State<FAQItem> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            color: const Color(0xFFFF9900), // Deep orange background color for questions
-            child: ListTile(
-              onTap: () {
-                setState(() {
-                  _expanded = !_expanded;
-                });
-              },
-              title: Text(
-                widget.question,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white, // White text color for questions
-                ),
+          ListTile(
+            onTap: () {
+              setState(() {
+                _expanded = !_expanded;
+              });
+            },
+            title: Text(
+              widget.question,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
               ),
-              trailing: Icon(_expanded ? Icons.expand_less : Icons.expand_more),
             ),
+            trailing: Icon(_expanded ? Icons.expand_less : Icons.expand_more),
           ),
           if (_expanded)
             Padding(

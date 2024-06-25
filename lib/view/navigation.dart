@@ -5,8 +5,8 @@ import 'bottom_navigation.dart';
 import 'navigation_constants.dart';
 import 'navigation_helpers.dart';
 import 'onboarding/onboarding.dart';
-import 'package:bhc_hackathon/view/rent_house.dart';
-import 'package:bhc_hackathon/view/buy_house.dart';
+import 'package:bhc_hackathon/view/company_form.dart';
+import 'package:bhc_hackathon/view/individual_form.dart';
 import 'package:bhc_hackathon/view/apply.dart';
 
 
@@ -84,20 +84,20 @@ class NavigationHelper {
       ),
       GoRoute(
         parentNavigatorKey: parentNavigatorKey,
-        path: NavigationConstants.rentHousePath, // Add route for rent house
+        path: NavigationConstants.companyHousePath, 
         pageBuilder: (context, state) {
           return getPage(
-            child: const RentHouseForm(), // Use RentHouseForm here
+            child: const CompanyHouseForm(), 
             state: state,
           );
         },
       ),
       GoRoute(
         parentNavigatorKey: parentNavigatorKey,
-        path: NavigationConstants.buyHousePath, // Add route for rent house
+        path: NavigationConstants.individualHousePath, 
         pageBuilder: (context, state) {
           return getPage(
-            child: const BuyHouseForm(), // Use BuytHouseForm here
+            child: const IndividualHouseForm(), 
             state: state,
           );
         },
