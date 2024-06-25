@@ -79,10 +79,10 @@ class ApplicationState extends ChangeNotifier {
 
   Future<void> createFault(Fault fault) async {
     _fault = await _crm.createFault(fault: fault);
-    print("##################------fault---------#############");
-    print(_fault);
-    print("##################------fault---------#############");
     notifyListeners();
+    router.push(
+      NavigationConstants.servicesSuccessPath
+    );
   }
 
   Future<void> signOut() async {
