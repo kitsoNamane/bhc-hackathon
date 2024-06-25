@@ -21,19 +21,20 @@ type Customer struct {
 }
 
 type Fault struct {
-	ID            int64  `json:"id"`
-	CreatedAt     string `json:"created_at"`
-	CustomerID    string `json:"customer_id"`
-	Description   string `json:"description"`
-	Type          string `json:"type"`
-	Incident      string `json:"incident"`
-	PlotNumber    string `json:"plot_number"`
-	Email         string `json:"email"`
-	Phone         string `json:"phone"`
-	Status        string `json:"status"`
-	Severity      string `json:"severity"`
-	PhotoUrl      string `json:"photo_url"`
-	PaymentStatus string `json:"payment_status"`
+	ID             int64       `json:"id"`
+	CreatedAt      string      `json:"created_at"`
+	FaultOccuredAt interface{} `json:"fault_occured_at"`
+	CustomerID     string      `json:"customer_id"`
+	Description    string      `json:"description"`
+	Type           string      `json:"type"`
+	Incident       string      `json:"incident"`
+	PlotNumber     string      `json:"plot_number"`
+	Email          string      `json:"email"`
+	Phone          string      `json:"phone"`
+	Status         string      `json:"status"`
+	Severity       string      `json:"severity"`
+	PhotoUrl       string      `json:"photo_url"`
+	PaymentStatus  string      `json:"payment_status"`
 }
 
 type Payment struct {

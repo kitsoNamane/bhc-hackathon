@@ -8,6 +8,8 @@ class Fault {
   final int? id;
   @JsonKey(name: "created_at")
   final String? createdAt;
+  @JsonKey(name: "fault_occured_at")
+  final String? faultOccuredAt;
   @JsonKey(name: "customer_id")
   final String? customerId;
   final String? description;
@@ -22,7 +24,7 @@ class Fault {
   @JsonKey(name: "photo_url")
   final String? photoUrl;
 
-  Fault({this.id, this.createdAt, this.customerId, this.description, this.type, this.incident, this.plotNumber, this.email, this.phone, this.status, this.severity, this.photoUrl});
+  Fault({this.id, this.createdAt, this.faultOccuredAt, this.customerId, this.description, this.type, this.incident, this.plotNumber, this.email, this.phone, this.status, this.severity, this.photoUrl});
 
   factory Fault.fromJson(Map<String, dynamic> json) => _$FaultFromJson(json);
 

@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS customer (
 CREATE TABLE IF NOT EXISTS fault (
     id INTEGER PRIMARY KEY ASC,
     created_at DATE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    fault_occured_at DATE NOT NULL,
     customer_id TEXT NOT NULL,
     description TEXT NOT NULL,
     type TEXT NOT NULL

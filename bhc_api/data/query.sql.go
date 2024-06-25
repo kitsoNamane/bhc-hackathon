@@ -12,37 +12,39 @@ import (
 
 const createFault = `-- name: CreateFault :one
 INSERT INTO fault (
-    customer_id, description, type, incident, plot_number, email, phone, status, severity, photo_url
-) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-RETURNING id, created_at, customer_id, description, type, incident, plot_number, email, phone, status, severity, photo_url
+    customer_id, description, type, incident, plot_number, email, phone, status, severity, photo_url, fault_occured_at
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+RETURNING id, created_at, fault_occured_at, customer_id, description, type, incident, plot_number, email, phone, status, severity, photo_url
 `
 
 type CreateFaultParams struct {
-	CustomerID  string `json:"customer_id"`
-	Description string `json:"description"`
-	Type        string `json:"type"`
-	Incident    string `json:"incident"`
-	PlotNumber  string `json:"plot_number"`
-	Email       string `json:"email"`
-	Phone       string `json:"phone"`
-	Status      string `json:"status"`
-	Severity    string `json:"severity"`
-	PhotoUrl    string `json:"photo_url"`
+	CustomerID     string      `json:"customer_id"`
+	Description    string      `json:"description"`
+	Type           string      `json:"type"`
+	Incident       string      `json:"incident"`
+	PlotNumber     string      `json:"plot_number"`
+	Email          string      `json:"email"`
+	Phone          string      `json:"phone"`
+	Status         string      `json:"status"`
+	Severity       string      `json:"severity"`
+	PhotoUrl       string      `json:"photo_url"`
+	FaultOccuredAt interface{} `json:"fault_occured_at"`
 }
 
 type CreateFaultRow struct {
-	ID          int64  `json:"id"`
-	CreatedAt   string `json:"created_at"`
-	CustomerID  string `json:"customer_id"`
-	Description string `json:"description"`
-	Type        string `json:"type"`
-	Incident    string `json:"incident"`
-	PlotNumber  string `json:"plot_number"`
-	Email       string `json:"email"`
-	Phone       string `json:"phone"`
-	Status      string `json:"status"`
-	Severity    string `json:"severity"`
-	PhotoUrl    string `json:"photo_url"`
+	ID             int64       `json:"id"`
+	CreatedAt      string      `json:"created_at"`
+	FaultOccuredAt interface{} `json:"fault_occured_at"`
+	CustomerID     string      `json:"customer_id"`
+	Description    string      `json:"description"`
+	Type           string      `json:"type"`
+	Incident       string      `json:"incident"`
+	PlotNumber     string      `json:"plot_number"`
+	Email          string      `json:"email"`
+	Phone          string      `json:"phone"`
+	Status         string      `json:"status"`
+	Severity       string      `json:"severity"`
+	PhotoUrl       string      `json:"photo_url"`
 }
 
 func (q *Queries) CreateFault(ctx context.Context, arg CreateFaultParams) (CreateFaultRow, error) {
@@ -57,11 +59,13 @@ func (q *Queries) CreateFault(ctx context.Context, arg CreateFaultParams) (Creat
 		arg.Status,
 		arg.Severity,
 		arg.PhotoUrl,
+		arg.FaultOccuredAt,
 	)
 	var i CreateFaultRow
 	err := row.Scan(
 		&i.ID,
 		&i.CreatedAt,
+		&i.FaultOccuredAt,
 		&i.CustomerID,
 		&i.Description,
 		&i.Type,

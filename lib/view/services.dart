@@ -294,6 +294,7 @@ class _FaultFormState extends State<FaultForm> {
                           incident: _incidentController,
                           description: _faultDescriptionController.text,
                           email: _emailController.text,
+                          faultOccuredAt: _datePickerController.text,
                           phone: _phoneController.text,
                           status: "open",
                           photoUrl: "fake_photo_url",

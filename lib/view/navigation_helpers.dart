@@ -66,7 +66,7 @@ class BottomNavigationHelpers {
     if (isExistingCustomer) {
       return [
         StatefulShellBranch(
-          navigatorKey: NavigationConstants.homeTabNavigatorKey,
+          navigatorKey: NavigationConstants.homeNavigatorKey,
           routes: [
             GoRoute(
               path: NavigationConstants.homePath,
@@ -80,10 +80,10 @@ class BottomNavigationHelpers {
           ],
         ),
         StatefulShellBranch(
-          navigatorKey: NavigationConstants.applyNavigatorKey,
+          navigatorKey: NavigationConstants.servicesNavigatorKey,
           routes: [
             GoRoute(
-              path: NavigationConstants.applyPath,
+              path: NavigationConstants.servicesPath,
               pageBuilder: (context, state) {
                 return NavigationHelper.getPage(
                   child: const ServicesPage(),
@@ -94,10 +94,10 @@ class BottomNavigationHelpers {
           ],
         ),
         StatefulShellBranch(
-          navigatorKey: NavigationConstants.dashboardNavigatorKey,
+          navigatorKey: NavigationConstants.productsNavigatorKey,
           routes: [
             GoRoute(
-              path: NavigationConstants.dashboardPath,
+              path: NavigationConstants.productsPath,
               pageBuilder: (context, state) {
                 return NavigationHelper.getPage(
                   child: const ProductsPage(),
@@ -108,7 +108,7 @@ class BottomNavigationHelpers {
           ],
         ),
         StatefulShellBranch(
-          navigatorKey: NavigationConstants.paymentsNavigatorKey,
+          navigatorKey: NavigationConstants.paymentsHistoryNavigatorKey,
           routes: [
             GoRoute(
               path: NavigationConstants.paymentsHistoryPath,
@@ -140,7 +140,7 @@ class BottomNavigationHelpers {
     }
     return [
       StatefulShellBranch(
-        navigatorKey: NavigationConstants.homeTabNavigatorKey,
+        navigatorKey: NavigationConstants.homeNavigatorKey,
         routes: [
           GoRoute(
             path: NavigationConstants.homePath,
@@ -154,10 +154,10 @@ class BottomNavigationHelpers {
         ],
       ),
       StatefulShellBranch(
-        navigatorKey: NavigationConstants.dashboardNavigatorKey,
+        navigatorKey: NavigationConstants.applyNavigatorKey,
         routes: [
           GoRoute(
-            path: NavigationConstants.dashboardPath,
+            path: NavigationConstants.applyPath,
             pageBuilder: (context, state) {
               return NavigationHelper.getPage(
                 child: const ApplyPage(),
