@@ -2,8 +2,11 @@ import 'package:bhc_hackathon/view_model/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+
 main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(
       ChangeNotifierProvider(
           create: (context) => ApplicationState(),
