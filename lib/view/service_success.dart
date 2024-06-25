@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../view_model/app_state.dart';
@@ -86,7 +87,7 @@ class ServiceSuccessPage extends StatelessWidget {
                           const Divider(thickness: 1),
                           Align(
                             alignment: Alignment.centerLeft,
-                            child: Text("Due Date: ${state.currentFault?.incident}",
+                            child: Text("Due Date: ${_ticketDueDate(state.currentFault!.severity!, state.currentFault!.createdAt!)}",
                               style: const TextStyle(
                                 fontSize: 16,
                               ),
@@ -129,6 +130,17 @@ class ServiceSuccessPage extends StatelessWidget {
       "mechanical" => Icons.ac_unit_outlined,
       "external" => Icons.add_business_outlined,
       String() => Icons.electric_bolt_outlined,
+    };
+  }
+
+  String _ticketDueDate(String severity, String createdAt) {
+    var date = DateTime.parse(createdAt);
+    var parse = DateFormat("dd/MM/yyyy");
+    return switch(severity) {
+      "emergency" => parse.format(date.add(const Duration(days: 1))).toString(),
+      "urgent" => parse.format(date.add(const Duration(days: 3))).toString(),
+      "normal" => parse.format(date.add(const Duration(days: 14))).toString(),
+      String() => parse.format(date.add(const Duration(days: 1))).toString(),
     };
   }
 }
