@@ -1,3 +1,4 @@
+import 'package:bhc_hackathon/model/fault.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -286,6 +287,16 @@ class _FaultFormState extends State<FaultForm> {
                   child: FilledButton(
                     onPressed: () async {
                       if(_formKey.currentState!.validate()) {
+                        await state.createFault(Fault(
+                          customerId: state.currentUser?.uid,
+                          plotNumber: _plotNumberController.text,
+                          type: _faultTypeController,
+                          incident: _incidentController,
+                          description: _faultDescriptionController.text,
+                          email: _emailController.text,
+                          phone: _phoneController.text,
+                          photoUrl: "photo",
+                        ));
                       }
                     },
                     child: const Text("Send Fault Ticket"),
