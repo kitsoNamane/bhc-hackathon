@@ -7,6 +7,7 @@ package data
 
 import (
 	"context"
+	"database/sql"
 )
 
 const createFault = `-- name: CreateFault :one
@@ -29,7 +30,22 @@ type CreateFaultParams struct {
 	PhotoUrl    string `json:"photo_url"`
 }
 
-func (q *Queries) CreateFault(ctx context.Context, arg CreateFaultParams) (Fault, error) {
+type CreateFaultRow struct {
+	ID          int64  `json:"id"`
+	CreatedAt   string `json:"created_at"`
+	CustomerID  string `json:"customer_id"`
+	Description string `json:"description"`
+	Type        string `json:"type"`
+	Incident    string `json:"incident"`
+	PlotNumber  string `json:"plot_number"`
+	Email       string `json:"email"`
+	Phone       string `json:"phone"`
+	Status      string `json:"status"`
+	Severity    string `json:"severity"`
+	PhotoUrl    string `json:"photo_url"`
+}
+
+func (q *Queries) CreateFault(ctx context.Context, arg CreateFaultParams) (CreateFaultRow, error) {
 	row := q.db.QueryRowContext(ctx, createFault,
 		arg.CustomerID,
 		arg.Description,
@@ -42,7 +58,7 @@ func (q *Queries) CreateFault(ctx context.Context, arg CreateFaultParams) (Fault
 		arg.Severity,
 		arg.PhotoUrl,
 	)
-	var i Fault
+	var i CreateFaultRow
 	err := row.Scan(
 		&i.ID,
 		&i.CreatedAt,
@@ -100,15 +116,30 @@ WHERE customer_id = ?
 ORDER BY created_at DESC
 `
 
-func (q *Queries) GetCustomerFaults(ctx context.Context, customerID string) ([]Fault, error) {
+type GetCustomerFaultsRow struct {
+	ID          int64  `json:"id"`
+	CreatedAt   string `json:"created_at"`
+	CustomerID  string `json:"customer_id"`
+	Description string `json:"description"`
+	Type        string `json:"type"`
+	Incident    string `json:"incident"`
+	PlotNumber  string `json:"plot_number"`
+	Email       string `json:"email"`
+	Phone       string `json:"phone"`
+	Status      string `json:"status"`
+	Severity    string `json:"severity"`
+	PhotoUrl    string `json:"photo_url"`
+}
+
+func (q *Queries) GetCustomerFaults(ctx context.Context, customerID string) ([]GetCustomerFaultsRow, error) {
 	rows, err := q.db.QueryContext(ctx, getCustomerFaults, customerID)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []Fault
+	var items []GetCustomerFaultsRow
 	for rows.Next() {
-		var i Fault
+		var i GetCustomerFaultsRow
 		if err := rows.Scan(
 			&i.ID,
 			&i.CreatedAt,
@@ -134,6 +165,100 @@ func (q *Queries) GetCustomerFaults(ctx context.Context, customerID string) ([]F
 		return nil, err
 	}
 	return items, nil
+}
+
+const getCustomerPayments = `-- name: GetCustomerPayments :many
+SELECT id, coalesce(created_at, 'xxx') created_at, customer_id, fault_id, amount, client_secret, status, paid_at
+FROM  payment
+WHERE customer_id = ?
+ORDER BY created_at DESC
+`
+
+type GetCustomerPaymentsRow struct {
+	ID           int64        `json:"id"`
+	CreatedAt    string       `json:"created_at"`
+	CustomerID   string       `json:"customer_id"`
+	FaultID      int64        `json:"fault_id"`
+	Amount       int64        `json:"amount"`
+	ClientSecret string       `json:"client_secret"`
+	Status       string       `json:"status"`
+	PaidAt       sql.NullTime `json:"paid_at"`
+}
+
+func (q *Queries) GetCustomerPayments(ctx context.Context, customerID string) ([]GetCustomerPaymentsRow, error) {
+	rows, err := q.db.QueryContext(ctx, getCustomerPayments, customerID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []GetCustomerPaymentsRow
+	for rows.Next() {
+		var i GetCustomerPaymentsRow
+		if err := rows.Scan(
+			&i.ID,
+			&i.CreatedAt,
+			&i.CustomerID,
+			&i.FaultID,
+			&i.Amount,
+			&i.ClientSecret,
+			&i.Status,
+			&i.PaidAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const initiatePaymentTransaction = `-- name: InitiatePaymentTransaction :one
+INSERT INTO payment (
+    fault_id, customer_id, client_secret, amount
+) VALUES (?, ?, ?, ?)
+RETURNING id, created_at, customer_id, fault_id, amount, client_secret, status
+`
+
+type InitiatePaymentTransactionParams struct {
+	FaultID      int64  `json:"fault_id"`
+	CustomerID   string `json:"customer_id"`
+	ClientSecret string `json:"client_secret"`
+	Amount       int64  `json:"amount"`
+}
+
+type InitiatePaymentTransactionRow struct {
+	ID           int64  `json:"id"`
+	CreatedAt    string `json:"created_at"`
+	CustomerID   string `json:"customer_id"`
+	FaultID      int64  `json:"fault_id"`
+	Amount       int64  `json:"amount"`
+	ClientSecret string `json:"client_secret"`
+	Status       string `json:"status"`
+}
+
+func (q *Queries) InitiatePaymentTransaction(ctx context.Context, arg InitiatePaymentTransactionParams) (InitiatePaymentTransactionRow, error) {
+	row := q.db.QueryRowContext(ctx, initiatePaymentTransaction,
+		arg.FaultID,
+		arg.CustomerID,
+		arg.ClientSecret,
+		arg.Amount,
+	)
+	var i InitiatePaymentTransactionRow
+	err := row.Scan(
+		&i.ID,
+		&i.CreatedAt,
+		&i.CustomerID,
+		&i.FaultID,
+		&i.Amount,
+		&i.ClientSecret,
+		&i.Status,
+	)
+	return i, err
 }
 
 const onboardCustomer = `-- name: OnboardCustomer :one
@@ -188,4 +313,46 @@ func (q *Queries) OnboardCustomer(ctx context.Context, arg OnboardCustomerParams
 		&i.BhcPlotNumber,
 	)
 	return i, err
+}
+
+const processPayment = `-- name: ProcessPayment :exec
+UPDATE payment
+SET status = ?,
+    paid_at = ?
+WHERE fault_id = ? AND customer_id = ?
+`
+
+type ProcessPaymentParams struct {
+	Status     string       `json:"status"`
+	PaidAt     sql.NullTime `json:"paid_at"`
+	FaultID    int64        `json:"fault_id"`
+	CustomerID string       `json:"customer_id"`
+}
+
+func (q *Queries) ProcessPayment(ctx context.Context, arg ProcessPaymentParams) error {
+	_, err := q.db.ExecContext(ctx, processPayment,
+		arg.Status,
+		arg.PaidAt,
+		arg.FaultID,
+		arg.CustomerID,
+	)
+	return err
+}
+
+const updateFaultPaymentStatus = `-- name: UpdateFaultPaymentStatus :exec
+UPDATE fault
+    SET payment_status = ?,
+    status = ?
+WHERE id = ?
+`
+
+type UpdateFaultPaymentStatusParams struct {
+	PaymentStatus string `json:"payment_status"`
+	Status        string `json:"status"`
+	ID            int64  `json:"id"`
+}
+
+func (q *Queries) UpdateFaultPaymentStatus(ctx context.Context, arg UpdateFaultPaymentStatusParams) error {
+	_, err := q.db.ExecContext(ctx, updateFaultPaymentStatus, arg.PaymentStatus, arg.Status, arg.ID)
+	return err
 }

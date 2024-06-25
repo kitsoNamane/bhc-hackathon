@@ -4,6 +4,10 @@
 
 package data
 
+import (
+	"database/sql"
+)
+
 type Customer struct {
 	Uid                string `json:"uid"`
 	CreatedAt          string `json:"created_at"`
@@ -17,16 +21,28 @@ type Customer struct {
 }
 
 type Fault struct {
-	ID          int64  `json:"id"`
-	CreatedAt   string `json:"created_at"`
-	CustomerID  string `json:"customer_id"`
-	Description string `json:"description"`
-	Type        string `json:"type"`
-	Incident    string `json:"incident"`
-	PlotNumber  string `json:"plot_number"`
-	Email       string `json:"email"`
-	Phone       string `json:"phone"`
-	Status      string `json:"status"`
-	Severity    string `json:"severity"`
-	PhotoUrl    string `json:"photo_url"`
+	ID            int64  `json:"id"`
+	CreatedAt     string `json:"created_at"`
+	CustomerID    string `json:"customer_id"`
+	Description   string `json:"description"`
+	Type          string `json:"type"`
+	Incident      string `json:"incident"`
+	PlotNumber    string `json:"plot_number"`
+	Email         string `json:"email"`
+	Phone         string `json:"phone"`
+	Status        string `json:"status"`
+	Severity      string `json:"severity"`
+	PhotoUrl      string `json:"photo_url"`
+	PaymentStatus string `json:"payment_status"`
+}
+
+type Payment struct {
+	ID           int64        `json:"id"`
+	CreatedAt    string       `json:"created_at"`
+	PaidAt       sql.NullTime `json:"paid_at"`
+	FaultID      int64        `json:"fault_id"`
+	CustomerID   string       `json:"customer_id"`
+	Amount       int64        `json:"amount"`
+	ClientSecret string       `json:"client_secret"`
+	Status       string       `json:"status"`
 }

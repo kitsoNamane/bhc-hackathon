@@ -25,5 +25,19 @@ CREATE TABLE IF NOT EXISTS fault (
         CHECK ( status IN('open', 'progress', 'closed', 'overdue')),
     severity TEXT NOT NULL
         CHECK ( severity IN('normal', 'urgent', 'emergency')),
-    photo_url TEXT NOT NULL
+    photo_url TEXT NOT NULL,
+    payment_status TEXT DEFAULT 'pending' NOT NULL
+        CHECK ( payment_status IN('paid', 'pending', 'overdue', 'initiated'))
+);
+
+CREATE TABLE IF NOT EXISTS payment (
+    id INTEGER PRIMARY KEY ASC,
+    created_at DATE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    paid_at DATE,
+    fault_id INTEGER NOT NULL,
+    customer_id TEXT NOT NULL,
+    amount INTEGER NOT NULL,
+    client_secret TEXT NOT NULL,
+    status TEXT DEFAULT 'pending' NOT NULL
+        CHECK ( status IN('failed', 'cancelled', 'success', 'pending'))
 );
