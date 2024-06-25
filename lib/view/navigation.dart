@@ -7,6 +7,8 @@ import 'navigation_helpers.dart';
 import 'onboarding/onboarding.dart';
 import 'package:bhc_hackathon/view/rent_house.dart';
 import 'package:bhc_hackathon/view/buy_house.dart';
+import 'package:bhc_hackathon/view/apply.dart';
+
 
 
 
@@ -96,6 +98,16 @@ class NavigationHelper {
         pageBuilder: (context, state) {
           return getPage(
             child: const BuyHouseForm(), // Use BuytHouseForm here
+            state: state,
+          );
+        },
+      ),
+      GoRoute(
+        parentNavigatorKey: parentNavigatorKey,
+        path: NavigationConstants.applyPath, // Add route for rent house
+        pageBuilder: (context, state) {
+          return getPage(
+            child: const ApplyPage(), // Helps me navigate to apply page
             state: state,
           );
         },

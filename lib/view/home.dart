@@ -1,202 +1,232 @@
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:bhc_hackathon/view/navigation.dart';
 import 'package:bhc_hackathon/view/navigation_constants.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(height: 20),
-
-              // BHC HOUSES FOR RENT
-              _buildSection(
-                title: 'BHC HOUSES FOR RENT',
-                imagePaths: [
-                  'lib/images/house1.png',
-                  'lib/images/house1.png',
-                ],
-                details: [
-                  {'prize': '2000 Pula', 'location': 'Gaborone'},
-                  {'prize': '1800 Pula', 'location': 'Francistown'},
-                ],
-                path: NavigationConstants.rentHousePath,
-                context: context,
+      appBar: AppBar(
+        title: const Text('BHC Products'),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SizedBox(
+              height: 40, // Adjust height as necessary
+              child: FilledButton(
+                onPressed: () {
+                  NavigationHelper.router.go(
+                    NavigationConstants.applyPath,
+                  );
+                },
+                child: const Text(
+                  'APPLY NOW',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
               ),
-
-              const SizedBox(height: 16),
-
-              // BHC HOUSES FOR SALE
-              _buildSection(
-                title: 'BHC HOUSES FOR SALE',
-                imagePaths: [
-                  'lib/images/house2.png',
-                  'lib/images/house2.png',
-                ],
-                details: [
-                  {'prize': '500000 Pula', 'location': 'Maun'},
-                  {'prize': '750000 Pula', 'location': 'Kasane'},
-                ],
-                path: NavigationConstants.buyHousePath,
-                context: context,
-              ),
-
-              const SizedBox(height: 16),
-
-              // BHC HOUSES UNDER DEVELOPMENT
-              _buildSection(
-                title: 'BHC HOUSES UNDER DEVELOPMENT',
-                imagePaths: [
-                  'lib/images/house1.png',
-                  'lib/images/house1.png',
-                ],
-                details: [
-                  {'prize': 'Price TBD', 'location': 'Serowe'},
-                  {'prize': 'Price TBD', 'location': 'Palapye'},
-                ],
-                path: NavigationConstants.rentHousePath,
-                context: context,
-              ),
-
-              const SizedBox(height: 20),
-            ],
+            ),
           ),
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ListView(
+          children: [
+            // Search Bar
+            TextField(
+              decoration: InputDecoration(
+                hintText: 'Search...',
+                prefixIcon: const Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+
+            // Image Carousel
+            CarouselSlider(
+              items: [
+                Image.asset('lib/images/swiper1.png', fit: BoxFit.cover),
+                Image.asset('lib/images/swiper2.png', fit: BoxFit.cover),
+                Image.asset('lib/images/swiper3.png', fit: BoxFit.cover),
+              ],
+              options: CarouselOptions(
+                autoPlay: true,
+                aspectRatio: 2.0,
+                enlargeCenterPage: true,
+              ),
+            ),
+            const SizedBox(height: 16),
+
+            // List of Product Cards
+            const Text(
+              'BHC PROPERTIES FOR RENT',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            _buildProductCard(
+              context,
+              'House 1',
+              'Gaborone',
+              'P1500',
+              '3 BHK',
+              'lib/images/house1.png',
+              'The development is complete with access roads and modern amenities and it is located within reach of many centres in Gaborone such as the Mall and several other government facilities.\n\nProperty Types Available In This Area\nType 59\nType 60\nType 70A\n\nContact Sales\nMr. Khumoetsile Bagai\nTel: (+267) 4921075\nEmail: kbagai@bhc.bw',
+            ),
+            _buildProductCard(
+              context,
+              'House 2',
+              'Francistown',
+              'P1200',
+              '2 BHK',
+              'lib/images/renthouse1.2.png',
+              'The development is complete with access roads and modern amenities and it is located within reach of many centres in Francistown such as the Mall and several other government facilities.\n\nProperty Types Available In This Area\nType 59\nType 60\nType 70A\n\nContact Sales\nMr. Khumoetsile Bagai\nTel: (+267) 4921075\nEmail: kbagai@bhc.bw',
+            ),
+            const SizedBox(height: 16),
+
+            const Text(
+              'BHC PROPERTIES FOR SALE',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            _buildProductCard(
+              context,
+              'House 3',
+              'Molepolole',
+              'P500,000',
+              '4 BHK',
+              'lib/images/buyhouse1.1.png',
+              'The development is complete with access roads and modern amenities and it is located within reach of many centres in Molepolole such as the Mall and several other government facilities.\n\nProperty Types Available In This Area\nType 59\nType 60\nType 70A\n\nContact Sales\nMr. Khumoetsile Bagai\nTel: (+267) 4921075\nEmail: kbagai@bhc.bw',
+            ),
+            _buildProductCard(
+              context,
+              'House 4',
+              'Maun',
+              'P450,000',
+              '3 BHK',
+              'lib/images/buyhouse1.2.png',
+              'The development is complete with access roads and modern amenities and it is located within reach of many centres in Maun such as the Mall and several other government facilities.\n\nProperty Types Available In This Area\nType 59\nType 60\nType 70A\n\nContact Sales\nMr. Khumoetsile Bagai\nTel: (+267) 4921075\nEmail: kbagai@bhc.bw',
+            ),
+            const SizedBox(height: 16),
+
+            const Text(
+              'BHC PROPERTIES UNDER DEVELOPMENT',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            _buildProductCard(
+              context,
+              'House 5',
+              'Palapye',
+              'P300,000',
+              '2 BHK',
+              'lib/images/devhouse1.1.png',
+              'The development is complete with access roads and modern amenities and it is located within reach of many centres in Palapye such as the Mall and several other government facilities.\n\nProperty Types Available In This Area\nType 59\nType 60\nType 70A\n\nContact Sales\nMr. Khumoetsile Bagai\nTel: (+267) 4921075\nEmail: kbagai@bhc.bw',
+            ),
+            _buildProductCard(
+              context,
+              'House 6',
+              'Selibe Phikwe',
+              'P350,000',
+              '3 BHK',
+              'lib/images/devhouse1.2.png',
+              'The development is complete with access roads and modern amenities and it is located within reach of many centres in Selibe Phikwe such as the Mall and several other government facilities.\n\nProperty Types Available In This Area\nType 59\nType 60\nType 70A\n\nContact Sales\nMr. Khumoetsile Bagai\nTel: (+267) 4921075\nEmail: kbagai@bhc.bw',
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildSection({
-    required String title,
-    required List<String> imagePaths,
-    required List<Map<String, String>> details,
-    required String path,
-    required BuildContext context,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          width: double.infinity,
-          color: const Color(0xFFAD2524), // Red background color for the title section
-          padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-          child: Text(
-            title,
-            style: TextStyle(
-              color: Colors.white, // White text color for the title
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
+  Widget _buildProductCard(
+      BuildContext context,
+      String title,
+      String location,
+      String price,
+      String type,
+      String imagePath,
+      String description) {
+    return Card(
+      margin: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image.asset(imagePath, fit: BoxFit.cover),
+            const SizedBox(height: 8),
+            Text(
+              title,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
-          ),
-        ),
-        const SizedBox(height: 12),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: List.generate(imagePaths.length, (index) {
-              return GestureDetector(
-                onTap: () {
-                  _showDetailsDialog(context, imagePaths[index], details[index], path);
-                },
-                child: Card(
-                  elevation: 4,
-                  margin: const EdgeInsets.symmetric(horizontal: 8),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: Image.asset(
-                      imagePaths[index],
-                      width: 200,
-                      height: 200,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-              );
-            }),
-          ),
-        ),
-      ],
-    );
-  }
-
-  void _showDetailsDialog(BuildContext context, String imagePath, Map<String, String> details, String path) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Stack(
-                alignment: Alignment.topRight,
-                children: [
-                  Container(
-                    width: double.infinity,
-                    height: 200,
-                    decoration: BoxDecoration(
-                      color: Colors.red, // Red background color for the dialog image
-                      borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-                    ),
-                    child: Image.asset(
-                      imagePath,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  Positioned(
-                    top: 8,
-                    right: 8,
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white, // White background color for the cancel icon
-                          shape: BoxShape.circle,
-                        ),
-                        padding: EdgeInsets.all(8),
-                        child: Icon(Icons.cancel, color: Colors.red), // Cancel icon color set to red
+            const SizedBox(height: 8),
+            Text('Location: $location'),
+            Text('Price: $price'),
+            Text('Type: $type'),
+            const SizedBox(height: 8),
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton(
+                onPressed: () {
+                  // Navigate to detail screen
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DetailPage(
+                        title: title,
+                        imagePath: imagePath,
+                        description: description,
                       ),
                     ),
-                  ),
-                ],
+                  );
+                },
+                child: const Text('Read More'),
               ),
-              SizedBox(height: 16),
-              Text('Prize: ${details['prize']}'),
-              SizedBox(height: 8),
-              Text('Location: ${details['location']}'),
-              SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      NavigationHelper.router.go(path);
-                      Navigator.of(context).pop();
-                    },
-                    child: Text('Apply Now'), // Changed 'View Details' to 'Apply Now'
-                  ),
-                ],
-              ),
-              SizedBox(height: 16),
-            ],
-          ),
-        );
-      },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class DetailPage extends StatelessWidget {
+  final String title;
+  final String imagePath;
+  final String description;
+
+  const DetailPage({
+    super.key,
+    required this.title,
+    required this.imagePath,
+    required this.description,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(title),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ListView(
+          children: [
+            Image.asset(imagePath, fit: BoxFit.cover),
+            const SizedBox(height: 16),
+            Text(
+              description,
+              style: const TextStyle(fontSize: 16),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
