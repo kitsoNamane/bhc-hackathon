@@ -32,5 +32,7 @@ func main() {
 
 	router.GET("/api/customer", api.GetUser)
 	router.POST("/api/customer", api.OnboardUser)
+	router.GET("/api/fault", api.GetCustomerFaults)
+	router.POST("/api/fault", api.CreateFault)
 	http.ListenAndServe("0.0.0.0:8080", router)
 }

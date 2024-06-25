@@ -2,6 +2,7 @@ import 'package:bhc_hackathon/view/faq.dart';
 import 'package:bhc_hackathon/view/payments.dart';
 import 'package:bhc_hackathon/view/products.dart';
 import 'package:bhc_hackathon/view/profile.dart';
+import 'package:bhc_hackathon/view/service_success.dart';
 import 'package:bhc_hackathon/view/services.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -235,6 +236,16 @@ class BottomNavigationHelpers {
         pageBuilder: (context, state) {
           return NavigationHelper.getPage(
             child: const CustomerOnboarding(),
+            state: state,
+          );
+        },
+      ),
+      GoRoute(
+        parentNavigatorKey: parentKey,
+        path: NavigationConstants.servicesSuccessPath,
+        pageBuilder: (context, state) {
+          return NavigationHelper.getPage(
+            child: const ServiceSuccessPage(),
             state: state,
           );
         },

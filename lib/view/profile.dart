@@ -45,7 +45,7 @@ class ProfilePage extends StatelessWidget {
                     Row(children: [
                       const Icon(Icons.person_2_outlined),
                       const SizedBox(width: 16),
-                      Text(state.currentUser?.email!.split("@")[0] ?? ""),
+                      Text("${state.currentUser?.firstname} ${state.currentUser?.lastname}"),
                     ],),
                     const Divider(thickness: 1),
                     Row(children: [
