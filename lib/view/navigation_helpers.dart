@@ -1,5 +1,6 @@
 import 'package:bhc_hackathon/view/faq.dart';
-import 'package:bhc_hackathon/view/payments.dart';
+import 'package:bhc_hackathon/view/payment.dart';
+import 'package:bhc_hackathon/view/payment_history.dart';
 import 'package:bhc_hackathon/view/products.dart';
 import 'package:bhc_hackathon/view/profile.dart';
 import 'package:bhc_hackathon/view/service_success.dart';
@@ -110,10 +111,10 @@ class BottomNavigationHelpers {
           navigatorKey: NavigationConstants.paymentsNavigatorKey,
           routes: [
             GoRoute(
-              path: NavigationConstants.paymentsPath,
+              path: NavigationConstants.paymentsHistoryPath,
               pageBuilder: (context, state) {
                 return NavigationHelper.getPage(
-                  child: const PaymentsPage(),
+                  child: const PaymentHistoryPage(),
                   state: state,
                 );
               },
@@ -246,6 +247,16 @@ class BottomNavigationHelpers {
         pageBuilder: (context, state) {
           return NavigationHelper.getPage(
             child: const ServiceSuccessPage(),
+            state: state,
+          );
+        },
+      ),
+      GoRoute(
+        parentNavigatorKey: parentKey,
+        path: NavigationConstants.paymentsPath,
+        pageBuilder: (context, state) {
+          return NavigationHelper.getPage(
+            child: const Payments(),
             state: state,
           );
         },
