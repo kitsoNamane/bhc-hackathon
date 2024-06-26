@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../model/fault.dart';
+
 class UiUtil {
   static IconData ticketIcon(String type) {
     return switch (type.toLowerCase()) {
@@ -10,6 +12,9 @@ class UiUtil {
       "masonry" => Icons.flood_outlined,
       "mechanical" => Icons.ac_unit_outlined,
       "external" => Icons.add_business_outlined,
+      "paid" => Icons.check_circle,
+      "failed" => Icons.error,
+      "pending" => Icons.pending,
       String() => Icons.electric_bolt_outlined,
     };
   }
@@ -25,3 +30,7 @@ class UiUtil {
     };
   }
 }
+
+
+
+

@@ -20,11 +20,13 @@ class Fault {
   final String? email;
   final String? phone;
   final String? status;
+  @JsonKey(name: "payment_status")
+  final String? paymentSatus;
   final String? severity;
   @JsonKey(name: "photo_url")
   final String? photoUrl;
 
-  Fault({this.id, this.createdAt, this.faultOccuredAt, this.customerId, this.description, this.type, this.incident, this.plotNumber, this.email, this.phone, this.status, this.severity, this.photoUrl});
+  Fault({this.id, this.createdAt, this.paymentSatus, this.faultOccuredAt, this.customerId, this.description, this.type, this.incident, this.plotNumber, this.email, this.phone, this.status, this.severity, this.photoUrl});
 
   factory Fault.fromJson(Map<String, dynamic> json) => _$FaultFromJson(json);
 
@@ -42,6 +44,7 @@ class Fault {
   final String? email,
   final String? phone,
   final String? status,
+  final String? paymentStatus,
   final String? severity,
   final String? photoUrl,
   }) {
@@ -57,6 +60,7 @@ class Fault {
       email: email ?? this.email,
       phone: phone ?? this.phone,
       status: status ?? this.status,
+      paymentSatus: paymentSatus ?? this.paymentSatus,
       severity: severity ?? this.severity,
       photoUrl: photoUrl ?? this.photoUrl,
     );

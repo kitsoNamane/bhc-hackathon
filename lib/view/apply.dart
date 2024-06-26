@@ -2,6 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:bhc_hackathon/view/navigation.dart';
 import 'package:bhc_hackathon/view/navigation_constants.dart';
+import 'package:provider/provider.dart';
+
+import '../view_model/app_state.dart';
 
 class ApplyPage extends StatefulWidget {
   const ApplyPage({super.key});
@@ -87,11 +90,11 @@ class _ApplyPageState extends State<ApplyPage> {
                 width: double.infinity,
                 child: FilledButton(
                   onPressed: () {
-                    NavigationHelper.router.go(
-                      isRent
-                          ? NavigationConstants.individualHousePath
-                          : NavigationConstants.companyHousePath,
-                    );
+                    Provider.of<ApplicationState>(context).router.go(
+                        isRent
+                            ? NavigationConstants.individualHousePath
+                            : NavigationConstants.companyHousePath,
+                      );
                   },
                   child: Text(
                     isRent ? 'Start rent application' : 'Start buy application',

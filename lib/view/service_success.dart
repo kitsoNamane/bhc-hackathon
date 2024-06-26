@@ -148,7 +148,7 @@ class _ServiceSuccessPage extends State<ServiceSuccessPage> {
                                   width: double.infinity,
                                   child: FilledButton(
                                     onPressed: state.currentFault?.status ==
-                                        "closed" ? null : () async {
+                                        "closed" && state.currentFault?.paymentSatus != "paid" ? () async {
                                       await state.createPayment(
                                         Payment(
                                           customerId: state.currentUser?.uid,
@@ -158,11 +158,20 @@ class _ServiceSuccessPage extends State<ServiceSuccessPage> {
                                         )
                                       );
                                       makePayment(state!.currentPayment!, state);
-                                    },
+                                    } : null,
                                     child: const Text("Pay"),
                                   ),
                                 ),
                               ),
+                              state.currentFault?.paymentSatus == "paid" ?
+                              const Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text("Payment already made",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ) : const SizedBox(width: 0, height: 0),
                             ],
                           ),
                         ))
@@ -175,24 +184,16 @@ class _ServiceSuccessPage extends State<ServiceSuccessPage> {
 
   Future<void> makePayment(Payment payment, ApplicationState state) async {
     try {
-      // Create payment intent data
-      // initialise the payment sheet setup
       await Stripe.instance.initPaymentSheet(
         paymentSheetParameters: SetupPaymentSheetParameters(
-          // Client secret key from payment data
           paymentIntentClientSecret: payment.clientSecret,
           googlePay: const PaymentSheetGooglePay(
-            // Currency and country code is accourding to India
               testEnv: true,
               currencyCode: "BWP",
               merchantCountryCode: "BW"),
-          // Merchant Name
           merchantDisplayName: 'BHC Hackathon',
-          // return URl if you want to add
-          // returnURL: 'flutterstripe://redirect',
         ),
       );
-      // Display payment sheet
       displayPaymentSheet(payment, state);
     } catch (e) {
       if (e is StripeConfigException) {
@@ -203,22 +204,22 @@ class _ServiceSuccessPage extends State<ServiceSuccessPage> {
 
   displayPaymentSheet(Payment payment, ApplicationState state) async {
     try {
-      // "Display payment sheet";
       await Stripe.instance.presentPaymentSheet();
-      // Show when payment is done
-      // Displaying snackbar for it
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Paid successfully")),
       );
-      state.completePayment(payment);
+      state.completePayment(payment.copyWith(status: "paid"));
     } on StripeException catch (e) {
-      // If any error comes during payment
-      // so payment will be cancelled
-
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text(" Payment Cancelled")),
       );
+      if (e.error.code == FailureCode.Canceled) {
+        state.completePayment(payment.copyWith(status: "cancelled"));
+      } else {
+        state.completePayment(payment.copyWith(status: "failed"));
+      }
     } catch (e) {
+      state.completePayment(payment.copyWith(status: "failed"));
     }
   }
 }

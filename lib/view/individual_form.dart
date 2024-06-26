@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:bhc_hackathon/view/navigation.dart';
 import 'package:bhc_hackathon/view/navigation_constants.dart';
+import 'package:provider/provider.dart';
+
+import '../view_model/app_state.dart';
 
 class IndividualHouseForm extends StatefulWidget {
   const IndividualHouseForm({super.key});
@@ -93,9 +96,7 @@ class IndividualHouseFormState extends State<IndividualHouseForm> {
                   alignment: Alignment.centerRight,
                   child: TextButton(
                     onPressed: () {
-                      NavigationHelper.router.push(
-                        NavigationConstants.companyHousePath,
-                      );
+                      Provider.of<ApplicationState>(context).router.push(NavigationConstants.companyHousePath);
                     },
                     child: const Text(
                       'Are you a citizen controlled company? Apply here',

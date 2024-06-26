@@ -235,6 +235,17 @@ func (a *Api) CompletePaymentTransaction(w http.ResponseWriter, req bunrouter.Re
 		return err
 	}
 
+	if reqBody.Status == "cancelled" {
+		a.log.Info("successfully updated payment")
+		w.WriteHeader(http.StatusOK)
+		w.Header().Set(contentType, jsonContentType)
+		bunrouter.JSON(w, bunrouter.H{
+			"message": "payment completed",
+		})
+		return nil
+
+	}
+
 	err = a.db.UpdateFaultPaymentStatus(req.Context(), data.UpdateFaultPaymentStatusParams{
 		ID:            reqBody.FaultID,
 		Status:        "closed",

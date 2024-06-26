@@ -2,6 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:bhc_hackathon/view/navigation.dart';
 import 'package:bhc_hackathon/view/navigation_constants.dart';
+import 'package:provider/provider.dart';
+
+import '../view_model/app_state.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -246,7 +249,7 @@ class DetailPage extends StatelessWidget {
               width: double.infinity,
               child: FilledButton(
                 onPressed: () {
-                  NavigationHelper.router.go(navigatePath);
+                  Provider.of<ApplicationState>(context).router.go(navigatePath);
                 },
                 child: Text(buttonText),
               ),

@@ -9,6 +9,7 @@ part of 'fault.dart';
 Fault _$FaultFromJson(Map<String, dynamic> json) => Fault(
       id: (json['id'] as num?)?.toInt(),
       createdAt: json['created_at'] as String?,
+      paymentSatus: json['payment_status'] as String?,
       faultOccuredAt: json['fault_occured_at'] as String?,
       customerId: json['customer_id'] as String?,
       description: json['description'] as String?,
@@ -42,6 +43,7 @@ Map<String, dynamic> _$FaultToJson(Fault instance) {
   writeNotNull('email', instance.email);
   writeNotNull('phone', instance.phone);
   writeNotNull('status', instance.status);
+  writeNotNull('payment_status', instance.paymentSatus);
   writeNotNull('severity', instance.severity);
   writeNotNull('photo_url', instance.photoUrl);
   return val;
