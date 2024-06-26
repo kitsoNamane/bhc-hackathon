@@ -115,8 +115,10 @@ class ApplicationState extends ChangeNotifier {
     _payment = await _payService.completePayment(payment: payment);
     if (_payment != null) {
       _fault = _fault?.copyWith(
-        status: "closed"
+        status: "closed",
+        paymentStatus: "paid"
       );
+      _faults = await _crm.getCustomerFaults(uuid: _user!.uid!);
       notifyListeners();
     }
     notifyListeners();

@@ -208,7 +208,7 @@ class _ServiceSuccessPage extends State<ServiceSuccessPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Paid successfully")),
       );
-      state.completePayment(payment.copyWith(status: "paid"));
+      state.completePayment(payment.copyWith(status: "success"));
     } on StripeException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text(" Payment Cancelled")),

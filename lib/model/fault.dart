@@ -77,6 +77,7 @@ class Fault {
         "type=$type,"
         "incident=$incident,"
         "status=$status,"
+        "payment_status=$paymentStatus,"
         "severity=$severity,"
         "plot_number=$plotNumber,"
         "description=$description,"
