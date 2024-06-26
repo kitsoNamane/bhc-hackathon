@@ -97,6 +97,9 @@ class ApplicationState extends ChangeNotifier {
 
   Future<void> createFault(Fault fault) async {
     _fault = await _crm.createFault(fault: fault);
+    print("##############-----------------faulitng--------------_########");
+    print(_fault);
+    print("##############-----------------faulitng--------------_########");
     notifyListeners();
     router.push(
       NavigationConstants.servicesSuccessPath
