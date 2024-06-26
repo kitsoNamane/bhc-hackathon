@@ -18,6 +18,7 @@ class _OnboardingFormState extends State<OnboardingForm> {
   final _phoneController = TextEditingController();
   final _plotNumberController = TextEditingController();
 
+  final ValueNotifier<bool> _showErrorMessage = ValueNotifier(false);
   final ValueNotifier<bool> _isFormSubmitting = ValueNotifier(false);
 
   var _switched = false;
@@ -114,6 +115,19 @@ class _OnboardingFormState extends State<OnboardingForm> {
                 return null;
               },
             ),
+
+            ValueListenableBuilder(
+                valueListenable: _showErrorMessage,
+                builder: (context, value, child) => _showErrorMessage.value
+                    ? Align(
+                  alignment: Alignment.topLeft,
+                  child: Text("Error occurred please try again",
+                    style: TextStyle(
+                      color: Colors.red[900],
+                    ),
+                  ),
+                )
+                    : const SizedBox(width: 0, height: 0)),
             ValueListenableBuilder(
                 valueListenable: _isFormSubmitting, builder: (context, value, child) =>
             _isFormSubmitting.value ?
@@ -125,6 +139,7 @@ class _OnboardingFormState extends State<OnboardingForm> {
               child: FilledButton(
                 onPressed: () async {
                   _isFormSubmitting.value = true;
+                  _showErrorMessage.value = false;
                   if(_formKey.currentState!.validate()) {
                     p.onboarding(Customer(
                       uid: p.currentUser?.uid,
@@ -136,6 +151,7 @@ class _OnboardingFormState extends State<OnboardingForm> {
                       bhcPlotNumber: _switched ?_plotNumberController.value.text : null,
                       isExistingCustomer: _switched,
                     ));
+                    _showErrorMessage.value = p.currentUser == null;
                   }
                   _isFormSubmitting.value = false;
                 },

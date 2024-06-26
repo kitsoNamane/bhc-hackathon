@@ -41,6 +41,21 @@ class ApplicationState extends ChangeNotifier {
   List<Payment>? _payments;
   List<Payment>? get payments => _payments;
 
+  String? _signUpErrorMessage;
+  String? get signUpErrorMessage => _signUpErrorMessage;
+
+  String? _signInErrorMessage;
+  String? get signInErrorMessage => _signInErrorMessage;
+
+  String? _onboardErrorMessage;
+  String? get onboardErrorMessage => _onboardErrorMessage;
+
+  void restForm() {
+    _signInErrorMessage = null;
+    _signUpErrorMessage = null;
+    _onboardErrorMessage = null;
+  }
+
   Future<void> init() async {
     await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   }
@@ -48,9 +63,11 @@ class ApplicationState extends ChangeNotifier {
   Future<void> signIn(String email, String password) async {
     _user = await _auth.signIn(email: email, password: password);
     if (_user == null) {
+      _signInErrorMessage = "Invalid sign in credentials";
       notifyListeners();
       return;
     }
+    _signInErrorMessage = null;
     _loggedIn = true;
     notifyListeners();
     _navState.changeNavState(isExistingCustomer: _user?.isExistingCustomer ?? false);
@@ -63,9 +80,14 @@ class ApplicationState extends ChangeNotifier {
     _user = await _auth.signUp(email: email, password: password);
     notifyListeners();
     if (_user != null) {
+      _signUpErrorMessage = null;
+      notifyListeners();
       router.go(
         NavigationConstants.onboardingPath,
       );
+    } else {
+      _signUpErrorMessage = "Invalid credentials, please check";
+      notifyListeners();
     }
   }
 
@@ -87,6 +109,9 @@ class ApplicationState extends ChangeNotifier {
       router.go(
         NavigationConstants.homePath,
       );
+    } else {
+      _onboardErrorMessage = "failed onboarding";
+      notifyListeners();
     }
   }
 

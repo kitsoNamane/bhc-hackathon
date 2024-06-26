@@ -18,6 +18,7 @@ class _SignInFormState extends State<SignInForm> {
   bool _passwordVisible = true;
   
   final ValueNotifier<bool> _isFormSubmitting = ValueNotifier(false);
+  final ValueNotifier<bool> _showErrorMessage = ValueNotifier(false);
 
   @override
   Widget build(BuildContext context) {
@@ -83,6 +84,18 @@ class _SignInFormState extends State<SignInForm> {
               ),
             ),
             ValueListenableBuilder(
+                valueListenable: _showErrorMessage,
+                builder: (context, value, child) => _showErrorMessage.value
+                    ? Align(
+                  alignment: Alignment.topLeft,
+                  child: Text("Error occurred please try again",
+                    style: TextStyle(
+                      color: Colors.red[900],
+                    ),
+                  ),
+                )
+                    : const SizedBox(width: 0, height: 0)),
+            ValueListenableBuilder(
                 valueListenable: _isFormSubmitting, builder: (context, value, child) =>
             _isFormSubmitting.value ?
             const CircularProgressIndicator()
@@ -93,8 +106,10 @@ class _SignInFormState extends State<SignInForm> {
               child: FilledButton(
                   onPressed: () async {
                     _isFormSubmitting.value = true;
+                    _showErrorMessage.value = false;
                     if(_formKey.currentState!.validate()) {
                       await p.signIn(_emailController.value.text.toLowerCase(), _passwordController.value.text);
+                      _showErrorMessage.value = p.currentUser == null;
                     }
                     _isFormSubmitting.value = false;
                   },
