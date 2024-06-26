@@ -21,14 +21,15 @@ class _CompanyHouseFormState extends State<CompanyHouseForm> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            // Implement navigation logic here
-            Navigator.pop(context);
+            NavigationHelper.router.push(
+              NavigationConstants.homePath,
+            );
           },
         ),
       ),
       body: SingleChildScrollView(
-        child: Container(
-          margin: const EdgeInsets.all(16),
+        child: Padding(
+          padding: const EdgeInsets.all(1),
           child: Form(
             key: _formKey,
             child: Column(
@@ -66,10 +67,10 @@ class _CompanyHouseFormState extends State<CompanyHouseForm> {
                 _buildUploadField('Upload copy of certificate of shares'),
                 const SizedBox(height: 16),
                 _buildUploadField('Company resolution on renting BHC property'),
-                const SizedBox(height: 16),
+                const SizedBox(height: 50),
                 SizedBox(
                   width: double.infinity,
-                  child: FilledButton(
+                  child: ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         // Process form submission logic here

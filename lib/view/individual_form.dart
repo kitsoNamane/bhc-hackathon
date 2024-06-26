@@ -89,12 +89,17 @@ class IndividualHouseFormState extends State<IndividualHouseForm> {
                 const SizedBox(height: 16),
                 _buildUploadField('Upload consent letter from spouse'),
                 const SizedBox(height: 16),
-                TextButton(
-                  onPressed: () {
-                    // Implement navigation logic
-                  },
-                  child: const Text(
-                    'Are you a citizen controlled company? Apply here',
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () {
+                      NavigationHelper.router.push(
+                        NavigationConstants.companyHousePath,
+                      );
+                    },
+                    child: const Text(
+                      'Are you a citizen controlled company? Apply here',
+                    ),
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -131,7 +136,7 @@ class IndividualHouseFormState extends State<IndividualHouseForm> {
             label,
             style: const TextStyle(fontSize: 16),
           ),
-          Icon(Icons.upload),
+          const Icon(Icons.upload),
         ],
       ),
     );

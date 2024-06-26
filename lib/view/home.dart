@@ -41,7 +41,12 @@ class HomePage extends StatelessWidget {
               'Price for rent per Month: P1500',
               'Rental',
               'lib/images/house1.png',
-              'The development is complete with access roads and modern amenities and it is located within reach of many centres in Gaborone such as the Mall and several other government facilities.\n\nProperty Types Available In This Area\nType 59\nType 60\nType 70A\n\nContact Sales\nMr. Khumoetsile Bagai\nTel: (+267) 4921075\nEmail: kbagai@bhc.bw',
+              'The development is complete with access roads and modern amenities and it is located within reach of many centres in Gaborone such as the Mall and several other government facilities.\n\n'
+              'Location: Gaborone\n'
+              'Type: Rental\n'
+              'Price for Rent per Month: P1500\n\n'
+              'Contact Sales\nMr. Khumoetsile Bagai\n'
+              'Tel: (+267) 4921075\nEmail: kbagai@bhc.bw',
               NavigationConstants.individualHousePath,
               'Apply Now',
             ),
