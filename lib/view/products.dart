@@ -175,7 +175,7 @@ class ProductsPage extends StatelessWidget {
               const SizedBox(height: 8),
               _buildPill(location),
               _buildPill(type),
-              _buildPill(price.contains('Price for rent') ? 'Price for rent per Month' : price.contains('Asking Price') ? 'Asking Price' : 'Price', price),
+              _buildPill(price.contains('Price for rent') ? 'Price for rent per Month' : price.contains('Asking Price') ? 'Asking Price' : 'Price'),
             ],
           ),
         ),
@@ -233,7 +233,11 @@ class DetailPage extends StatelessWidget {
               width: double.infinity,
               child: FilledButton(
                 onPressed: () {
-                  Provider.of<ApplicationState>(context).router.go(navigatePath);
+                  var p = Provider.of<ApplicationState>(context);
+                  if (p.currentUser!.isExistingCustomer!) {
+                    p.router.push(navigatePath);
+                  }
+                  p.router.go(navigatePath);
                 },
                 child: Text(buttonText),
               ),

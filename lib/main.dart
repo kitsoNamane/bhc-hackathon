@@ -25,7 +25,7 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routerConfig: p.router,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromRGBO(173, 38, 36, 1.0)),
         useMaterial3: true,
       ),
     );
