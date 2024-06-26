@@ -17,7 +17,7 @@ class Payment {
   @JsonKey(name: "client_secret")
   final String? clientSecret;
 
-  Payment(this.id, this.faultId, this.createdAt, this.customerId, this.status, this.amount, this.clientSecret);
+  Payment({this.id, this.faultId, this.createdAt, this.customerId, this.status, this.amount, this.clientSecret});
 
   factory Payment.fromJson(Map<String, dynamic> json) => _$PaymentFromJson(json);
 

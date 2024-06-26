@@ -7,13 +7,13 @@ part of 'payment.dart';
 // **************************************************************************
 
 Payment _$PaymentFromJson(Map<String, dynamic> json) => Payment(
-      (json['id'] as num?)?.toInt(),
-      (json['fault_id'] as num?)?.toInt(),
-      json['created_at'] as String?,
-      json['customer_id'] as String?,
-      json['status'] as String?,
-      (json['amount'] as num?)?.toInt(),
-      json['client_secret'] as String?,
+      id: (json['id'] as num?)?.toInt(),
+      faultId: (json['fault_id'] as num?)?.toInt(),
+      createdAt: json['created_at'] as String?,
+      customerId: json['customer_id'] as String?,
+      status: json['status'] as String?,
+      amount: (json['amount'] as num?)?.toInt(),
+      clientSecret: json['client_secret'] as String?,
     );
 
 Map<String, dynamic> _$PaymentToJson(Payment instance) {

@@ -14,8 +14,6 @@ class SqliteCRMService extends CRMService {
 
   @override
   Future<Fault?> createFault({required Fault fault}) async {
-    // TODO: implement createFault
-
     try {
       final resp = await http.post(
         Uri.parse("$_apiBaseUrl/fault"),
