@@ -10,8 +10,6 @@ class DashboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final p = Provider.of<ApplicationState>(context);
-    p.getCustomerFaults(p.currentUser!.uid!);
     return Scaffold(
         appBar: AppBar(
           title: const Text("Dashboard"),
@@ -32,7 +30,7 @@ class _ExistingCustomerDashboardPageState extends State<ExistingCustomerDashboar
   @override
   Widget build(BuildContext context) {
     final p = Provider.of<ApplicationState>(context);
-    p.getCustomerFaults(p.currentUser!.uid!);
+    if (p.faults == null) p.getCustomerFaults(p.currentUser!.uid!);
     return Center(
       child: RefreshIndicator(
           onRefresh: () async {

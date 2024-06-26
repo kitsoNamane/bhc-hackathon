@@ -143,21 +143,24 @@ class _ServiceSuccessPage extends State<ServiceSuccessPage> {
                                 ),
                               ),
                               const SizedBox(height: 8),
-                              SizedBox(
-                                width: double.infinity,
-                                child: FilledButton(
-                                  onPressed: state.currentFault?.status !=
-                                      "closed" ? null : () async {
-                                    await state.createPayment(
-                                      Payment(
-                                        customerId: state.currentUser?.uid,
-                                        faultId: state.currentFault?.id,
-                                        amount: 100000,
-                                        clientSecret: "xxx-xxx-xxx",
-                                      )
-                                    );
-                                  },
-                                  child: const Text("Pay"),
+                              Consumer<ApplicationState>(
+                                builder: (context, state, child) => SizedBox(
+                                  width: double.infinity,
+                                  child: FilledButton(
+                                    onPressed: state.currentFault?.status !=
+                                        "closed" ? null : () async {
+                                      await state.createPayment(
+                                        Payment(
+                                          customerId: state.currentUser?.uid,
+                                          faultId: state.currentFault?.id,
+                                          amount: 100000,
+                                          clientSecret: "xxx-xxx-xxx",
+                                        )
+                                      );
+                                      makePayment(state!.currentPayment!, state);
+                                    },
+                                    child: const Text("Pay"),
+                                  ),
                                 ),
                               ),
                             ],
@@ -170,7 +173,7 @@ class _ServiceSuccessPage extends State<ServiceSuccessPage> {
     );
   }
 
-  Future<void> makePayment(Payment payment) async {
+  Future<void> makePayment(Payment payment, ApplicationState state) async {
     try {
       // Create payment intent data
       // initialise the payment sheet setup
@@ -190,16 +193,15 @@ class _ServiceSuccessPage extends State<ServiceSuccessPage> {
         ),
       );
       // Display payment sheet
-      displayPaymentSheet();
+      displayPaymentSheet(payment, state);
     } catch (e) {
-
       if (e is StripeConfigException) {
       } else {
       }
     }
   }
 
-  displayPaymentSheet() async {
+  displayPaymentSheet(Payment payment, ApplicationState state) async {
     try {
       // "Display payment sheet";
       await Stripe.instance.presentPaymentSheet();
@@ -208,7 +210,7 @@ class _ServiceSuccessPage extends State<ServiceSuccessPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Paid successfully")),
       );
-      paymentIntent = null;
+      state.completePayment(payment);
     } on StripeException catch (e) {
       // If any error comes during payment
       // so payment will be cancelled
@@ -217,28 +219,6 @@ class _ServiceSuccessPage extends State<ServiceSuccessPage> {
         const SnackBar(content: Text(" Payment Cancelled")),
       );
     } catch (e) {
-    }
-  }
-
-  createPaymentIntent(String amount, String currency) async {
-    try {
-      Map<String, dynamic> body = {
-        'amount': amount,
-        'currency': currency,
-        'payment_method': 'pm_card_visa',
-      };
-      var secretKey =
-          "sk_test_51MLa6YG4sSRlNRRrFc2P0OH0SEAtrkaAQuUbnyHE9Ud9VqvgVqHBCwvVzv49OfYBIuW6eIrSZcKtRD5LE0w5teh200Sf9Sgiii";
-      var response = await http.post(
-        Uri.parse('https://api.stripe.com/v1/payment_intents'),
-        headers: {
-          'Authorization': 'Bearer $secretKey',
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: body,
-      );
-      return jsonDecode(response.body.toString());
-    } catch (err) {
     }
   }
 }

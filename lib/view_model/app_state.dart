@@ -105,17 +105,17 @@ class ApplicationState extends ChangeNotifier {
   Future<void> createPayment(Payment payment) async {
     _payment = await _payService.initiatePayment(payment: payment);
     notifyListeners();
-    router.push(
-        NavigationConstants.servicesSuccessPath
-    );
   }
 
   Future<void> completePayment(Payment payment) async {
     _payment = await _payService.completePayment(payment: payment);
+    if (_payment != null) {
+      _fault = _fault?.copyWith(
+        status: "closed"
+      );
+      notifyListeners();
+    }
     notifyListeners();
-    router.push(
-        NavigationConstants.servicesSuccessPath
-    );
   }
 
   Future<void> getCustomerPayments(String uuid) async {
