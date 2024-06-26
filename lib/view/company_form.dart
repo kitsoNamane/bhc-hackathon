@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:bhc_hackathon/view/navigation.dart';
 import 'package:bhc_hackathon/view/navigation_constants.dart';
 import 'package:provider/provider.dart';
 
@@ -24,7 +23,7 @@ class _CompanyHouseFormState extends State<CompanyHouseForm> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Provider.of<ApplicationState>(context).router.push(NavigationConstants.homePath);
+            Provider.of<ApplicationState>(context, listen: false).router.push(NavigationConstants.homePath);
           },
         ),
       ),

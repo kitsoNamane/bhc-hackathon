@@ -233,11 +233,7 @@ class DetailPage extends StatelessWidget {
               width: double.infinity,
               child: FilledButton(
                 onPressed: () {
-                  var p = Provider.of<ApplicationState>(context);
-                  if (p.currentUser!.isExistingCustomer!) {
-                    p.router.push(navigatePath);
-                  }
-                  p.router.go(navigatePath);
+                  Provider.of<ApplicationState>(context, listen: false).router.push(navigatePath);
                 },
                 child: Text(buttonText),
               ),
