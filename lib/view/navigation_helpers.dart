@@ -1,5 +1,7 @@
+import 'package:bhc_hackathon/view/dashboard.dart';
 import 'package:bhc_hackathon/view/faq.dart';
-import 'package:bhc_hackathon/view/payments.dart';
+import 'package:bhc_hackathon/view/payment.dart';
+import 'package:bhc_hackathon/view/payment_history.dart';
 import 'package:bhc_hackathon/view/products.dart';
 import 'package:bhc_hackathon/view/profile.dart';
 import 'package:bhc_hackathon/view/service_success.dart';
@@ -65,13 +67,13 @@ class BottomNavigationHelpers {
     if (isExistingCustomer) {
       return [
         StatefulShellBranch(
-          navigatorKey: NavigationConstants.homeTabNavigatorKey,
+          navigatorKey: NavigationConstants.dashboardNavigatorKey,
           routes: [
             GoRoute(
               path: NavigationConstants.homePath,
               pageBuilder: (context, GoRouterState state) {
                 return NavigationHelper.getPage(
-                  child: const HomePage(),
+                  child: const DashboardPage(),
                   state: state,
                 );
               },
@@ -79,10 +81,10 @@ class BottomNavigationHelpers {
           ],
         ),
         StatefulShellBranch(
-          navigatorKey: NavigationConstants.applyNavigatorKey,
+          navigatorKey: NavigationConstants.servicesNavigatorKey,
           routes: [
             GoRoute(
-              path: NavigationConstants.applyPath,
+              path: NavigationConstants.servicesPath,
               pageBuilder: (context, state) {
                 return NavigationHelper.getPage(
                   child: const ServicesPage(),
@@ -93,10 +95,10 @@ class BottomNavigationHelpers {
           ],
         ),
         StatefulShellBranch(
-          navigatorKey: NavigationConstants.dashboardNavigatorKey,
+          navigatorKey: NavigationConstants.productsNavigatorKey,
           routes: [
             GoRoute(
-              path: NavigationConstants.dashboardPath,
+              path: NavigationConstants.productsPath,
               pageBuilder: (context, state) {
                 return NavigationHelper.getPage(
                   child: const ProductsPage(),
@@ -107,13 +109,13 @@ class BottomNavigationHelpers {
           ],
         ),
         StatefulShellBranch(
-          navigatorKey: NavigationConstants.paymentsNavigatorKey,
+          navigatorKey: NavigationConstants.paymentsHistoryNavigatorKey,
           routes: [
             GoRoute(
-              path: NavigationConstants.paymentsPath,
+              path: NavigationConstants.paymentsHistoryPath,
               pageBuilder: (context, state) {
                 return NavigationHelper.getPage(
-                  child: const PaymentsPage(),
+                  child: const PaymentHistoryPage(),
                   state: state,
                 );
               },
@@ -139,7 +141,7 @@ class BottomNavigationHelpers {
     }
     return [
       StatefulShellBranch(
-        navigatorKey: NavigationConstants.homeTabNavigatorKey,
+        navigatorKey: NavigationConstants.homeNavigatorKey,
         routes: [
           GoRoute(
             path: NavigationConstants.homePath,
@@ -153,10 +155,10 @@ class BottomNavigationHelpers {
         ],
       ),
       StatefulShellBranch(
-        navigatorKey: NavigationConstants.dashboardNavigatorKey,
+        navigatorKey: NavigationConstants.applyNavigatorKey,
         routes: [
           GoRoute(
-            path: NavigationConstants.dashboardPath,
+            path: NavigationConstants.applyPath,
             pageBuilder: (context, state) {
               return NavigationHelper.getPage(
                 child: const ApplyPage(),
@@ -246,6 +248,16 @@ class BottomNavigationHelpers {
         pageBuilder: (context, state) {
           return NavigationHelper.getPage(
             child: const ServiceSuccessPage(),
+            state: state,
+          );
+        },
+      ),
+      GoRoute(
+        parentNavigatorKey: parentKey,
+        path: NavigationConstants.paymentsPath,
+        pageBuilder: (context, state) {
+          return NavigationHelper.getPage(
+            child: const Payments(),
             state: state,
           );
         },

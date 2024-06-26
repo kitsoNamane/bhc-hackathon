@@ -34,5 +34,8 @@ func main() {
 	router.POST("/api/customer", api.OnboardUser)
 	router.GET("/api/fault", api.GetCustomerFaults)
 	router.POST("/api/fault", api.CreateFault)
+	router.POST("/api/payment", api.StartPaymentTransaction)
+	router.PUT("/api/payment", api.CompletePaymentTransaction)
+	router.GET("/api/payment", api.GetCustomerPayments)
 	http.ListenAndServe("0.0.0.0:8080", router)
 }

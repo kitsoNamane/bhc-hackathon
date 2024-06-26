@@ -1,9 +1,11 @@
 import 'package:bhc_hackathon/data/sqlite_crm_service.dart';
+import 'package:bhc_hackathon/model/payment.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../data/firebase_auth_service.dart';
+import '../data/sql_payment_service.dart';
 import '../firebase_options.dart';
 import '../model/customer.dart';
 import '../model/fault.dart';
@@ -14,6 +16,7 @@ class ApplicationState extends ChangeNotifier {
   final _auth = FirebaseAuthService();
   final _crm = SqliteCRMService();
   final _navState = NavigationState();
+  final _payService = SqlitePaymentService();
 
   ApplicationState(){
     init();
@@ -26,11 +29,17 @@ class ApplicationState extends ChangeNotifier {
   Customer? _user;
   Customer? get currentUser => _user;
 
+  Fault? _fault;
+  Fault? get currentFault => _fault;
+
   List<Fault>? _faults;
   List<Fault>? get faults => _faults;
 
-  Fault? _fault;
-  Fault? get currentFault => _fault;
+  Payment? _payment;
+  Payment? get currentPayment => _payment;
+
+  List<Payment>? _payments;
+  List<Payment>? get payments => _payments;
 
   Future<void> init() async {
     await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -60,6 +69,15 @@ class ApplicationState extends ChangeNotifier {
     }
   }
 
+  Future<void> goToFaultPayment(Fault fault) async {
+    _fault = fault;
+    print(_fault);
+    notifyListeners();
+    router.push(
+      NavigationConstants.servicesSuccessPath,
+    );
+  }
+
   Future<void> onboarding(Customer customer) async {
     _user = await _auth.userOnboarding(customer: customer);
     _loggedIn = true;
@@ -83,6 +101,27 @@ class ApplicationState extends ChangeNotifier {
     router.push(
       NavigationConstants.servicesSuccessPath
     );
+  }
+
+  Future<void> createPayment(Payment payment) async {
+    _payment = await _payService.initiatePayment(payment: payment);
+    notifyListeners();
+  }
+
+  Future<void> completePayment(Payment payment) async {
+    _payment = await _payService.completePayment(payment: payment);
+    if (_payment != null) {
+      _fault = _fault?.copyWith(
+        status: "closed"
+      );
+      notifyListeners();
+    }
+    notifyListeners();
+  }
+
+  Future<void> getCustomerPayments(String uuid) async {
+    _payments = await _payService.getCustomerPayments(uuid: uuid);
+    notifyListeners();
   }
 
   Future<void> signOut() async {

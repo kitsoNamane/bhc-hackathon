@@ -10,8 +10,11 @@ class ServicesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Services"),
+      ),
+      body: const Center(
         child: FaultForm(),
       ),
     );
@@ -294,6 +297,7 @@ class _FaultFormState extends State<FaultForm> {
                           incident: _incidentController,
                           description: _faultDescriptionController.text,
                           email: _emailController.text,
+                          faultOccuredAt: _datePickerController.text,
                           phone: _phoneController.text,
                           status: "open",
                           photoUrl: "fake_photo_url",

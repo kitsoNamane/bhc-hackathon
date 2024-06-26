@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class PaymentsPage extends StatelessWidget {
-  const PaymentsPage({super.key});
+class PaymentHistoryPage extends StatelessWidget {
+  const PaymentHistoryPage({super.key});
 
   @override
   Widget build(BuildContext context) {
