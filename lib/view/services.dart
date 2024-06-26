@@ -50,6 +50,7 @@ class _FaultFormState extends State<FaultForm> {
     "External": ["sewage system", "water sypply", "water drainage"],
   };
 
+  final ValueNotifier<bool> _isFormSubmitting = ValueNotifier(false);
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -284,11 +285,17 @@ class _FaultFormState extends State<FaultForm> {
                 ],),
                 const SizedBox(width: double.infinity, height: 16),
                 const Text("You'll receive a reference number after submission"),
+                ValueListenableBuilder(
+                    valueListenable: _isFormSubmitting, builder: (context, value, child) =>
+                _isFormSubmitting.value ?
+                const CircularProgressIndicator()
+                    : const SizedBox(width: 0, height: 0)),
                 const SizedBox(width: double.infinity, height: 16),
                 SizedBox(
                   width: double.infinity,
                   child: FilledButton(
                     onPressed: () async {
+                      _isFormSubmitting.value = true;
                       if(_formKey.currentState!.validate()) {
                         await state.createFault(Fault(
                           customerId: state.currentUser?.uid,
@@ -304,6 +311,7 @@ class _FaultFormState extends State<FaultForm> {
                           severity: "normal",
                         ));
                       }
+                      _isFormSubmitting.value = false;
                     },
                     child: const Text("Send Fault Ticket"),
                   ),

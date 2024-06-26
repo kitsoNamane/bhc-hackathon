@@ -18,6 +18,8 @@ class _OnboardingFormState extends State<OnboardingForm> {
   final _phoneController = TextEditingController();
   final _plotNumberController = TextEditingController();
 
+  final ValueNotifier<bool> _isFormSubmitting = ValueNotifier(false);
+
   var _switched = false;
   final WidgetStateProperty<Icon?> _thumbIcon =
   WidgetStateProperty.resolveWith<Icon?>(
@@ -112,11 +114,17 @@ class _OnboardingFormState extends State<OnboardingForm> {
                 return null;
               },
             ),
+            ValueListenableBuilder(
+                valueListenable: _isFormSubmitting, builder: (context, value, child) =>
+            _isFormSubmitting.value ?
+            const CircularProgressIndicator()
+                : const SizedBox(width: 0, height: 0)),
             const SizedBox(width: double.infinity, height: 16),
             SizedBox(
               width: double.infinity,
               child: FilledButton(
                 onPressed: () async {
+                  _isFormSubmitting.value = true;
                   if(_formKey.currentState!.validate()) {
                     p.onboarding(Customer(
                       uid: p.currentUser?.uid,
@@ -129,6 +137,7 @@ class _OnboardingFormState extends State<OnboardingForm> {
                       isExistingCustomer: _switched,
                     ));
                   }
+                  _isFormSubmitting.value = false;
                 },
                 child: const Text("Complete Onboarding"),
               ),
