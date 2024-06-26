@@ -14,7 +14,7 @@ const createFault = `-- name: CreateFault :one
 INSERT INTO fault (
     customer_id, description, type, incident, plot_number, email, phone, status, severity, photo_url, fault_occured_at
 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-RETURNING id, created_at, fault_occured_at, customer_id, description, type, incident, plot_number, email, phone, status, severity, photo_url
+RETURNING id, created_at, fault_occured_at, customer_id, description, type, incident, plot_number, email, phone, status, severity, photo_url, payment_status
 `
 
 type CreateFaultParams struct {
@@ -31,23 +31,7 @@ type CreateFaultParams struct {
 	FaultOccuredAt string `json:"fault_occured_at"`
 }
 
-type CreateFaultRow struct {
-	ID             int64  `json:"id"`
-	CreatedAt      string `json:"created_at"`
-	FaultOccuredAt string `json:"fault_occured_at"`
-	CustomerID     string `json:"customer_id"`
-	Description    string `json:"description"`
-	Type           string `json:"type"`
-	Incident       string `json:"incident"`
-	PlotNumber     string `json:"plot_number"`
-	Email          string `json:"email"`
-	Phone          string `json:"phone"`
-	Status         string `json:"status"`
-	Severity       string `json:"severity"`
-	PhotoUrl       string `json:"photo_url"`
-}
-
-func (q *Queries) CreateFault(ctx context.Context, arg CreateFaultParams) (CreateFaultRow, error) {
+func (q *Queries) CreateFault(ctx context.Context, arg CreateFaultParams) (Fault, error) {
 	row := q.db.QueryRowContext(ctx, createFault,
 		arg.CustomerID,
 		arg.Description,
@@ -61,7 +45,7 @@ func (q *Queries) CreateFault(ctx context.Context, arg CreateFaultParams) (Creat
 		arg.PhotoUrl,
 		arg.FaultOccuredAt,
 	)
-	var i CreateFaultRow
+	var i Fault
 	err := row.Scan(
 		&i.ID,
 		&i.CreatedAt,
@@ -76,6 +60,7 @@ func (q *Queries) CreateFault(ctx context.Context, arg CreateFaultParams) (Creat
 		&i.Status,
 		&i.Severity,
 		&i.PhotoUrl,
+		&i.PaymentStatus,
 	)
 	return i, err
 }

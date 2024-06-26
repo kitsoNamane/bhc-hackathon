@@ -148,7 +148,7 @@ class _ServiceSuccessPage extends State<ServiceSuccessPage> {
                                   width: double.infinity,
                                   child: FilledButton(
                                     onPressed: state.currentFault?.status ==
-                                        "closed" && state.currentFault?.paymentSatus != "paid" ? () async {
+                                        "closed" && state.currentFault?.paymentStatus != "paid" ? () async {
                                       await state.createPayment(
                                         Payment(
                                           customerId: state.currentUser?.uid,
@@ -163,7 +163,7 @@ class _ServiceSuccessPage extends State<ServiceSuccessPage> {
                                   ),
                                 ),
                               ),
-                              state.currentFault?.paymentSatus == "paid" ?
+                              state.currentFault?.paymentStatus == "paid" ?
                               const Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text("Payment already made",

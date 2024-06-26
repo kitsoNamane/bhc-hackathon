@@ -19,7 +19,7 @@ ORDER BY created_at DESC;
 INSERT INTO fault (
     customer_id, description, type, incident, plot_number, email, phone, status, severity, photo_url, fault_occured_at
 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-RETURNING id, created_at, fault_occured_at, customer_id, description, type, incident, plot_number, email, phone, status, severity, photo_url;
+RETURNING id, created_at, fault_occured_at, customer_id, description, type, incident, plot_number, email, phone, status, severity, photo_url, payment_status;
 
 -- name: InitiatePaymentTransaction :one
 INSERT INTO payment (
