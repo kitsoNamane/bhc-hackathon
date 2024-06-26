@@ -25,4 +25,8 @@ class NavigationConstants {
   static const String servicesPath = '/services';
   static const String servicesSuccessPath = '/services_success';
   static const String onboardingPath = '/onboarding';
+  static const String companyHousePath = '/companyHouse';
+  static const String individualHousePath = '/individualHouse';
+  static const String reserveHousePath = '/reservetHouse';
+
 }
