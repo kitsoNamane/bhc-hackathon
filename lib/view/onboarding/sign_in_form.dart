@@ -16,6 +16,8 @@ class _SignInFormState extends State<SignInForm> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _passwordVisible = true;
+  
+  final ValueNotifier<bool> _isFormSubmitting = ValueNotifier(false);
 
   @override
   Widget build(BuildContext context) {
@@ -80,13 +82,21 @@ class _SignInFormState extends State<SignInForm> {
                   child: const Text("Forgot Password?")
               ),
             ),
+            ValueListenableBuilder(
+                valueListenable: _isFormSubmitting, builder: (context, value, child) =>
+            _isFormSubmitting.value ?
+            const CircularProgressIndicator()
+                : const SizedBox(width: 0, height: 0)),
+            const SizedBox(height: 8),
             SizedBox(
               width: double.infinity,
               child: FilledButton(
                   onPressed: () async {
+                    _isFormSubmitting.value = true;
                     if(_formKey.currentState!.validate()) {
                       await p.signIn(_emailController.value.text.toLowerCase(), _passwordController.value.text);
                     }
+                    _isFormSubmitting.value = false;
                   },
                   child: const Text("Sign In"),
               ),

@@ -18,6 +18,7 @@ class _SignUpFormState extends State<SignUpForm> {
   final _passwordController = TextEditingController();
   final _repeatPasswordController = TextEditingController();
 
+  final ValueNotifier<bool> _isFormSubmitting = ValueNotifier(false);
   bool _passwordVisible = true;
   bool _repeatPasswordVisible = true;
 
@@ -105,14 +106,21 @@ class _SignUpFormState extends State<SignUpForm> {
                 return null;
               },
             ),
+            ValueListenableBuilder(
+                valueListenable: _isFormSubmitting, builder: (context, value, child) =>
+            _isFormSubmitting.value ?
+            const CircularProgressIndicator()
+                : const SizedBox(width: 0, height: 0)),
             const SizedBox(width: double.infinity, height: 16),
             SizedBox(
               width: double.infinity,
               child: FilledButton(
                 onPressed: () async {
+                  _isFormSubmitting.value = true;
                   if(_formKey.currentState!.validate()) {
                     await p.signUp(_emailController.value.text.toLowerCase(), _passwordController.value.text);
                   }
+                  _isFormSubmitting.value = false;
                 },
                 child: const Text("Sign Up"),
               ),
