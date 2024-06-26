@@ -147,7 +147,7 @@ class _ServiceSuccessPage extends State<ServiceSuccessPage> {
                                 builder: (context, state, child) => SizedBox(
                                   width: double.infinity,
                                   child: FilledButton(
-                                    onPressed: state.currentFault?.status !=
+                                    onPressed: state.currentFault?.status ==
                                         "closed" ? null : () async {
                                       await state.createPayment(
                                         Payment(

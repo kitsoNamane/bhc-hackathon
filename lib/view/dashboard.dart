@@ -45,7 +45,7 @@ class _ExistingCustomerDashboardPageState extends State<ExistingCustomerDashboar
                 ),
                 onTap: () {
                   p.goToFaultPayment(
-                    p.faults![index].copyWith(status: "closed")
+                    p.faults![index]
                   );
                 },
               );

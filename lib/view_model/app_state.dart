@@ -71,6 +71,7 @@ class ApplicationState extends ChangeNotifier {
 
   Future<void> goToFaultPayment(Fault fault) async {
     _fault = fault;
+    print(_fault);
     notifyListeners();
     router.push(
       NavigationConstants.servicesSuccessPath,
