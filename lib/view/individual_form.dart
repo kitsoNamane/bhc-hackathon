@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:bhc_hackathon/view/navigation.dart';
 import 'package:bhc_hackathon/view/navigation_constants.dart';
 import 'package:provider/provider.dart';
 
@@ -43,7 +42,7 @@ class IndividualHouseFormState extends State<IndividualHouseForm> {
                 const Divider(thickness: 4),
                 const SizedBox(height: 16),
                 DropdownButtonFormField<String>(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Type of application',
                     border: OutlineInputBorder(),
                     suffixIcon: Icon(Icons.arrow_drop_down),
@@ -63,7 +62,7 @@ class IndividualHouseFormState extends State<IndividualHouseForm> {
                 const SizedBox(height: 16),
                 TextFormField(
                   controller: _propertyIDController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Property ID',
                     border: OutlineInputBorder(),
                     suffixIcon: Icon(Icons.edit),
@@ -96,7 +95,7 @@ class IndividualHouseFormState extends State<IndividualHouseForm> {
                   alignment: Alignment.centerRight,
                   child: TextButton(
                     onPressed: () {
-                      Provider.of<ApplicationState>(context).router.push(NavigationConstants.companyHousePath);
+                      Provider.of<ApplicationState>(context, listen: false).router.push(NavigationConstants.companyHousePath);
                     },
                     child: const Text(
                       'Are you a citizen controlled company? Apply here',

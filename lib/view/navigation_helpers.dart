@@ -1,5 +1,7 @@
+import 'package:bhc_hackathon/view/company_form.dart';
 import 'package:bhc_hackathon/view/dashboard.dart';
 import 'package:bhc_hackathon/view/faq.dart';
+import 'package:bhc_hackathon/view/individual_form.dart';
 import 'package:bhc_hackathon/view/payment.dart';
 import 'package:bhc_hackathon/view/payment_history.dart';
 import 'package:bhc_hackathon/view/products.dart';
@@ -258,6 +260,26 @@ class BottomNavigationHelpers {
         pageBuilder: (context, state) {
           return NavigationHelper.getPage(
             child: const Payments(),
+            state: state,
+          );
+        },
+      ),
+      GoRoute(
+        parentNavigatorKey: parentKey,
+        path: NavigationConstants.individualHousePath,
+        pageBuilder: (context, state) {
+          return NavigationHelper.getPage(
+            child: const IndividualHouseForm(),
+            state: state,
+          );
+        },
+      ),
+      GoRoute(
+        parentNavigatorKey: parentKey,
+        path: NavigationConstants.companyHousePath,
+        pageBuilder: (context, state) {
+          return NavigationHelper.getPage(
+            child: const CompanyHouseForm(),
             state: state,
           );
         },
