@@ -70,12 +70,9 @@ class _StripePaymentScreenState extends State<StripePaymentScreen> {
       // Display payment sheet
       displayPaymentSheet();
     } catch (e) {
-      print("exception $e");
 
       if (e is StripeConfigException) {
-        print("Stripe exception ${e.message}");
       } else {
-        print("exception $e");
       }
     }
   }
@@ -93,14 +90,11 @@ class _StripePaymentScreenState extends State<StripePaymentScreen> {
     } on StripeException catch (e) {
       // If any error comes during payment
       // so payment will be cancelled
-      print('Error: $e');
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text(" Payment Cancelled")),
       );
     } catch (e) {
-      print("Error in displaying");
-      print('$e');
     }
   }
 
@@ -121,10 +115,8 @@ class _StripePaymentScreenState extends State<StripePaymentScreen> {
         },
         body: body,
       );
-      print('Payment Intent Body: ${response.body.toString()}');
       return jsonDecode(response.body.toString());
     } catch (err) {
-      print('Error charging user: ${err.toString()}');
     }
   }
 }

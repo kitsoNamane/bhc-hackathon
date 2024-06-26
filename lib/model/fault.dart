@@ -30,6 +30,38 @@ class Fault {
 
   Map<String, dynamic> toJson() => _$FaultToJson(this);
 
+  Fault copyWith({
+  final int? id,
+  final String? createdAt,
+  final String? faultOccuredAt,
+  final String? customerId,
+  final String? description,
+  final String? type,
+  final String? incident,
+  final String? plotNumber,
+  final String? email,
+  final String? phone,
+  final String? status,
+  final String? severity,
+  final String? photoUrl,
+  }) {
+    return Fault(
+      id: id ?? this.id,
+      createdAt: createdAt ?? this.createdAt,
+      faultOccuredAt: faultOccuredAt ?? this.faultOccuredAt,
+      customerId: customerId ?? this.customerId,
+      description: createdAt ?? this.description,
+      type: type ?? this.type,
+      incident: incident ?? this.incident,
+      plotNumber: plotNumber ?? this.plotNumber,
+      email: email ?? this.email,
+      phone: phone ?? this.phone,
+      status: status ?? this.status,
+      severity: severity ?? this.severity,
+      photoUrl: photoUrl ?? this.photoUrl,
+    );
+  }
+
   @override
   String toString() {
     return "Fault("

@@ -10,8 +10,11 @@ class ServicesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Services"),
+      ),
+      body: const Center(
         child: FaultForm(),
       ),
     );

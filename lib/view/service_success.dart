@@ -1,11 +1,18 @@
+import 'package:bhc_hackathon/view/ui_util.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../view_model/app_state.dart';
 
-class ServiceSuccessPage extends StatelessWidget {
+
+class ServiceSuccessPage extends StatefulWidget {
   const ServiceSuccessPage({super.key});
+
+  @override
+  State<StatefulWidget> createState() => _ServiceSuccessPage();
+}
+
+class _ServiceSuccessPage extends State<ServiceSuccessPage> {
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +35,7 @@ class ServiceSuccessPage extends StatelessWidget {
                     )
                   ),
                   child: Icon(
-                    _ticketIcon(state.currentFault!.type!),
+                    UiUtil.ticketIcon(state.currentFault!.type!),
                     color: Theme.of(context).colorScheme.primary,
                     size: 64,
                   ),
@@ -87,7 +94,8 @@ class ServiceSuccessPage extends StatelessWidget {
                           const Divider(thickness: 1),
                           Align(
                             alignment: Alignment.centerLeft,
-                            child: Text("Due Date: ${_ticketDueDate(state.currentFault!.severity!, state.currentFault!.createdAt!)}",
+                            child: Text(
+                              "Due Date: ${UiUtil.ticketDueDate(state.currentFault!.severity!, state.currentFault!.createdAt!)}",
                               style: const TextStyle(
                                 fontSize: 16,
                               ),
@@ -111,6 +119,14 @@ class ServiceSuccessPage extends StatelessWidget {
                               ),
                             ),
                           ),
+                          const SizedBox(height: 8),
+                          SizedBox(
+                            width: double.infinity,
+                            child: FilledButton(
+                              onPressed: state.currentFault?.status == "closed" ? _startPayment : null,
+                              child: const Text("Pay"),
+                            ),
+                          ),
                         ],
                       ),
                     ))
@@ -121,26 +137,5 @@ class ServiceSuccessPage extends StatelessWidget {
     );
   }
 
-  IconData _ticketIcon(String type) {
-    return switch (type.toLowerCase()) {
-      "electrical" => Icons.flash_off_outlined,
-      "carpentry" => Icons.carpenter_outlined,
-      "plumbing" => Icons.plumbing_outlined,
-      "masonry" => Icons.flood_outlined,
-      "mechanical" => Icons.ac_unit_outlined,
-      "external" => Icons.add_business_outlined,
-      String() => Icons.electric_bolt_outlined,
-    };
-  }
-
-  String _ticketDueDate(String severity, String createdAt) {
-    var date = DateTime.parse(createdAt);
-    var parse = DateFormat("dd/MM/yyyy");
-    return switch(severity) {
-      "emergency" => parse.format(date.add(const Duration(days: 1))).toString(),
-      "urgent" => parse.format(date.add(const Duration(days: 3))).toString(),
-      "normal" => parse.format(date.add(const Duration(days: 14))).toString(),
-      String() => parse.format(date.add(const Duration(days: 1))).toString(),
-    };
-  }
+  void _startPayment() {}
 }

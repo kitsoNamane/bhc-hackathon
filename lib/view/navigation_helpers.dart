@@ -1,3 +1,4 @@
+import 'package:bhc_hackathon/view/dashboard.dart';
 import 'package:bhc_hackathon/view/faq.dart';
 import 'package:bhc_hackathon/view/payment.dart';
 import 'package:bhc_hackathon/view/payment_history.dart';
@@ -66,13 +67,13 @@ class BottomNavigationHelpers {
     if (isExistingCustomer) {
       return [
         StatefulShellBranch(
-          navigatorKey: NavigationConstants.homeNavigatorKey,
+          navigatorKey: NavigationConstants.dashboardNavigatorKey,
           routes: [
             GoRoute(
               path: NavigationConstants.homePath,
               pageBuilder: (context, GoRouterState state) {
                 return NavigationHelper.getPage(
-                  child: const HomePage(),
+                  child: const DashboardPage(),
                   state: state,
                 );
               },

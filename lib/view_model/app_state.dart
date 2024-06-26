@@ -60,6 +60,17 @@ class ApplicationState extends ChangeNotifier {
     }
   }
 
+  Future<void> faultPayment(Fault fault) async {
+    _fault = fault;
+    notifyListeners();
+    print("###############################");
+    print(_fault);
+    print("###############################");
+    router.push(
+      NavigationConstants.servicesSuccessPath,
+    );
+  }
+
   Future<void> onboarding(Customer customer) async {
     _user = await _auth.userOnboarding(customer: customer);
     _loggedIn = true;

@@ -122,9 +122,7 @@ class ProfilePage extends StatelessWidget {
                     IconButton(icon: const Icon(Icons.arrow_forward_ios), onPressed: () {
                     },),
                   ],),
-
                 ],
-
               ),
             ),
           ),
