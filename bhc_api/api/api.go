@@ -235,8 +235,8 @@ func (a *Api) CompletePaymentTransaction(w http.ResponseWriter, req bunrouter.Re
 		return err
 	}
 
-	if reqBody.Status == "cancelled" {
-		a.log.Info("successfully updated payment")
+	if reqBody.Status == "cancelled" || reqBody.Status == "failed" {
+		a.log.Info("successfully updated payment", slog.String("payment_status", reqBody.Status))
 		w.WriteHeader(http.StatusOK)
 		w.Header().Set(contentType, jsonContentType)
 		bunrouter.JSON(w, bunrouter.H{

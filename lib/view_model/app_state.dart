@@ -3,6 +3,7 @@ import 'package:bhc_hackathon/model/payment.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:posthog_flutter/posthog_flutter.dart';
 
 import '../data/firebase_auth_service.dart';
 import '../data/sql_payment_service.dart';
@@ -69,6 +70,21 @@ class ApplicationState extends ChangeNotifier {
     }
     _signInErrorMessage = null;
     _loggedIn = true;
+    await Posthog().identify(userId: _user!.uid!,
+      userProperties: {
+        "email": _user!.email!,
+        "name": "${_user!.firstname} ${_user!.lastname}",
+        "customer_type": _user!.isExistingCustomer! ? "existing" : "new"
+      },
+      userPropertiesSetOnce: {
+        "date_of_first_sign_in": DateTime.now().toString()
+      }
+    );
+    await Posthog().group(
+      groupType: "customer_type",
+      groupKey: _user!.isExistingCustomer! ? "existing" : "new"
+    );
+    await Posthog().capture(eventName: "customer_sign_in");
     notifyListeners();
     _navState.changeNavState(isExistingCustomer: _user?.isExistingCustomer ?? false);
     router.go(
@@ -82,6 +98,15 @@ class ApplicationState extends ChangeNotifier {
     if (_user != null) {
       _signUpErrorMessage = null;
       notifyListeners();
+      await Posthog().identify(userId: _user!.uid!,
+          userProperties: {
+            "email": _user!.email!,
+          },
+          userPropertiesSetOnce: {
+            "date_of_sign_up": DateTime.now().toString()
+          }
+      );
+      await Posthog().capture(eventName: "customer_sign_up");
       router.go(
         NavigationConstants.onboardingPath,
       );
@@ -89,6 +114,7 @@ class ApplicationState extends ChangeNotifier {
       _signUpErrorMessage = "Invalid credentials, please check";
       notifyListeners();
     }
+
   }
 
   Future<void> goToFaultPayment(Fault fault) async {
@@ -106,6 +132,11 @@ class ApplicationState extends ChangeNotifier {
     notifyListeners();
     if(_user != null) {
       _navState.changeNavState(isExistingCustomer: _user?.isExistingCustomer ?? false);
+      await Posthog().group(
+          groupType: "customer_type",
+          groupKey: _user!.isExistingCustomer! ? "existing" : "new"
+      );
+      await Posthog().capture(eventName: "customer_onboarding");
       router.go(
         NavigationConstants.homePath,
       );
@@ -133,17 +164,32 @@ class ApplicationState extends ChangeNotifier {
 
   Future<void> createPayment(Payment payment) async {
     _payment = await _payService.initiatePayment(payment: payment);
+    await Posthog().capture(eventName: "payment_initiate");
     notifyListeners();
   }
 
   Future<void> completePayment(Payment payment) async {
     _payment = await _payService.completePayment(payment: payment);
+    await Posthog().capture(eventName: "payment_completed",
+      properties: {
+        "payment_id": _payment!.id.toString(),
+        "customer_id": _payment!.customerId!,
+        "fault_id": _payment!.faultId!,
+      }
+    );
     if (_payment != null) {
       _fault = _fault?.copyWith(
-        status: "closed",
-        paymentStatus: "paid"
+        status: _payment!.status,
+        paymentStatus: _payment!.status
       );
-      _faults = await _crm.getCustomerFaults(uuid: _user!.uid!);
+      _faults = await _crm.getCustomerFaults(uuid: _payment!.customerId!);
+      await Posthog().capture(eventName: "payment_completed",
+          properties: {
+            "payment_id": _payment!.id.toString(),
+            "customer_id": _payment!.customerId!,
+            "fault_id": _payment!.faultId!,
+          }
+      );
       notifyListeners();
     }
     notifyListeners();
@@ -156,6 +202,7 @@ class ApplicationState extends ChangeNotifier {
 
   Future<void> signOut() async {
     var isSignedOut = await _auth.signOut();
+    await Posthog().capture(eventName: "customer_sign_out");
     if (isSignedOut) {
       _user = null;
       _loggedIn = false;
