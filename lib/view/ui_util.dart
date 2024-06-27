@@ -12,9 +12,9 @@ class UiUtil {
       "masonry" => Icons.flood_outlined,
       "mechanical" => Icons.ac_unit_outlined,
       "external" => Icons.add_business_outlined,
-      "paid" => Icons.check_circle,
+      "success" => Icons.check_circle,
       "failed" => Icons.error,
-      "pending" => Icons.pending,
+      "cancelled" => Icons.cancel,
       String() => Icons.electric_bolt_outlined,
     };
   }
