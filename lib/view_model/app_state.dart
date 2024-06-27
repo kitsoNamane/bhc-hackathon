@@ -4,7 +4,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:posthog_flutter/posthog_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/firebase_auth_service.dart';
 import '../data/sql_payment_service.dart';

@@ -56,9 +56,6 @@ PODS:
     - PostHog (~> 3.0)
   - PromisesObjC (2.4.0)
   - RecaptchaInterop (100.0.0)
-  - shared_preferences_foundation (0.0.1):
-    - Flutter
-    - FlutterMacOS
   - Stripe (23.27.4):
     - StripeApplePay (= 23.27.4)
     - StripeCore (= 23.27.4)
@@ -101,7 +98,6 @@ DEPENDENCIES:
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `Flutter`)
   - posthog_flutter (from `.symlinks/plugins/posthog_flutter/ios`)
-  - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
   - stripe_ios (from `.symlinks/plugins/stripe_ios/ios`)
 
 SPEC REPOS:
@@ -134,8 +130,6 @@ EXTERNAL SOURCES:
     :path: Flutter
   posthog_flutter:
     :path: ".symlinks/plugins/posthog_flutter/ios"
-  shared_preferences_foundation:
-    :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
   stripe_ios:
     :path: ".symlinks/plugins/stripe_ios/ios"
 
@@ -154,7 +148,6 @@ SPEC CHECKSUMS:
   posthog_flutter: e80defebf021b13375b351c838c9b87d769d7546
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
-  shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
   Stripe: ecf923c066ac2b84eeff30ccaddbe0af081bf914
   stripe_ios: 03c617acee72e48a2d055d096a4b0ed2afebb256
   StripeApplePay: 2f477269f3cdf820d8c154eabe27efb7cbe91bd7
