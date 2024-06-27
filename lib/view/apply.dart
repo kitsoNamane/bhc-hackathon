@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:bhc_hackathon/view/navigation.dart';
 import 'package:bhc_hackathon/view/navigation_constants.dart';
 import 'package:provider/provider.dart';
 
@@ -93,7 +92,7 @@ class _ApplyPageState extends State<ApplyPage> {
                     Provider.of<ApplicationState>(context).router.go(
                         isRent
                             ? NavigationConstants.individualHousePath
-                            : NavigationConstants.companyHousePath,
+                            : NavigationConstants.individualHousePath,
                       );
                   },
                   child: Text(
