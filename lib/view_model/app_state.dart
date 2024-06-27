@@ -54,8 +54,6 @@ class ApplicationState extends ChangeNotifier {
   String? _onboardErrorMessage;
   String? get onboardErrorMessage => _onboardErrorMessage;
 
-  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-
   void restForm() {
     _signInErrorMessage = null;
     _signUpErrorMessage = null;
@@ -91,8 +89,6 @@ class ApplicationState extends ChangeNotifier {
     );
     await Posthog().capture(eventName: "customer_sign_in");
     notifyListeners();
-    (await _prefs).setBool("isLoggedIn", true);
-    (await _prefs).setString("customerUuid", _user!.uid!);
     _navState.changeNavState(isExistingCustomer: _user?.isExistingCustomer ?? false);
     router.go(
       NavigationConstants.homePath,
@@ -197,26 +193,6 @@ class ApplicationState extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> isAlreadyLoggedIn() async {
-    final prefs = await _prefs;
-    _loggedIn = prefs.getBool("isLoggedIn") ?? false;
-    if (_loggedIn) {
-      _user = await _sqliteAuthService.getCustomer(uuid: prefs.getString("customerUuid")!);
-      if (_user == null) {
-        router.go(
-          NavigationConstants.signInPath,
-        );
-        notifyListeners();
-      }
-      _signInErrorMessage = null;
-      _loggedIn = true;
-      notifyListeners();
-    } else {
-      router.go(
-        NavigationConstants.signInPath,
-      );
-    }
-  }
 
   Future<void> signOut() async {
     var isSignedOut = await _auth.signOut();
@@ -224,8 +200,6 @@ class ApplicationState extends ChangeNotifier {
     if (isSignedOut) {
       _user = null;
       _loggedIn = false;
-      (await _prefs).setBool("isLoggedIn", false);
-      (await _prefs).setString("customerUuid", "");
       notifyListeners();
       router.go(
         NavigationConstants.signInPath,
