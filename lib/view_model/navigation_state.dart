@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:posthog_flutter/posthog_flutter.dart';
 
 import '../view/bottom_navigation.dart';
 import '../view/navigation.dart';
@@ -32,6 +33,7 @@ class NavigationState {
             ]
         ));
      _router = GoRouter.routingConfig(
+       observers: [PosthogObserver()],
        routingConfig: _myRoutingConfig,
        navigatorKey: NavigationConstants.parentNavigatorKey,
        initialLocation: NavigationConstants.signInPath,

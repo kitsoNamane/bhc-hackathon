@@ -83,7 +83,7 @@ class ActionItem extends StatelessWidget {
               children: [
                 Align(
                   alignment: Alignment.topRight,
-                  child: Text("BHC00000${payment.id!}",
+                  child: Text("BHC-PAY-00000${payment.id!}",
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
