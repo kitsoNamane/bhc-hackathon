@@ -245,7 +245,7 @@ func (a *Api) CompletePaymentTransaction(w http.ResponseWriter, req bunrouter.Re
 	err = a.db.UpdateFaultPaymentStatus(req.Context(), data.UpdateFaultPaymentStatusParams{
 		ID:            reqBody.FaultID,
 		Status:        "closed",
-		PaymentStatus: payment.Status,
+		PaymentStatus: "paid",
 	})
 	if err != nil {
 		a.log.Error("failed to update fault payment status", slog.String("error_message", err.Error()))

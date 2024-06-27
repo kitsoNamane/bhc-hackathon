@@ -119,7 +119,6 @@ class ApplicationState extends ChangeNotifier {
 
   Future<void> goToFaultPayment(Fault fault) async {
     _fault = fault;
-    print(_fault);
     notifyListeners();
     router.push(
       NavigationConstants.servicesSuccessPath,
@@ -153,9 +152,6 @@ class ApplicationState extends ChangeNotifier {
 
   Future<void> createFault(Fault fault) async {
     _fault = await _crm.createFault(fault: fault);
-    print("##############-----------------faulitng--------------_########");
-    print(_fault);
-    print("##############-----------------faulitng--------------_########");
     notifyListeners();
     router.push(
       NavigationConstants.servicesSuccessPath
@@ -170,10 +166,11 @@ class ApplicationState extends ChangeNotifier {
 
   Future<void> completePayment(Payment payment) async {
     _payment = await _payService.completePayment(payment: payment);
+    print(_payment);
     if (_payment != null) {
       _fault = _fault?.copyWith(
-        status: _payment!.status,
-        paymentStatus: _payment!.status
+        status: _payment!.status == "success" ? "closed" : _fault!.status,
+        paymentStatus: _payment!.status == "success" ? "paid" : _fault!.paymentStatus
       );
       _faults = await _crm.getCustomerFaults(uuid: _payment!.customerId!);
       await Posthog().capture(eventName: "payment_completed",
