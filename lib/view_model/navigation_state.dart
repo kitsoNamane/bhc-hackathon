@@ -36,7 +36,7 @@ class NavigationState {
        observers: [PosthogObserver()],
        routingConfig: _myRoutingConfig,
        navigatorKey: NavigationConstants.parentNavigatorKey,
-       initialLocation: NavigationConstants.signInPath,
+       initialLocation: NavigationConstants.homePath,
      );
   }
 

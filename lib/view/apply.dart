@@ -93,7 +93,7 @@ class _ApplyPageState extends State<ApplyPage> {
                     Provider.of<ApplicationState>(context).router.go(
                         isRent
                             ? NavigationConstants.individualHousePath
-                            : NavigationConstants.companyHousePath,
+                            : NavigationConstants.individualHousePath,
                       );
                   },
                   child: Text(

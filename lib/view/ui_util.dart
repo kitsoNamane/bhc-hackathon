@@ -7,7 +7,7 @@ class UiUtil {
   static IconData ticketIcon(String type) {
     return switch (type.toLowerCase()) {
       "electrical" => Icons.flash_off_outlined,
-      "carpentry" => Icons.carpenter_outlined,
+      "carpentry" => Icons.table_bar_outlined,
       "plumbing" => Icons.plumbing_outlined,
       "masonry" => Icons.flood_outlined,
       "mechanical" => Icons.ac_unit_outlined,
