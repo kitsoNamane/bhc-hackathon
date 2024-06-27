@@ -229,9 +229,7 @@ func (a *Api) CompletePaymentTransaction(w http.ResponseWriter, req bunrouter.Re
 		a.log.Info(reqBody.CustomerID)
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Header().Set(contentType, jsonContentType)
-		bunrouter.JSON(w, bunrouter.H{
-			"message": "failed to add fault",
-		})
+		bunrouter.JSON(w, payment)
 		return err
 	}
 
@@ -239,9 +237,7 @@ func (a *Api) CompletePaymentTransaction(w http.ResponseWriter, req bunrouter.Re
 		a.log.Info("successfully updated payment", slog.String("payment_status", reqBody.Status))
 		w.WriteHeader(http.StatusOK)
 		w.Header().Set(contentType, jsonContentType)
-		bunrouter.JSON(w, bunrouter.H{
-			"message": "payment completed",
-		})
+		bunrouter.JSON(w, payment)
 		return nil
 
 	}
@@ -256,18 +252,14 @@ func (a *Api) CompletePaymentTransaction(w http.ResponseWriter, req bunrouter.Re
 		a.log.Info(reqBody.CustomerID)
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Header().Set(contentType, jsonContentType)
-		bunrouter.JSON(w, bunrouter.H{
-			"message": "failed to add fault",
-		})
+		bunrouter.JSON(w, payment)
 		return err
 	}
 
 	a.log.Info("successfully updated payment")
 	w.WriteHeader(http.StatusOK)
 	w.Header().Set(contentType, jsonContentType)
-	bunrouter.JSON(w, bunrouter.H{
-		"message": "payment completed",
-	})
+	bunrouter.JSON(w, payment)
 	return nil
 }
 
