@@ -170,13 +170,6 @@ class ApplicationState extends ChangeNotifier {
 
   Future<void> completePayment(Payment payment) async {
     _payment = await _payService.completePayment(payment: payment);
-    await Posthog().capture(eventName: "payment_completed",
-      properties: {
-        "payment_id": _payment!.id.toString(),
-        "customer_id": _payment!.customerId!,
-        "fault_id": _payment!.faultId!,
-      }
-    );
     if (_payment != null) {
       _fault = _fault?.copyWith(
         status: _payment!.status,

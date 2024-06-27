@@ -306,11 +306,12 @@ func (q *Queries) OnboardCustomer(ctx context.Context, arg OnboardCustomerParams
 	return i, err
 }
 
-const processPayment = `-- name: ProcessPayment :exec
+const processPayment = `-- name: ProcessPayment :one
 UPDATE payment
 SET status = ?,
     paid_at = ?
 WHERE fault_id = ? AND customer_id = ?
+RETURNING id, customer_id, fault_id, status
 `
 
 type ProcessPaymentParams struct {
@@ -320,14 +321,28 @@ type ProcessPaymentParams struct {
 	CustomerID string       `json:"customer_id"`
 }
 
-func (q *Queries) ProcessPayment(ctx context.Context, arg ProcessPaymentParams) error {
-	_, err := q.db.ExecContext(ctx, processPayment,
+type ProcessPaymentRow struct {
+	ID         int64  `json:"id"`
+	CustomerID string `json:"customer_id"`
+	FaultID    int64  `json:"fault_id"`
+	Status     string `json:"status"`
+}
+
+func (q *Queries) ProcessPayment(ctx context.Context, arg ProcessPaymentParams) (ProcessPaymentRow, error) {
+	row := q.db.QueryRowContext(ctx, processPayment,
 		arg.Status,
 		arg.PaidAt,
 		arg.FaultID,
 		arg.CustomerID,
 	)
-	return err
+	var i ProcessPaymentRow
+	err := row.Scan(
+		&i.ID,
+		&i.CustomerID,
+		&i.FaultID,
+		&i.Status,
+	)
+	return i, err
 }
 
 const updateFaultPaymentStatus = `-- name: UpdateFaultPaymentStatus :exec

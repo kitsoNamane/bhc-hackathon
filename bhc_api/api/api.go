@@ -223,7 +223,7 @@ func (a *Api) CompletePaymentTransaction(w http.ResponseWriter, req bunrouter.Re
 		return err
 	}
 
-	err = a.db.ProcessPayment(req.Context(), reqBody)
+	payment, err := a.db.ProcessPayment(req.Context(), reqBody)
 	if err != nil {
 		a.log.Error("failed to add fault", slog.String("error_message", err.Error()))
 		a.log.Info(reqBody.CustomerID)
@@ -249,7 +249,7 @@ func (a *Api) CompletePaymentTransaction(w http.ResponseWriter, req bunrouter.Re
 	err = a.db.UpdateFaultPaymentStatus(req.Context(), data.UpdateFaultPaymentStatusParams{
 		ID:            reqBody.FaultID,
 		Status:        "closed",
-		PaymentStatus: "paid",
+		PaymentStatus: payment.Status,
 	})
 	if err != nil {
 		a.log.Error("failed to update fault payment status", slog.String("error_message", err.Error()))

@@ -27,11 +27,12 @@ INSERT INTO payment (
 ) VALUES (?, ?, ?, ?)
 RETURNING id, created_at, customer_id, fault_id, amount, client_secret, status;
 
--- name: ProcessPayment :exec
+-- name: ProcessPayment :one
 UPDATE payment
 SET status = ?,
     paid_at = ?
-WHERE fault_id = ? AND customer_id = ?;
+WHERE fault_id = ? AND customer_id = ?
+RETURNING id, customer_id, fault_id, status;
 
 -- name: UpdateFaultPaymentStatus :exec
 UPDATE fault
