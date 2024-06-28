@@ -2,6 +2,8 @@ import 'package:bhc_hackathon/view_model/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'navigation_constants.dart';
+
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -75,6 +77,7 @@ class ProfilePage extends StatelessWidget {
                       const Text("Payment History"),
                       const Spacer(),
                       IconButton(icon: const Icon(Icons.arrow_forward_ios), onPressed: () {
+                        p.router.go(NavigationConstants.paymentsHistoryPath);
                       },),
                     ],)
                   ],
@@ -111,6 +114,7 @@ class ProfilePage extends StatelessWidget {
                     const Text("FAQ's"),
                     const Spacer(),
                     IconButton(icon: const Icon(Icons.arrow_forward_ios), onPressed: () {
+                      p.router.push(NavigationConstants.faqsPath);
                     },),
                   ],),
                   const Divider(thickness: 1),

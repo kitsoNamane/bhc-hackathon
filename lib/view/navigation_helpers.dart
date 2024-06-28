@@ -283,7 +283,16 @@ class BottomNavigationHelpers {
             state: state,
           );
         },
-      )
+      ),
+      GoRoute(
+        path: NavigationConstants.faqsPath,
+        pageBuilder: (context, state) {
+          return NavigationHelper.getPage(
+            child: const FAQPage(),
+            state: state,
+          );
+        },
+      ),
     ];
   }
 }

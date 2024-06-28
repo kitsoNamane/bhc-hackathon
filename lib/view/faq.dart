@@ -8,9 +8,9 @@ class FAQPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('FAQ'),
+        title: const Text('FAQs'),
       ),
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,8 +64,8 @@ class FAQItem extends StatefulWidget {
   const FAQItem({
     required this.question,
     required this.answer,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   _FAQItemState createState() => _FAQItemState();
@@ -77,7 +77,7 @@ class _FAQItemState extends State<FAQItem> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.only(bottom: 16),
+      margin: const EdgeInsets.only(bottom: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -89,7 +89,7 @@ class _FAQItemState extends State<FAQItem> {
             },
             title: Text(
               widget.question,
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -104,10 +104,4 @@ class _FAQItemState extends State<FAQItem> {
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: FAQPage(),
-  ));
 }

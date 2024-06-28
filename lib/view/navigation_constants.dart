@@ -19,6 +19,7 @@ class NavigationConstants {
   static const String applyPath = '/apply';
   static const String dashboardPath = '/dashboard';
   static const String faqPath = '/faq';
+  static const String faqsPath = '/faqs';
   static const String paymentsHistoryPath = '/payments_history';
   static const String paymentsPath = '/payments';
   static const String productsPath = '/products';

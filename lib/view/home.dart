@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:bhc_hackathon/view/navigation.dart';
 import 'package:bhc_hackathon/view/navigation_constants.dart';
 import 'package:provider/provider.dart';
 
@@ -8,6 +7,7 @@ import '../view_model/app_state.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
+
 
   @override
   Widget build(BuildContext context) {
