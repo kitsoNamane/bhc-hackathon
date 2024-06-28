@@ -20,11 +20,7 @@ class ProductsPage extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: [
-            const Text(
-              'BHC Properties',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
-            ),// Search Bar
-            const SizedBox(height: 8),
+            // Search Bar
             TextField(
               decoration: InputDecoration(
                 hintText: 'Search...',
@@ -36,17 +32,23 @@ class ProductsPage extends StatelessWidget {
             ),
             const SizedBox(height: 16),
 
+            // List of Product Cards
+            const Text(
+              'BHC PROPERTIES FOR RENT',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
             _buildProductCard(
               context,
               'Mid Cost House 1',
               'Gaborone',
-              'Price for rent per Month: P1500',
+              'Price for rent per Month: P4000',
               'Rental',
-              'lib/images/house1.png',
+              'lib/images/Proposal-photo-edited-830x460.png',
               'The development is complete with access roads and modern amenities and it is located within reach of many centres in Gaborone such as the Mall and several other government facilities.\n\n'
               'Location: Gaborone\n'
               'Type: Rental\n'
-              'Price for Rent per Month: P1500\n\n'
+              'Price for Rent per Month: P4000\n\n'
               'Contact Sales\nMr. Khumoetsile Bagai\n'
               'Tel: (+267) 4921075\nEmail: kbagai@bhc.bw',
               NavigationConstants.individualHousePath,
@@ -58,7 +60,7 @@ class ProductsPage extends StatelessWidget {
               'Francistown',
               'Price for rent per Month: P1200',
               'Rental',
-              'lib/images/renthouse1.2.png',
+              'lib/images/flat6.png',
               'The development is complete with access roads and modern amenities and it is located within reach of many centres in Francistown such as the Mall and several other government facilities.\n\nProperty Types Available In This Area\nType 59\nType 60\nType 70A\n\nContact Sales\nMr. Khumoetsile Bagai\nTel: (+267) 4921075\nEmail: kbagai@bhc.bw',
               NavigationConstants.individualHousePath,
               'Apply Now',
@@ -76,7 +78,7 @@ class ProductsPage extends StatelessWidget {
               'Molepolole',
               'Price: P500,000',
               'Sale',
-              'lib/images/buyhouse1.1.png',
+              'lib/images/flat4.png',
               'The development is complete with access roads and modern amenities and it is located within reach of many centres in Molepolole such as the Mall and several other government facilities.\n\nProperty Types Available In This Area\nType 59\nType 60\nType 70A\n\nContact Sales\nMr. Khumoetsile Bagai\nTel: (+267) 4921075\nEmail: kbagai@bhc.bw',
               NavigationConstants.individualHousePath,
               'Buy Now',
@@ -138,52 +140,51 @@ class ProductsPage extends StatelessWidget {
     String navigatePath,
     String buttonText,
   ) {
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => DetailPage(
-              title: title,
-              imagePath: imagePath,
-              description: description,
-              navigatePath: navigatePath,
-              buttonText: buttonText,
+    return Card(
+      margin: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image.asset(imagePath, fit: BoxFit.cover),
+            const SizedBox(height: 8),
+            Text(
+              title,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
-          ),
-        );
-      },
-      child: Card(
-        elevation: 8,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 16, bottom: 16, left: 8, right: 8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Image.asset(imagePath,
-                  fit: BoxFit.cover,
-                ),
+            const SizedBox(height: 8),
+            _buildPill(context, 'Location', location),
+            _buildPill(context, 'Type', type),
+            _buildPill(context, price.contains('Price for rent') ? 'Price for rent per Month' : price.contains('Asking Price') ? 'Asking Price' : 'Price', price),
+            const SizedBox(height: 8),
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DetailPage(
+                        title: title,
+                        imagePath: imagePath,
+                        description: description,
+                        navigatePath: navigatePath,
+                        buttonText: buttonText,
+                      ),
+                    ),
+                  );
+                },
+                child: const Text('Read More'),
               ),
-              const SizedBox(height: 8),
-              Text(
-                title,
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              const Divider(thickness: 4),
-              const SizedBox(height: 8),
-              _buildPill(location),
-              _buildPill(type),
-              _buildPill(price.contains('Price for rent') ? 'Price for rent per Month' : price.contains('Asking Price') ? 'Asking Price' : 'Price'),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildPill(String text, [Color color = Colors.green]) {
+  Widget _buildPill(BuildContext context, String label, String text) {
     return Container(
       margin: const EdgeInsets.only(top: 4.0, bottom: 4.0),
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
@@ -191,7 +192,22 @@ class ProductsPage extends StatelessWidget {
         color: Colors.grey[200],
         borderRadius: BorderRadius.circular(20.0),
       ),
-      child: Text(text),
+      child: RichText(
+        text: TextSpan(
+          text: '$label: ',
+          style: DefaultTextStyle.of(context).style.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+          children: [
+            TextSpan(
+              text: text,
+              style: DefaultTextStyle.of(context).style.copyWith(
+                    fontWeight: FontWeight.normal,
+                  ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -233,7 +249,7 @@ class DetailPage extends StatelessWidget {
               width: double.infinity,
               child: FilledButton(
                 onPressed: () {
-                  Provider.of<ApplicationState>(context, listen: false).router.push(navigatePath);
+                  Provider.of<ApplicationState>(context, listen: false).router.go(navigatePath);
                 },
                 child: Text(buttonText),
               ),
