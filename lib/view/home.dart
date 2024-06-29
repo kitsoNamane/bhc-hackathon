@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:bhc_hackathon/view/navigation.dart';
 import 'package:bhc_hackathon/view/navigation_constants.dart';
 import 'package:provider/provider.dart';
 
@@ -7,7 +8,6 @@ import '../view_model/app_state.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
-
 
   @override
   Widget build(BuildContext context) {
@@ -42,13 +42,13 @@ class HomePage extends StatelessWidget {
               context,
               'Mid Cost House 1',
               'Gaborone',
-              'Price for rent per Month: P1500',
+              'Price for rent per Month: P4000',
               'Rental',
-              'lib/images/house1.png',
+              'lib/images/Proposal-photo-edited-830x460.png',
               'The development is complete with access roads and modern amenities and it is located within reach of many centres in Gaborone such as the Mall and several other government facilities.\n\n'
               'Location: Gaborone\n'
               'Type: Rental\n'
-              'Price for Rent per Month: P1500\n\n'
+              'Price for Rent per Month: P4000\n\n'
               'Contact Sales\nMr. Khumoetsile Bagai\n'
               'Tel: (+267) 4921075\nEmail: kbagai@bhc.bw',
               NavigationConstants.individualHousePath,
@@ -60,7 +60,7 @@ class HomePage extends StatelessWidget {
               'Francistown',
               'Price for rent per Month: P1200',
               'Rental',
-              'lib/images/renthouse1.2.png',
+              'lib/images/flat6.png',
               'The development is complete with access roads and modern amenities and it is located within reach of many centres in Francistown such as the Mall and several other government facilities.\n\nProperty Types Available In This Area\nType 59\nType 60\nType 70A\n\nContact Sales\nMr. Khumoetsile Bagai\nTel: (+267) 4921075\nEmail: kbagai@bhc.bw',
               NavigationConstants.individualHousePath,
               'Apply Now',
@@ -78,7 +78,7 @@ class HomePage extends StatelessWidget {
               'Molepolole',
               'Price: P500,000',
               'Sale',
-              'lib/images/buyhouse1.1.png',
+              'lib/images/flat4.png',
               'The development is complete with access roads and modern amenities and it is located within reach of many centres in Molepolole such as the Mall and several other government facilities.\n\nProperty Types Available In This Area\nType 59\nType 60\nType 70A\n\nContact Sales\nMr. Khumoetsile Bagai\nTel: (+267) 4921075\nEmail: kbagai@bhc.bw',
               NavigationConstants.individualHousePath,
               'Buy Now',
